@@ -1,0 +1,22 @@
+.signupContainer {
+  max-width: 400px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.signupFormContainer {
+  margin: 30px;
+}
+
+.signupFormLogo {
+  color: #007aff;
+  margin-bottom: 30px;
+}
+
+.signupBtn {
+  width: 100%;
+}
+
+.linkLogin {
+  float: right;
+}

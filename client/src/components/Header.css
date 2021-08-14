@@ -1,0 +1,54 @@
+.headerContainer {
+  border-bottom: 2px solid #007aff;
+}
+
+.headerTop {
+  height: 70px;
+}
+
+.headerLogo {
+  float: left;
+  margin-top: 20px;
+  margin-left: 15px;
+  color: #007aff;
+}
+
+.headerLogin {
+  float: right;
+  margin-top: 20px;
+  margin-right: 15px;
+}
+
+.headerUser {
+  float: right;
+  margin-top: 20px;
+  margin-right: 15px;
+  cursor: pointer;
+}
+
+.headerUserPopover {
+  width: 150px;
+}
+
+.headerUserProfile {
+  cursor: pointer;
+}
+
+.headerUserLogout {
+  cursor: pointer;
+}
+
+.headerSearch {
+  width: 70%;
+  height: 60px;
+  margin: 0 auto;
+}
+
+.headerSearchInput {
+  border: 2px solid #007aff;
+  padding: 10px 20px;
+}
+
+.headerNav {
+  font-weight: bold;
+}

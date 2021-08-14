@@ -1,0 +1,13 @@
+@import-normalize;
+
+body {
+  background-color: #f2f2f2;
+}
+
+a {
+  text-decoration: none;
+}
+
+.form-control:focus {
+  box-shadow: none;
+}

@@ -1,0 +1,20 @@
+.coinsTable {
+  border-bottom: 2px #007aff solid;
+  text-align: center;
+}
+
+.coinsTableRow {
+  cursor: pointer;
+}
+
+@media (max-width: 500px) {
+  .coinsTable {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .coinsTable {
+    font-size: 0.7rem;
+  }
+}

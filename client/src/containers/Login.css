@@ -1,0 +1,52 @@
+.loginContainer {
+  max-width: 400px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.loginFormContainer {
+  margin: 30px;
+}
+
+.loginFormLogo {
+  color: #007aff;
+  margin-bottom: 30px;
+}
+
+.loginBtn {
+  width: 100%;
+  padding: 5px;
+}
+
+.googleLoginBtn {
+  width: 100%;
+  background-color: #fff;
+  color: #000;
+  border: 1px solid #ddd;
+  border-radius: 0.25rem;
+  padding: 5px;
+}
+
+.googleIcon {
+  margin-right: 10px;
+  margin-bottom: 2px;
+}
+
+.linkSignup {
+  float: right;
+}
+
+.hr-sect {
+  display: flex;
+  align-items: center;
+  color: rgba(0, 0, 0, 0.35);
+  margin: 25px 0px;
+}
+.hr-sect::before,
+.hr-sect::after {
+  content: "";
+  flex-grow: 1;
+  background: rgba(0, 0, 0, 0.35);
+  height: 1px;
+  margin: 0px 10px;
+}

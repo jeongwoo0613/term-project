@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const auth_controller_1 = require("../controllers/auth.controller");
+const router = express_1.Router();
+router.route("/auth/signup").post(auth_controller_1.signup);
+router.route("/auth/login").post(auth_controller_1.login);
+router.route("/auth/google").get(auth_controller_1.verifyGoogle);
+router.route("/auth/google/callback").get(auth_controller_1.authGoogle, auth_controller_1.succeedAuthGoogle);
+exports.default = router;
