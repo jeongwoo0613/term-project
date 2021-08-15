@@ -29,7 +29,7 @@ function Coin() {
         <h5>{coinData.symbol}</h5>
       </div>
       <div className="coinTradePrice">
-        <h5>현재가</h5>
+        <p>현재가</p>
         <h5
           className="coinPrice"
           style={
@@ -44,7 +44,7 @@ function Coin() {
             "en-US"
           )}
         </h5>
-        <h5>전일대비</h5>
+        <p>전일대비</p>
         <h5
           className="coinChange"
           style={

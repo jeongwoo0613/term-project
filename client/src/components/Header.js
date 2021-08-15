@@ -49,7 +49,7 @@ function Header() {
               <OverlayTrigger
                 trigger="click"
                 placement="bottom"
-                rootClose={true}
+                rootClose
                 overlay={
                   <Popover className="headerUserPopover">
                     <Popover.Body>
