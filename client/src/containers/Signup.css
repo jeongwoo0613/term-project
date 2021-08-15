@@ -1,11 +1,11 @@
 .signupContainer {
-  max-width: 400px;
+  max-width: 320px;
   margin: 0 auto;
   text-align: center;
 }
 
 .signupFormContainer {
-  margin: 30px;
+  margin-top: 30px;
 }
 
 .signupFormLogo {

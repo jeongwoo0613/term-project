@@ -3,7 +3,6 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Alert from "react-bootstrap/Alert";
 import Spinner from "react-bootstrap/Spinner";
-import queryString from "query-string";
 import { FcGoogle } from "react-icons/fc";
 import { useFormFields } from "../utils/hooks.util";
 import { authLogin } from "../api/auth.api";
@@ -27,7 +26,7 @@ function Login() {
   const { setUser } = useAppContext();
 
   useEffect(() => {
-    const parsed = queryString.parse(location.search);
+    const parsed = Object.fromEntries(new URLSearchParams(location.search));
     if (parsed.token && parsed.user) {
       setLocalToken(parsed.token);
       setUser(JSON.parse(parsed.user));
@@ -139,14 +138,14 @@ function Login() {
             "로그인"
           )}
         </Button>
-        <div className="hr-sect">또는</div>
-        <button onClick={handleGoogle} className="mb-3 googleLoginBtn">
-          <FcGoogle size="1.25em" className="googleIcon" /> Google로 로그인
-        </button>
-        <Link to="/signup" className="linkSignup">
-          아직 회원이 아니신가요?
-        </Link>
       </Form>
+      <div className="hr-sect">또는</div>
+      <button onClick={handleGoogle} className="mb-3 googleLoginBtn">
+        <FcGoogle size="1.25em" className="googleIcon" /> Google로 로그인
+      </button>
+      <Link to="/signup" className="linkSignup">
+        아직 회원이 아니신가요?
+      </Link>
     </div>
   );
 }
