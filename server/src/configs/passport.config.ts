@@ -38,8 +38,8 @@ const googleStrategy = new passportGoogleStrategy.Strategy(
     callbackURL: process.env.GOOGLE_CALLBACK_URL as string,
   },
   async (accessToken, refreshToken, profile, done) => {
-    const userRepository = getRepository(User);
     try {
+      const userRepository = getRepository(User);
       const user = await userRepository.findOne(
         { googleId: profile.id },
         {

@@ -182,7 +182,7 @@
 
 ---
 
-#### Get Coin Posts
+#### Get Posts
 
 - URL
 
@@ -202,7 +202,7 @@
 
   `GET`
 
-#### Create Coin Post
+#### Create Post
 
 - URL
 

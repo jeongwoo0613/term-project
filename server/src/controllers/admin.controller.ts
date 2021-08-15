@@ -4,28 +4,28 @@ import { Coin } from "../entities/coin.entity";
 import { getUpbitCoinPrice } from "../utils/upbit.util";
 
 const createCoin = async (req: Request, res: Response): Promise<any> => {
-  if (!req.file) {
-    return res.status(400).json({
-      code: 400,
-      error: "form field something wrong.",
-    });
-  }
-
-  const { location, key } = req.file;
-  const {
-    name,
-    symbol,
-    description,
-    supplyLimit,
-    homepage,
-    author,
-    github,
-    whitepaper,
-    initialRelease,
-    market,
-  } = req.body;
-
   try {
+    if (!req.file) {
+      return res.status(400).json({
+        code: 400,
+        error: "form field something wrong.",
+      });
+    }
+
+    const { location, key } = req.file;
+    const {
+      name,
+      symbol,
+      description,
+      supplyLimit,
+      homepage,
+      author,
+      github,
+      whitepaper,
+      initialRelease,
+      market,
+    } = req.body;
+
     const [coinPrice] = await getUpbitCoinPrice(market);
     const {
       opening_price,
@@ -86,9 +86,9 @@ const createCoin = async (req: Request, res: Response): Promise<any> => {
 };
 
 const updateCoin = async (req: Request, res: Response): Promise<void> => {
-  const { id } = req.coin;
-
   try {
+    const { id } = req.coin;
+
     await getRepository(Coin).update(id, {
       ...req.body,
     });

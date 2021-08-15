@@ -59,10 +59,10 @@ const verifyAdminAuthorization = (req, res, next) => {
 };
 exports.verifyAdminAuthorization = verifyAdminAuthorization;
 const signup = async (req, res) => {
-    const userRepository = typeorm_1.getRepository(user_entity_1.User);
     try {
         const value = await auth_schema_1.signupSchema.validateAsync(req.body);
         const { userId, password, nickname } = value;
+        const userRepository = typeorm_1.getRepository(user_entity_1.User);
         const result = await userRepository.findOne({ userId });
         if (result) {
             return res.status(400).json({
@@ -97,8 +97,8 @@ const signup = async (req, res) => {
 };
 exports.signup = signup;
 const login = async (req, res) => {
-    const { userId, password } = req.body;
     try {
+        const { userId, password } = req.body;
         const user = await typeorm_1.getRepository(user_entity_1.User).findOne({ userId });
         if (!user) {
             return res.status(404).json({

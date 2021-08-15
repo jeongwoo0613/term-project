@@ -90,8 +90,8 @@ const getUser = (req, res) => {
 };
 exports.getUser = getUser;
 const updateUser = async (req, res) => {
-    const { id } = req.user;
     try {
+        const { id } = req.user;
         await typeorm_1.getRepository(user_entity_1.User).update(id, {
             ...req.body,
         });
@@ -108,8 +108,8 @@ const updateUser = async (req, res) => {
 };
 exports.updateUser = updateUser;
 const deleteUser = async (req, res) => {
-    const { imageKey } = req.user;
     try {
+        const { imageKey } = req.user;
         if (imageKey !== "userdefault.png") {
             await s3_util_1.deleteUserImage(imageKey);
         }
@@ -127,15 +127,15 @@ const deleteUser = async (req, res) => {
 };
 exports.deleteUser = deleteUser;
 const updateUserImage = async (req, res) => {
-    if (!req.file) {
-        return res.status(400).json({
-            code: 400,
-            error: "form field something wrong.",
-        });
-    }
-    const { location, key } = req.file;
-    const { id, imageKey } = req.user;
     try {
+        if (!req.file) {
+            return res.status(400).json({
+                code: 400,
+                error: "form field something wrong.",
+            });
+        }
+        const { location, key } = req.file;
+        const { id, imageKey } = req.user;
         if (imageKey !== "userdefault.png") {
             s3_util_1.deleteUserImage(imageKey);
         }
@@ -154,10 +154,10 @@ const updateUserImage = async (req, res) => {
 };
 exports.updateUserImage = updateUserImage;
 const addFollow = async (req, res) => {
-    const { id } = req.user;
-    const { followingId } = req.body;
-    const userRepository = typeorm_1.getRepository(user_entity_1.User);
     try {
+        const { id } = req.user;
+        const { followingId } = req.body;
+        const userRepository = typeorm_1.getRepository(user_entity_1.User);
         const currentUser = await userRepository.findOne(id, {
             relations: ["following"],
         });
@@ -196,10 +196,10 @@ const addFollow = async (req, res) => {
 };
 exports.addFollow = addFollow;
 const deleteFollow = async (req, res) => {
-    const { id } = req.user;
-    const { followingId } = req.body;
-    const userRepository = typeorm_1.getRepository(user_entity_1.User);
     try {
+        const { id } = req.user;
+        const { followingId } = req.body;
+        const userRepository = typeorm_1.getRepository(user_entity_1.User);
         const currentUser = await userRepository.findOne(id, {
             relations: ["following"],
         });

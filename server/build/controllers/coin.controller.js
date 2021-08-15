@@ -25,8 +25,8 @@ const coinById = async (req, res, next, id) => {
 };
 exports.coinById = coinById;
 const getCoins = async (req, res) => {
-    const coinRepository = typeorm_1.getRepository(coin_entity_1.Coin);
     try {
+        const coinRepository = typeorm_1.getRepository(coin_entity_1.Coin);
         const coins = await coinRepository.find({
             order: {
                 accTradePrice24h: "DESC",
@@ -82,8 +82,8 @@ const getCoins = async (req, res) => {
 };
 exports.getCoins = getCoins;
 const getCoin = async (req, res) => {
-    const { id, market } = req.coin;
     try {
+        const { id, market } = req.coin;
         const upbitCoinPrice = await upbit_util_1.getUpbitCoinPrice(market);
         if (!upbitCoinPrice) {
             return res.status(200).json(req.coin);

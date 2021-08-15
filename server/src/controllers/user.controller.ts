@@ -111,9 +111,9 @@ const getUser = (req: Request, res: Response): void => {
 };
 
 const updateUser = async (req: Request, res: Response): Promise<void> => {
-  const { id } = req.user;
-
   try {
+    const { id } = req.user;
+
     await getRepository(User).update(id, {
       ...req.body,
     });
@@ -130,9 +130,9 @@ const updateUser = async (req: Request, res: Response): Promise<void> => {
 };
 
 const deleteUser = async (req: Request, res: Response): Promise<void> => {
-  const { imageKey } = req.user;
-
   try {
+    const { imageKey } = req.user;
+
     if (imageKey !== "userdefault.png") {
       await deleteUserImage(imageKey);
     }
@@ -151,17 +151,17 @@ const deleteUser = async (req: Request, res: Response): Promise<void> => {
 };
 
 const updateUserImage = async (req: Request, res: Response): Promise<any> => {
-  if (!req.file) {
-    return res.status(400).json({
-      code: 400,
-      error: "form field something wrong.",
-    });
-  }
-
-  const { location, key } = req.file;
-  const { id, imageKey } = req.user;
-
   try {
+    if (!req.file) {
+      return res.status(400).json({
+        code: 400,
+        error: "form field something wrong.",
+      });
+    }
+
+    const { location, key } = req.file;
+    const { id, imageKey } = req.user;
+
     if (imageKey !== "userdefault.png") {
       deleteUserImage(imageKey);
     }
@@ -181,11 +181,11 @@ const updateUserImage = async (req: Request, res: Response): Promise<any> => {
 };
 
 const addFollow = async (req: Request, res: Response): Promise<any> => {
-  const { id } = req.user;
-  const { followingId } = req.body;
-  const userRepository = getRepository(User);
-
   try {
+    const { id } = req.user;
+    const { followingId } = req.body;
+    const userRepository = getRepository(User);
+
     const currentUser = await userRepository.findOne(id, {
       relations: ["following"],
     });
@@ -231,11 +231,11 @@ const addFollow = async (req: Request, res: Response): Promise<any> => {
 };
 
 const deleteFollow = async (req: Request, res: Response): Promise<any> => {
-  const { id } = req.user;
-  const { followingId } = req.body;
-  const userRepository = getRepository(User);
-
   try {
+    const { id } = req.user;
+    const { followingId } = req.body;
+    const userRepository = getRepository(User);
+
     const currentUser = await userRepository.findOne(id, {
       relations: ["following"],
     });

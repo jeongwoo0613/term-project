@@ -30,9 +30,9 @@ const coinById = async (
 };
 
 const getCoins = async (req: Request, res: Response): Promise<any> => {
-  const coinRepository = getRepository(Coin);
-
   try {
+    const coinRepository = getRepository(Coin);
+
     const coins = await coinRepository.find({
       order: {
         accTradePrice24h: "DESC",
@@ -108,9 +108,9 @@ const getCoins = async (req: Request, res: Response): Promise<any> => {
 };
 
 const getCoin = async (req: Request, res: Response): Promise<any> => {
-  const { id, market } = req.coin;
-
   try {
+    const { id, market } = req.coin;
+
     const upbitCoinPrice = await getUpbitCoinPrice(market);
 
     if (!upbitCoinPrice) {

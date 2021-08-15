@@ -78,11 +78,10 @@ const verifyAdminAuthorization = (
 };
 
 const signup = async (req: Request, res: Response): Promise<any> => {
-  const userRepository = getRepository(User);
-
   try {
     const value = await signupSchema.validateAsync(req.body);
     const { userId, password, nickname } = value;
+    const userRepository = getRepository(User);
 
     const result = await userRepository.findOne({ userId });
 
@@ -120,9 +119,9 @@ const signup = async (req: Request, res: Response): Promise<any> => {
 };
 
 const login = async (req: Request, res: Response): Promise<any> => {
-  const { userId, password } = req.body;
-
   try {
+    const { userId, password } = req.body;
+
     const user = await getRepository(User).findOne({ userId });
 
     if (!user) {

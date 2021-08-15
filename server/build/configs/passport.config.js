@@ -34,8 +34,8 @@ const googleStrategy = new passport_google_oauth20_1.default.Strategy({
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     callbackURL: process.env.GOOGLE_CALLBACK_URL,
 }, async (accessToken, refreshToken, profile, done) => {
-    const userRepository = typeorm_1.getRepository(user_entity_1.User);
     try {
+        const userRepository = typeorm_1.getRepository(user_entity_1.User);
         const user = await userRepository.findOne({ googleId: profile.id }, {
             relations: ["following", "followers", "posts", "interests"],
         });
