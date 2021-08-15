@@ -23,14 +23,14 @@ function Profile() {
   const [fieldsUserId, setFieldsUserId] = useState("");
   const [nickname, setNickname] = useState("");
   const [publicUser, setPublicUser] = useState();
-  const { user, setUser } = useAppContext();
   const [show, setShow] = useState(false);
   const [isEditLoading, setIsEditLoading] = useState(false);
   const [isUploadLoading, setIsUploadLoading] = useState(false);
   const [isFollowLoading, setIsFollowLoading] = useState(false);
   const [isUnFollowLoading, setIsUnFollowLoading] = useState(false);
-  const history = useHistory();
+  const { user, setUser } = useAppContext();
   const { userId } = useParams();
+  const history = useHistory();
   const fileRef = useRef();
 
   useEffect(() => {

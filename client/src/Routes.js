@@ -1,6 +1,7 @@
 import { Suspense, lazy } from "react";
 import { Route, Switch } from "react-router-dom";
 import UnauthenticatedRoute from "./components/UnauthenticatedRoute";
+import AuthenticatedRoute from "./components/AuthenticatedRoute";
 import Loading from "./components/Loading";
 
 const Home = lazy(() => import("./containers/Home"));
@@ -11,6 +12,7 @@ const Signup = lazy(() => import("./containers/Signup"));
 const Login = lazy(() => import("./containers/Login"));
 const Profile = lazy(() => import("./containers/Profile"));
 const NotFound = lazy(() => import("./containers/NotFound"));
+const NewPost = lazy(() => import("./containers/NewPost"));
 
 function Routes() {
   return (
@@ -34,6 +36,9 @@ function Routes() {
         <Route exact path="/:userId">
           <Profile />
         </Route>
+        <AuthenticatedRoute path="/coins/:coinId/post/new">
+          <NewPost />
+        </AuthenticatedRoute>
         <Route path="/coins/:coinId">
           <Coin />
         </Route>

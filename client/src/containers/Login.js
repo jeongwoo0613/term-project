@@ -18,12 +18,12 @@ function Login() {
   });
   const [isLoginLoading, setIsLoginLoading] = useState(false);
   const [error, setError] = useState(false);
+  const { from } = location.state || { from: { pathname: "/" } };
+  const { setUser } = useAppContext();
   const history = useHistory();
   const location = useLocation();
   const refuserId = useRef();
   const refPassword = useRef();
-  const { from } = location.state || { from: { pathname: "/" } };
-  const { setUser } = useAppContext();
 
   useEffect(() => {
     const parsed = Object.fromEntries(new URLSearchParams(location.search));

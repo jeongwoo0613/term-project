@@ -1,8 +1,10 @@
 import "./Coin.css";
+import Loading from "../components/Loading";
+import Posts from "../components/Posts";
 import { useState, useEffect } from "react";
 import { getCoin } from "../api/coins.api";
 import { useParams } from "react-router-dom";
-import Loading from "../components/Loading";
+
 function Coin() {
   const [coinData, setCoinData] = useState();
   const { coinId } = useParams();
@@ -110,6 +112,7 @@ function Coin() {
           </span>
         </div>
       </div>
+      <Posts coinId={coinId} />
     </section>
   ) : (
     <Loading />
