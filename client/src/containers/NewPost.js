@@ -112,6 +112,7 @@ function NewPost() {
           value={fields.content}
           onChange={setFields}
           ref={refContent}
+          className="textArea"
           as="textarea"
         />
       </Form.Group>

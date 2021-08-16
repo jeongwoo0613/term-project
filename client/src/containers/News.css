@@ -1,0 +1,33 @@
+.test {
+  background-color: #fff;
+}
+.newsDiv {
+  margin-top: 30px;
+  border-top: 1px solid #d4d6dc;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.thumbnail {
+  margin-top: 30px;
+  display: flex;
+}
+
+.thumbnail img {
+  width: 150px;
+}
+
+.newsTitle {
+  font-size: 20px;
+  font-weight: 600;
+  margin-left: 20px;
+}
+
+.newsTitleLink {
+  color: black;
+}
+
+.newsDescription,
+.newsPublishedAt {
+  font-size: 14px;
+  color: #999;
+}
