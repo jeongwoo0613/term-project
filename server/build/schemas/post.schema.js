@@ -8,11 +8,7 @@ const joi_1 = __importDefault(require("joi"));
 const postSchema = joi_1.default.object({
     title: joi_1.default.string().min(1).max(30).required(),
     content: joi_1.default.string().min(1).max(300).required(),
-    rise: joi_1.default.string()
-        .pattern(/true|false/)
-        .required(),
-    fall: joi_1.default.string()
-        .pattern(/true|false/)
-        .required(),
+    rise: joi_1.default.boolean().required(),
+    fall: joi_1.default.boolean().required(),
 });
 exports.postSchema = postSchema;

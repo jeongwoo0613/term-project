@@ -11,7 +11,7 @@ import { getLocalToken } from "../utils/storage.util";
 function NewPost() {
   const [fields, setFields] = useFormFields({
     title: "",
-    contetnt: "",
+    content: "",
   });
   const [rise, setRise] = useState(false);
   const [fall, setFall] = useState(false);
