@@ -20,7 +20,7 @@ function Signup() {
   const [error, setError] = useState(false);
   const history = useHistory();
   const location = useLocation();
-  const refuserId = useRef();
+  const refUserId = useRef();
   const refPassword = useRef();
   const { from } = location.state || { from: { pathname: "/" } };
   const { setUser } = useAppContext();
@@ -52,7 +52,7 @@ function Signup() {
     } catch (error) {
       if (error.message === "signup failed") {
         setError(true);
-        refuserId.current.focus();
+        refUserId.current.focus();
         setTimeout(() => {
           setError(false);
         }, 3000);
@@ -65,7 +65,7 @@ function Signup() {
     if (event.keyCode === 13) {
       switch (event.target.id) {
         case "nickname":
-          refuserId.current.focus();
+          refUserId.current.focus();
           break;
         case "userId":
           refPassword.current.focus();
@@ -100,7 +100,7 @@ function Signup() {
             value={fields.userId}
             onChange={setFields}
             onKeyDown={handleEnter}
-            ref={refuserId}
+            ref={refUserId}
             size="sm"
           />
         </Form.Group>

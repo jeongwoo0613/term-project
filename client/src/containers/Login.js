@@ -20,7 +20,7 @@ function Login() {
   const [error, setError] = useState(false);
   const history = useHistory();
   const location = useLocation();
-  const refuserId = useRef();
+  const refUserId = useRef();
   const refPassword = useRef();
   const { from } = location.state || { from: { pathname: "/" } };
   const { setUser } = useAppContext();
@@ -55,7 +55,7 @@ function Login() {
     } catch (error) {
       if (error.message === "Login failed") {
         setError(true);
-        refuserId.current.focus();
+        refUserId.current.focus();
         setTimeout(() => {
           setError(false);
         }, 3000);
@@ -100,7 +100,7 @@ function Login() {
             value={fields.userId}
             onChange={setFields}
             onKeyDown={handleEnter}
-            ref={refuserId}
+            ref={refUserId}
             size="sm"
           />
         </Form.Group>
