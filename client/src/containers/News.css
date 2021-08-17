@@ -1,18 +1,18 @@
-.test {
+.newsContainer {
   background-color: #fff;
 }
-.newsDiv {
+.newsItemContainer {
   margin-top: 30px;
   border-top: 1px solid #d4d6dc;
   margin-left: 10px;
   margin-right: 10px;
 }
-.thumbnail {
+.newsThumbnail {
   margin-top: 30px;
   display: flex;
 }
 
-.thumbnail img {
+.newsThumbnail img {
   width: 150px;
 }
 

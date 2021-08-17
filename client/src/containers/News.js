@@ -5,33 +5,30 @@ import NewsItem from "./NewsItem";
 import Loading from "../components/Loading";
 
 function News() {
-  const [articles, setArticles] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [articles, setArticles] = useState();
 
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
+    const loadNews = async () => {
       try {
-        const response = await axios.get(
+        const result = await axios.get(
           "https://newsapi.org/v2/everything?q=코인&sortBy=publishedAt&apiKey=1dc00b247e534d808d5544eb92faef3e"
         );
-        setArticles(response.data.articles);
-      } catch (e) {
-        console.log(e);
+        setArticles(result.data.articles);
+      } catch (error) {
+        console.log(error);
       }
-      setLoading(false);
     };
-    fetchData();
+    loadNews();
   }, []);
 
-  return loading ? (
-    <Loading />
-  ) : (
-    <div className="test">
-      {articles?.map((article) => (
+  return articles ? (
+    <div className="newsContainer">
+      {articles.map((article) => (
         <NewsItem key={article.url} article={article} />
       ))}
     </div>
+  ) : (
+    <Loading />
   );
 }
 

@@ -3,9 +3,9 @@ import "./News.css";
 const NewsItem = ({ article }) => {
   const { title, description, url, urlToImage, publishedAt } = article;
   return (
-    <div className="newsDiv">
+    <div className="newsItemContainer">
       {urlToImage && (
-        <div className="thumbnail">
+        <div className="newsThumbnail">
           <a href={url} target="_blank" rel="noopener noreferrer">
             <img src={urlToImage} alt="thumbnail" />
           </a>
@@ -21,7 +21,7 @@ const NewsItem = ({ article }) => {
           </p>
         </div>
       )}
-      <div className="newsContents">
+      <div>
         <p className="newsDescription">{description}</p>
         <span className="newsPublishedAt">{publishedAt.substr(0, 10)}</span>
         &nbsp;
