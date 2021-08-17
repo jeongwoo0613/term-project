@@ -68,7 +68,7 @@ const createPost = async (req: Request, res: Response): Promise<any> => {
     }
 
     if (
-      rise === "true" &&
+      rise === true &&
       !user.rise.find((coin) => coin.id === req.coin.id) &&
       !coin.rise.find((user) => user.id === req.user.id) &&
       !user.fall.find((coin) => coin.id === req.coin.id) &&
@@ -77,7 +77,7 @@ const createPost = async (req: Request, res: Response): Promise<any> => {
       user.rise.push(req.coin);
       coin.rise.push(req.user);
     } else if (
-      fall === "true" &&
+      fall === true &&
       !user.fall.find((coin) => coin.id === req.coin.id) &&
       !coin.fall.find((user) => user.id === req.user.id) &&
       !user.rise.find((coin) => coin.id === req.coin.id) &&
