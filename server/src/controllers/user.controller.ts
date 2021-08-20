@@ -137,7 +137,7 @@ const deleteUser = async (req: Request, res: Response): Promise<void> => {
       await deleteUserImage(imageKey);
     }
 
-    await getRepository(User).remove(req.user);
+    await getRepository(User).delete(req.user.id);
 
     res.status(200).json({
       message: "succeed.",

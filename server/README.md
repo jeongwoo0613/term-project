@@ -202,6 +202,22 @@
 
   `GET`
 
+#### Update, Delete Post
+
+- URL
+
+  /:coinId/posts/:postId
+
+- Method
+
+  `PUT`
+
+  `DELETE`
+
+- Headers
+
+  `Authorization: Bearer ${Token}`
+
 #### Create Post
 
 - URL

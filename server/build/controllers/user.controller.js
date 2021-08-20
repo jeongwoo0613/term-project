@@ -113,7 +113,7 @@ const deleteUser = async (req, res) => {
         if (imageKey !== "userdefault.png") {
             await s3_util_1.deleteUserImage(imageKey);
         }
-        await typeorm_1.getRepository(user_entity_1.User).remove(req.user);
+        await typeorm_1.getRepository(user_entity_1.User).delete(req.user.id);
         res.status(200).json({
             message: "succeed.",
         });
