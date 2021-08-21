@@ -10,7 +10,9 @@ const coinById = async (
   id: string
 ): Promise<any> => {
   try {
-    const coin = await getRepository(Coin).findOne(id);
+    const coin = await getRepository(Coin).findOne(id, {
+      relations: ["posts"],
+    });
 
     if (!coin) {
       return res.status(404).json({

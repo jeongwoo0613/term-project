@@ -128,6 +128,23 @@ const getPost = (req: Request, res: Response): void => {
   res.status(200).json(req.post);
 };
 
+const getCoinPosts = async (req: Request, res: Response): Promise<any> => {
+  res.status(200).json(req.coin.posts);
+};
+
+const getCoinPost = (req: Request, res: Response): any => {
+  const coinPost = req.coin.posts.find((post) => post.id === req.post.id);
+
+  if (!coinPost) {
+    return res.status(404).json({
+      code: 404,
+      error: "post not found.",
+    });
+  }
+
+  res.status(200).json(coinPost);
+};
+
 const updatePost = async (req: Request, res: Response): Promise<any> => {
   try {
     const value = await postSchema.validateAsync(req.body);
@@ -227,4 +244,13 @@ const deletePost = async (req: Request, res: Response): Promise<any> => {
   }
 };
 
-export { postById, createPost, getPosts, getPost, updatePost, deletePost };
+export {
+  postById,
+  createPost,
+  getCoinPosts,
+  getCoinPost,
+  getPosts,
+  getPost,
+  updatePost,
+  deletePost,
+};

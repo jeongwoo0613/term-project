@@ -6,7 +6,9 @@ const coin_entity_1 = require("../entities/coin.entity");
 const upbit_util_1 = require("../utils/upbit.util");
 const coinById = async (req, res, next, id) => {
     try {
-        const coin = await typeorm_1.getRepository(coin_entity_1.Coin).findOne(id);
+        const coin = await typeorm_1.getRepository(coin_entity_1.Coin).findOne(id, {
+            relations: ["posts"],
+        });
         if (!coin) {
             return res.status(404).json({
                 code: 404,
