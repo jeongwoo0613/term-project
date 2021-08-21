@@ -7,27 +7,7 @@ const instance = axios.create({
       : "http://localhost:8080/api",
 });
 
-const getPosts = async () => {
-  try {
-    const result = await instance.get("/posts");
-
-    return result.data;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-const getPost = async (postId) => {
-  try {
-    const result = await instance.get(`/posts/${postId}`);
-
-    return result.data;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-const createPost = async (coinId, token, post) => {
+const createPost = async (token, coinId, post) => {
   try {
     const result = await instance.post(`/${coinId}/post`, post, {
       headers: {
@@ -41,4 +21,52 @@ const createPost = async (coinId, token, post) => {
   }
 };
 
-export { getPosts, getPost, createPost };
+const getPosts = async (coinId) => {
+  try {
+    const result = await instance.get(`/${coinId}/posts`);
+
+    return result.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getPost = async (coinId, postId) => {
+  try {
+    const result = await instance.get(`/${coinId}/posts/${postId}`);
+
+    return result.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const updatePost = async (token, coinId, postId, post) => {
+  try {
+    const result = await instance.put(`/${coinId}/posts/${postId}`, post, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return result.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const deletePost = async (token, coinId, postId, post) => {
+  try {
+    const result = await instance.delete(`/${coinId}/posts/${postId}`, post, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return result.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export { getPosts, getPost, createPost, updatePost, deletePost };

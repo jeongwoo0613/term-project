@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deletePost = exports.updatePost = exports.getPost = exports.getPosts = exports.getCoinPost = exports.getCoinPosts = exports.createPost = exports.postById = void 0;
+exports.deletePost = exports.updatePost = exports.getPost = exports.getPosts = exports.createPost = exports.postById = void 0;
 const typeorm_1 = require("typeorm");
 const coin_entity_1 = require("../entities/coin.entity");
 const post_entity_1 = require("../entities/post.entity");
@@ -90,43 +90,20 @@ const createPost = async (req, res) => {
 };
 exports.createPost = createPost;
 const getPosts = async (req, res) => {
-    try {
-        const posts = await typeorm_1.getRepository(post_entity_1.Post).find();
-        if (!posts) {
-            return res.status(404).json({
-                code: 404,
-                error: "posts not found.",
-            });
-        }
-        res.status(200).json(posts);
-    }
-    catch (error) {
-        res.status(400).json({
-            code: 400,
-            error: "could not load posts",
-        });
-    }
+    res.status(200).json(req.coin.posts);
 };
 exports.getPosts = getPosts;
 const getPost = (req, res) => {
-    res.status(200).json(req.post);
-};
-exports.getPost = getPost;
-const getCoinPosts = async (req, res) => {
-    res.status(200).json(req.coin.posts);
-};
-exports.getCoinPosts = getCoinPosts;
-const getCoinPost = (req, res) => {
-    const coinPost = req.coin.posts.find((post) => post.id === req.post.id);
-    if (!coinPost) {
+    const post = req.coin.posts.find((post) => post.id === req.post.id);
+    if (!post) {
         return res.status(404).json({
             code: 404,
             error: "post not found.",
         });
     }
-    res.status(200).json(coinPost);
+    res.status(200).json(post);
 };
-exports.getCoinPost = getCoinPost;
+exports.getPost = getPost;
 const updatePost = async (req, res) => {
     try {
         const value = await post_schema_1.postSchema.validateAsync(req.body);

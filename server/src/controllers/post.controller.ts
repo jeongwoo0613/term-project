@@ -107,44 +107,20 @@ const createPost = async (req: Request, res: Response): Promise<any> => {
 };
 
 const getPosts = async (req: Request, res: Response): Promise<any> => {
-  try {
-    const posts = await getRepository(Post).find();
-
-    if (!posts) {
-      return res.status(404).json({
-        code: 404,
-        error: "posts not found.",
-      });
-    }
-
-    res.status(200).json(posts);
-  } catch (error) {
-    res.status(400).json({
-      code: 400,
-      error: "could not load posts",
-    });
-  }
-};
-
-const getPost = (req: Request, res: Response): void => {
-  res.status(200).json(req.post);
-};
-
-const getCoinPosts = async (req: Request, res: Response): Promise<any> => {
   res.status(200).json(req.coin.posts);
 };
 
-const getCoinPost = (req: Request, res: Response): any => {
-  const coinPost = req.coin.posts.find((post) => post.id === req.post.id);
+const getPost = (req: Request, res: Response): any => {
+  const post = req.coin.posts.find((post) => post.id === req.post.id);
 
-  if (!coinPost) {
+  if (!post) {
     return res.status(404).json({
       code: 404,
       error: "post not found.",
     });
   }
 
-  res.status(200).json(coinPost);
+  res.status(200).json(post);
 };
 
 const updatePost = async (req: Request, res: Response): Promise<any> => {
@@ -246,13 +222,4 @@ const deletePost = async (req: Request, res: Response): Promise<any> => {
   }
 };
 
-export {
-  postById,
-  createPost,
-  getCoinPosts,
-  getCoinPost,
-  getPosts,
-  getPost,
-  updatePost,
-  deletePost,
-};
+export { postById, createPost, getPosts, getPost, updatePost, deletePost };

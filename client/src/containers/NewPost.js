@@ -27,7 +27,7 @@ function NewPost() {
     setIsPostLoading(true);
 
     try {
-      const postResult = await createPost(coinId, getLocalToken(), {
+      const postResult = await createPost(getLocalToken(), coinId, {
         title: fields.title,
         content: fields.content,
         rise,

@@ -43,7 +43,7 @@ const getUser = async (token) => {
 
 const updateUser = async (token, user) => {
   try {
-    const result = await instance.put("user", user, {
+    const result = await instance.put("/user", user, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -57,7 +57,7 @@ const updateUser = async (token, user) => {
 
 const deleteUser = async (token, user) => {
   try {
-    const result = await instance.delete("user", user, {
+    const result = await instance.delete("/user", user, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
