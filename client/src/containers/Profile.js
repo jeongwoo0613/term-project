@@ -5,6 +5,7 @@ import Form from "react-bootstrap/Form";
 import Image from "react-bootstrap/Image";
 import Loading from "../components/Loading";
 import Spinner from "react-bootstrap/Spinner";
+import Card from "react-bootstrap/Card";
 import { useState, useEffect } from "react";
 import {
   follow,
@@ -48,6 +49,7 @@ function Profile() {
       const loadUser = async () => {
         try {
           const user = await getUser(getLocalToken());
+
           setUser(user);
           setFieldsUserId(user.userId);
           setNickname(user.nickname);
@@ -242,6 +244,23 @@ function Profile() {
             </div>
           </div>
         </div>
+        <div className="profilePostsContainer">
+          {publicUser.posts
+            ?.sort((a, b) => b.id - a.id)
+            .map((post) => (
+              <Card key={post.id} className="profilePostsCard">
+                <Card.Header className="profilePostsCardHeader">
+                  {post.title}
+                </Card.Header>
+                <Card.Body>
+                  <Card.Text>{post.content}</Card.Text>
+                  <Card.Text className="profilePostsCardCreatedAt">
+                    {post.createdAt.substr(0, 10)}
+                  </Card.Text>
+                </Card.Body>
+              </Card>
+            ))}
+        </div>
       </section>
     ) : (
       <Loading />
@@ -352,6 +371,23 @@ function Profile() {
             </div>
           </div>
         </div>
+      </div>
+      <div className="profilePostsContainer">
+        {user.posts
+          ?.sort((a, b) => b.id - a.id)
+          .map((post) => (
+            <Card key={post.id} className="profilePostsCard">
+              <Card.Header className="profilePostsCardHeader">
+                {post.title}
+              </Card.Header>
+              <Card.Body>
+                <Card.Text>{post.content}</Card.Text>
+                <Card.Text className="profilePostsCardCreatedAt">
+                  {post.createdAt.substr(0, 10)}
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          ))}
       </div>
     </section>
   ) : (

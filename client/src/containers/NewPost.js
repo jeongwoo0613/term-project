@@ -82,30 +82,36 @@ function NewPost() {
 
   return (
     <Form className="newPostFormContainer" onSubmit={handleSubmit}>
-      <Form.Group controlId="title">
-        <Form.Control
-          placeholder="제목을 입력해주세요."
-          autoFocus
-          value={fields.title}
-          onChange={setFields}
-          onKeyDown={handleEnter}
-          ref={refTitle}
-        />
-      </Form.Group>
-      <Button
-        variant={rise ? "danger" : "outline-danger"}
-        className="riseBtn"
-        onClick={handleRise}
-      >
-        오른다
-      </Button>
-      <Button
-        variant={fall ? "primary" : "outline-primary"}
-        className="fallBtn"
-        onClick={handleFall}
-      >
-        내린다
-      </Button>
+      <div className="newPostFirstDiv">
+        <div className="writeForm">
+          <Form.Group controlId="title">
+            <Form.Control
+              placeholder="제목을 입력해주세요."
+              autoFocus
+              value={fields.title}
+              onChange={setFields}
+              onKeyDown={handleEnter}
+              ref={refTitle}
+            />
+          </Form.Group>
+        </div>
+        <div className="riseFallBtn">
+          <Button
+            variant={rise ? "danger" : "outline-danger"}
+            className="riseBtn"
+            onClick={handleRise}
+          >
+            오른다
+          </Button>
+          <Button
+            variant={fall ? "primary" : "outline-primary"}
+            className="fallBtn"
+            onClick={handleFall}
+          >
+            내린다
+          </Button>
+        </div>
+      </div>
       <Form.Group controlId="content">
         <Form.Control
           placeholder="내용을 입력해주세요."

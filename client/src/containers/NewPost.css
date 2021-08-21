@@ -1,7 +1,29 @@
+.newPostFormContainer {
+  margin-top: 10px;
+}
+.newPostFirstDiv {
+  display: flex;
+  margin-bottom: 10px;
+}
+.writeForm {
+  flex: 1;
+}
+
+.riseFallBtn {
+  margin-left: 5px;
+}
+
+.riseBtn {
+  margin-right: 2px;
+}
 .textArea {
   height: 500px;
+  max-height: 530px;
 }
 
 .postBtn {
+  position: fixed;
+  bottom: 0;
+  max-width: 768px;
   width: 100%;
 }
