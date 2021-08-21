@@ -4,9 +4,11 @@ import Posts from "../components/Posts";
 import { useState, useEffect } from "react";
 import { getCoin } from "../api/coins.api";
 import { useParams } from "react-router-dom";
+import { getPosts } from "../api/posts.api";
 
 function Coin() {
   const [coinData, setCoinData] = useState();
+  const [postsData, setPostsData] = useState();
   const { coinId } = useParams();
 
   useEffect(() => {
@@ -19,6 +21,15 @@ function Coin() {
       }
     };
     loadCoin();
+    const loadPosts = async () => {
+      try {
+        const posts = await getPosts(coinId);
+        setPostsData(posts);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    loadPosts();
   }, []);
 
   return coinData ? (
@@ -112,7 +123,7 @@ function Coin() {
           </span>
         </div>
       </div>
-      <Posts coinId={coinId} />
+      <Posts coinId={coinId} posts={postsData} />
     </section>
   ) : (
     <Loading />
