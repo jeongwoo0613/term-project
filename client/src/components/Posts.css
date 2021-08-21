@@ -4,4 +4,12 @@
 
 .postsBtn {
   float: right;
+  margin-bottom: 10px;
+}
+
+.postsDiv {
+  clear: both;
+}
+.postsCard {
+  margin-top: 10px;
 }

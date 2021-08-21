@@ -5,6 +5,7 @@
 
 .profileBox {
   display: flex;
+  margin-bottom: 50px;
 }
 
 .profileImg {
@@ -66,4 +67,19 @@
   border-top: none;
   border-left: none;
   border-right: none;
+}
+.profilePostsContainer {
+  margin-top: 100px;
+}
+.profilePostsCard {
+  margin: auto;
+  width: 90%;
+  margin-bottom: 10px;
+}
+.profilePostsCardHeader {
+  font-weight: bold;
+  color: rgb(52, 58, 64);
+}
+.profilePostsCardCreatedAt {
+  font-size: 5px;
 }
