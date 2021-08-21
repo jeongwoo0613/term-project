@@ -22,6 +22,12 @@ export class Post {
   @Column("text")
   content!: string;
 
+  @Column()
+  rise!: boolean;
+
+  @Column()
+  fall!: boolean;
+
   @ManyToOne((type) => Coin, (coin) => coin.posts)
   coin!: Coin;
 

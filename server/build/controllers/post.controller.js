@@ -36,6 +36,8 @@ const createPost = async (req, res) => {
         const post = new post_entity_1.Post();
         post.title = title;
         post.content = content;
+        post.rise = rise;
+        post.fall = fall;
         await postRepository.insert(post);
         const user = await userRepository.findOne(req.user.id, {
             relations: ["posts", "rise", "fall"],

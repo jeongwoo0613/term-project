@@ -29,6 +29,14 @@ __decorate([
     __metadata("design:type", String)
 ], Post.prototype, "content", void 0);
 __decorate([
+    typeorm_1.Column(),
+    __metadata("design:type", Boolean)
+], Post.prototype, "rise", void 0);
+__decorate([
+    typeorm_1.Column(),
+    __metadata("design:type", Boolean)
+], Post.prototype, "fall", void 0);
+__decorate([
     typeorm_1.ManyToOne((type) => coin_entity_1.Coin, (coin) => coin.posts),
     __metadata("design:type", coin_entity_1.Coin)
 ], Post.prototype, "coin", void 0);

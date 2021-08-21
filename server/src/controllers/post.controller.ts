@@ -42,6 +42,8 @@ const createPost = async (req: Request, res: Response): Promise<any> => {
     const post = new Post();
     post.title = title;
     post.content = content;
+    post.rise = rise;
+    post.fall = fall;
 
     await postRepository.insert(post);
 
