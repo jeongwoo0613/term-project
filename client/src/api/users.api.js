@@ -1,10 +1,7 @@
 import axios from "axios";
-
+// TODO: seperate production and development environment
 const instance = axios.create({
-  baseURL:
-    process.env.NODE_ENV === "production"
-      ? "http://ec2-15-165-76-37.ap-northeast-2.compute.amazonaws.com/api"
-      : "http://localhost:8080/api",
+  baseURL: "http://ec2-15-165-76-37.ap-northeast-2.compute.amazonaws.com/api",
 });
 
 const getUsers = async () => {

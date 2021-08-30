@@ -75,12 +75,10 @@ function Login() {
       }
     }
   };
-
+  // TODO: seperate production and development environment
   const handleGoogle = async () => {
     window.open(
-      process.env.NODE_ENV === "production"
-        ? "http://ec2-15-165-76-37.ap-northeast-2.compute.amazonaws.com/api/auth/google"
-        : "http://localhost:8080/api/auth/google",
+      "http://ec2-15-165-76-37.ap-northeast-2.compute.amazonaws.com/api/auth/google",
       "_self"
     );
   };
