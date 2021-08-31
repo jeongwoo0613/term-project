@@ -6,6 +6,7 @@ import Image from "react-bootstrap/Image";
 import Loading from "../components/Loading";
 import Spinner from "react-bootstrap/Spinner";
 import Card from "react-bootstrap/Card";
+
 import { useState, useEffect } from "react";
 import {
   follow,
@@ -33,7 +34,11 @@ function Profile() {
   const { userId } = useParams();
   const history = useHistory();
   const fileRef = useRef();
+  //
+  const [smShow, setSmShow] = useState(false);
+  const [smShow2, setSmShow2] = useState(false);
 
+  //
   useEffect(() => {
     const loadPublicUser = async () => {
       try {
@@ -49,7 +54,7 @@ function Profile() {
       const loadUser = async () => {
         try {
           const user = await getUser(getLocalToken());
-
+          console.log(user);
           setUser(user);
           setFieldsUserId(user.userId);
           setNickname(user.nickname);
@@ -199,17 +204,25 @@ function Profile() {
     return getLocalToken() ? true : false;
   };
 
+  //
+  const handleClick = (userId, postsTitle) => {
+    history.push(`/${userId}/${postsTitle}`);
+  };
+  //
+
   if (!getLocalToken() || user?.userId !== userId) {
     return publicUser ? (
       <section className="profileContainer">
         <div className="profileBox">
-          <Image
-            className="profileImg"
-            src={publicUser.image}
-            alt=""
-            roundedCircle
-          />
-          <div>
+          <div className="profileImgDiv">
+            <Image
+              className="profileImg"
+              src={publicUser.image}
+              alt=""
+              roundedCircle
+            />
+          </div>
+          <div className="profileInfoDiv">
             <div className="profileHeader">
               <h3>{publicUser.nickname}</h3>
               {user?.following.some((user) => user.id === publicUser.id) ? (
@@ -248,8 +261,27 @@ function Profile() {
           {publicUser.posts
             ?.sort((a, b) => b.id - a.id)
             .map((post) => (
-              <Card key={post.id} className="profilePostsCard">
-                <Card.Header className="profilePostsCardHeader">
+              <Card
+                key={post.id}
+                className="profilePostsCard"
+                style={
+                  post.rise
+                    ? { borderColor: "#E09099" }
+                    : post.fall
+                    ? { borderColor: "#8689FA" }
+                    : { borderColor: "" }
+                }
+              >
+                <Card.Header
+                  className="profilePostsCardHeader"
+                  style={
+                    post.rise
+                      ? { backgroundColor: "#E09099" }
+                      : post.fall
+                      ? { backgroundColor: "#8689FA" }
+                      : { borderColor: "" }
+                  }
+                >
                   {post.title}
                 </Card.Header>
                 <Card.Body>
@@ -270,8 +302,10 @@ function Profile() {
   return user ? (
     <section className="profileContainer">
       <div className="profileBox">
-        <Image className="profileImg" src={user.image} alt="" roundedCircle />
-        <div>
+        <div className="profileImgDiv">
+          <Image className="profileImg" src={user.image} alt="" roundedCircle />
+        </div>
+        <div className="profileInfoDiv">
           <div className="profileHeader">
             <h3>{user.nickname}</h3>
             <Button
@@ -363,12 +397,42 @@ function Profile() {
             <div className="profileBodyCol">
               게시물 <strong>{user?.posts?.length}</strong>
             </div>
-            <div className="profileBodyCol">
+            <div className="profileBodyCol" onClick={() => setSmShow(true)}>
               팔로워 <strong>{user?.followers?.length}</strong>
             </div>
-            <div className="profileBodyCol">
+            <Modal
+              size="sm"
+              show={smShow}
+              onHide={() => setSmShow(false)}
+              aria-labelledby="example-modal-sizes-title-sm"
+            >
+              <Modal.Header closeButton>
+                <Modal.Title id="example-modal-sizes-title-sm">
+                  팔로워
+                </Modal.Title>
+              </Modal.Header>
+              {user.followers?.map((follower) => (
+                <Modal.Body key={follower.id}>{follower.nickname}</Modal.Body>
+              ))}
+            </Modal>
+            <div className="profileBodyCol" onClick={() => setSmShow2(true)}>
               팔로우 <strong>{user?.following?.length}</strong>
             </div>
+            <Modal
+              size="sm"
+              show={smShow2}
+              onHide={() => setSmShow2(false)}
+              aria-labelledby="example-modal-sizes-title-sm"
+            >
+              <Modal.Header closeButton>
+                <Modal.Title id="example-modal-sizes-title-sm">
+                  팔로우
+                </Modal.Title>
+              </Modal.Header>
+              {user.following?.map((following) => (
+                <Modal.Body key={following.id}>{following.nickname}</Modal.Body>
+              ))}
+            </Modal>
           </div>
         </div>
       </div>
@@ -376,8 +440,29 @@ function Profile() {
         {user.posts
           ?.sort((a, b) => b.id - a.id)
           .map((post) => (
-            <Card key={post.id} className="profilePostsCard">
-              <Card.Header className="profilePostsCardHeader">
+            <Card
+              key={post.id}
+              className="profilePostsCard"
+              style={
+                post.rise
+                  ? { borderColor: "#E09099" }
+                  : post.fall
+                  ? { borderColor: "#8689FA" }
+                  : { borderColor: "" }
+              }
+            >
+              <Card.Header
+                key={user.id}
+                onClick={() => handleClick(user.userId, post.title)}
+                className="profilePostsCardHeader"
+                style={
+                  post.rise
+                    ? { backgroundColor: "#E09099" }
+                    : post.fall
+                    ? { backgroundColor: "#8689FA" }
+                    : { borderColor: "" }
+                }
+              >
                 {post.title}
               </Card.Header>
               <Card.Body>
