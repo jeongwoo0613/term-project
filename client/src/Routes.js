@@ -13,6 +13,7 @@ const Login = lazy(() => import("./containers/Login"));
 const Profile = lazy(() => import("./containers/Profile"));
 const NotFound = lazy(() => import("./containers/NotFound"));
 const NewPost = lazy(() => import("./containers/NewPost"));
+const Post = lazy(() => import("./containers/Post"));
 
 function Routes() {
   return (
@@ -39,6 +40,9 @@ function Routes() {
         <AuthenticatedRoute path="/coins/:coinId/post/new">
           <NewPost />
         </AuthenticatedRoute>
+        <Route path="/coins/:coinId/posts/:postId">
+          <Post />
+        </Route>
         <Route path="/coins/:coinId">
           <Coin />
         </Route>
