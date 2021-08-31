@@ -12,6 +12,7 @@
 }
 .postsCard {
   margin-top: 10px;
+  cursor: pointer;
 }
 .postsCardCreatedAt {
   font-size: 5px;

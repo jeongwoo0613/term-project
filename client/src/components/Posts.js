@@ -9,6 +9,7 @@ function Posts({ coinId, posts }) {
   const handlePost = () => {
     history.push(`/coins/${coinId}/post/new`);
   };
+
   return (
     <div className="postsContainer">
       <Button onClick={handlePost} className="postsBtn">
@@ -28,6 +29,7 @@ function Posts({ coinId, posts }) {
                   ? { borderColor: "#8689FA" }
                   : { borderColor: "" }
               }
+              onClick={() => history.push(`/coins/${coinId}/posts/${post.id}`)}
             >
               <Card.Header
                 style={
