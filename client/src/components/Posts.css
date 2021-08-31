@@ -13,3 +13,6 @@
 .postsCard {
   margin-top: 10px;
 }
+.postsCardCreatedAt {
+  font-size: 5px;
+}
