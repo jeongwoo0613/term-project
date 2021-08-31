@@ -8,7 +8,7 @@ const user_entity_1 = require("../entities/user.entity");
 const post_schema_1 = require("../schemas/post.schema");
 const postById = async (req, res, next, id) => {
     try {
-        const post = await typeorm_1.getRepository(post_entity_1.Post).findOne(id);
+        const post = await (0, typeorm_1.getRepository)(post_entity_1.Post).findOne(id);
         if (!post) {
             return res.status(404).json({
                 code: 404,
@@ -30,9 +30,9 @@ const createPost = async (req, res) => {
     try {
         const value = await post_schema_1.postSchema.validateAsync(req.body);
         const { title, content, rise, fall } = value;
-        const postRepository = typeorm_1.getRepository(post_entity_1.Post);
-        const userRepository = typeorm_1.getRepository(user_entity_1.User);
-        const coinRepository = typeorm_1.getRepository(coin_entity_1.Coin);
+        const postRepository = (0, typeorm_1.getRepository)(post_entity_1.Post);
+        const userRepository = (0, typeorm_1.getRepository)(user_entity_1.User);
+        const coinRepository = (0, typeorm_1.getRepository)(coin_entity_1.Coin);
         const post = new post_entity_1.Post();
         post.title = title;
         post.content = content;
@@ -89,28 +89,47 @@ const createPost = async (req, res) => {
     }
 };
 exports.createPost = createPost;
-const getPosts = async (req, res) => {
+const getPosts = (req, res) => {
     res.status(200).json(req.coin.posts);
 };
 exports.getPosts = getPosts;
-const getPost = (req, res) => {
-    const post = req.coin.posts.find((post) => post.id === req.post.id);
-    if (!post) {
-        return res.status(404).json({
-            code: 404,
-            error: "post not found.",
+const getPost = async (req, res) => {
+    try {
+        const matchedPost = req.coin.posts.find((post) => post.id === req.post.id);
+        if (!matchedPost) {
+            return res.status(404).json({
+                code: 404,
+                error: "post not found.",
+            });
+        }
+        const post = await (0, typeorm_1.getRepository)(post_entity_1.Post).findOne(matchedPost.id, {
+            relations: ["user"],
+        });
+        if (!post) {
+            return res.status(404).json({
+                code: 404,
+                error: "post not found.",
+            });
+        }
+        post.user.password = "";
+        post.user.salt = "";
+        res.status(200).json(post);
+    }
+    catch (error) {
+        res.status(400).json({
+            code: 400,
+            error: "could not get post.",
         });
     }
-    res.status(200).json(post);
 };
 exports.getPost = getPost;
 const updatePost = async (req, res) => {
     try {
         const value = await post_schema_1.postSchema.validateAsync(req.body);
         const { title, content, rise, fall } = value;
-        const postRepository = typeorm_1.getRepository(post_entity_1.Post);
-        const userRepository = typeorm_1.getRepository(user_entity_1.User);
-        const coinRepository = typeorm_1.getRepository(coin_entity_1.Coin);
+        const postRepository = (0, typeorm_1.getRepository)(post_entity_1.Post);
+        const userRepository = (0, typeorm_1.getRepository)(user_entity_1.User);
+        const coinRepository = (0, typeorm_1.getRepository)(coin_entity_1.Coin);
         await postRepository.update(req.post.id, {
             title,
             content,
@@ -165,7 +184,7 @@ const updatePost = async (req, res) => {
 exports.updatePost = updatePost;
 const deletePost = async (req, res) => {
     try {
-        await typeorm_1.getRepository(post_entity_1.Post).delete(req.post.id);
+        await (0, typeorm_1.getRepository)(post_entity_1.Post).delete(req.post.id);
         res.status(200).json({
             message: "succeed.",
         });

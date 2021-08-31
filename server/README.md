@@ -56,7 +56,7 @@
 
   `POST`
 
-#### Social Authentication(google, facebook(later))
+#### Social Authentication(google)
 
 - URL
 

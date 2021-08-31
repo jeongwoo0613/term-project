@@ -12,12 +12,12 @@ const jsonwebtoken_1 = require("jsonwebtoken");
 const util_1 = require("util");
 const auth_schema_1 = require("../schemas/auth.schema");
 const makeSalt = async () => {
-    const randomBytesPromise = util_1.promisify(crypto_1.randomBytes);
+    const randomBytesPromise = (0, util_1.promisify)(crypto_1.randomBytes);
     const buf = await randomBytesPromise(64);
     return buf.toString("hex");
 };
 const hashPassword = async (password, salt) => {
-    const pbkdf2Promise = util_1.promisify(crypto_1.pbkdf2);
+    const pbkdf2Promise = (0, util_1.promisify)(crypto_1.pbkdf2);
     const hash = await pbkdf2Promise(password, salt, 100000, 64, "sha512");
     return hash.toString("hex");
 };
@@ -38,7 +38,7 @@ const authGoogle = passport_1.default.authenticate("google", {
 exports.authGoogle = authGoogle;
 const succeedAuthGoogle = (req, res) => {
     const user = JSON.stringify(req.user);
-    const token = jsonwebtoken_1.sign({
+    const token = (0, jsonwebtoken_1.sign)({
         id: req.user.id,
     }, process.env.JWT_SECRET, {
         algorithm: "HS256",
@@ -62,7 +62,7 @@ const signup = async (req, res) => {
     try {
         const value = await auth_schema_1.signupSchema.validateAsync(req.body);
         const { userId, password, nickname } = value;
-        const userRepository = typeorm_1.getRepository(user_entity_1.User);
+        const userRepository = (0, typeorm_1.getRepository)(user_entity_1.User);
         const result = await userRepository.findOne({ userId });
         if (result) {
             return res.status(400).json({
@@ -99,7 +99,7 @@ exports.signup = signup;
 const login = async (req, res) => {
     try {
         const { userId, password } = req.body;
-        const user = await typeorm_1.getRepository(user_entity_1.User).findOne({ userId });
+        const user = await (0, typeorm_1.getRepository)(user_entity_1.User).findOne({ userId });
         if (!user) {
             return res.status(404).json({
                 code: 404,
@@ -113,7 +113,7 @@ const login = async (req, res) => {
                 error: "password don't match.",
             });
         }
-        const token = jsonwebtoken_1.sign({
+        const token = (0, jsonwebtoken_1.sign)({
             id: user.id,
         }, process.env.JWT_SECRET, {
             algorithm: "HS256",

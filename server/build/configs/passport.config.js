@@ -16,7 +16,7 @@ const opts = {
 };
 const jwtStrategy = new passport_jwt_1.default.Strategy(opts, async (jwt_payload, done) => {
     try {
-        const user = await typeorm_1.getRepository(user_entity_1.User).findOne({ id: jwt_payload.id }, {
+        const user = await (0, typeorm_1.getRepository)(user_entity_1.User).findOne({ id: jwt_payload.id }, {
             relations: ["following", "followers", "posts", "interests"],
         });
         if (user) {
@@ -35,7 +35,7 @@ const googleStrategy = new passport_google_oauth20_1.default.Strategy({
     callbackURL: process.env.GOOGLE_CALLBACK_URL,
 }, async (accessToken, refreshToken, profile, done) => {
     try {
-        const userRepository = typeorm_1.getRepository(user_entity_1.User);
+        const userRepository = (0, typeorm_1.getRepository)(user_entity_1.User);
         const user = await userRepository.findOne({ googleId: profile.id }, {
             relations: ["following", "followers", "posts", "interests"],
         });
@@ -62,7 +62,7 @@ const googleStrategy = new passport_google_oauth20_1.default.Strategy({
         else {
             newUser.imageKey = "";
         }
-        newUser.userId = uuid_1.v4()
+        newUser.userId = (0, uuid_1.v4)()
             .replace(/[^0-9a-z]/g, "")
             .substring(0, 17);
         newUser.password = "";

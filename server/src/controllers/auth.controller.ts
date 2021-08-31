@@ -110,7 +110,7 @@ const signup = async (req: Request, res: Response): Promise<any> => {
     res.status(201).json({
       message: "succeed.",
     });
-  } catch (error) {
+  } catch (error: any) {
     res.status(400).json({
       code: 400,
       error: error.message,
@@ -158,7 +158,7 @@ const login = async (req: Request, res: Response): Promise<any> => {
       token,
       user,
     });
-  } catch (error) {
+  } catch (error: any) {
     res.status(400).json({
       code: 400,
       error: error.message,

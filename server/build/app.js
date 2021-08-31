@@ -15,18 +15,18 @@ const coin_route_1 = __importDefault(require("./routes/coin.route"));
 const post_route_1 = __importDefault(require("./routes/post.route"));
 const admin_route_1 = __importDefault(require("./routes/admin.route"));
 const passport_config_1 = require("./configs/passport.config");
-const app = express_1.default();
+const app = (0, express_1.default)();
 if (process.env.NODE_ENV === "production") {
-    app.use(helmet_1.default());
-    app.use(compression_1.default());
-    app.use(morgan_1.default("combined"));
+    app.use((0, helmet_1.default)());
+    app.use((0, compression_1.default)());
+    app.use((0, morgan_1.default)("combined"));
 }
 else {
-    app.use(morgan_1.default("dev"));
+    app.use((0, morgan_1.default)("dev"));
 }
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: false }));
-app.use(cors_1.default());
+app.use((0, cors_1.default)());
 app.use(passport_1.default.initialize());
 passport_1.default.use(passport_config_1.jwtStrategy);
 passport_1.default.use(passport_config_1.googleStrategy);

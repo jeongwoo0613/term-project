@@ -18,85 +18,85 @@ const post_entity_1 = require("./post.entity");
 let User = User_1 = class User {
 };
 __decorate([
-    typeorm_1.PrimaryGeneratedColumn("uuid"),
+    (0, typeorm_1.PrimaryGeneratedColumn)("uuid"),
     __metadata("design:type", String)
 ], User.prototype, "id", void 0);
 __decorate([
-    typeorm_1.Column({ unique: true }),
+    (0, typeorm_1.Column)({ unique: true }),
     __metadata("design:type", String)
 ], User.prototype, "userId", void 0);
 __decorate([
-    typeorm_1.Column(),
+    (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], User.prototype, "password", void 0);
 __decorate([
-    typeorm_1.Column(),
+    (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], User.prototype, "nickname", void 0);
 __decorate([
-    typeorm_1.Column(),
+    (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], User.prototype, "googleId", void 0);
 __decorate([
-    typeorm_1.Column(),
+    (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], User.prototype, "facebookId", void 0);
 __decorate([
-    typeorm_1.Column(),
+    (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], User.prototype, "email", void 0);
 __decorate([
-    typeorm_1.Column(),
+    (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], User.prototype, "salt", void 0);
 __decorate([
-    typeorm_1.Column(),
+    (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], User.prototype, "image", void 0);
 __decorate([
-    typeorm_1.Column(),
+    (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], User.prototype, "imageKey", void 0);
 __decorate([
-    typeorm_1.ManyToMany((type) => User_1, (user) => user.followers),
-    typeorm_1.JoinTable(),
+    (0, typeorm_1.ManyToMany)((type) => User_1, (user) => user.followers),
+    (0, typeorm_1.JoinTable)(),
     __metadata("design:type", Array)
 ], User.prototype, "following", void 0);
 __decorate([
-    typeorm_1.ManyToMany((type) => User_1, (user) => user.following),
+    (0, typeorm_1.ManyToMany)((type) => User_1, (user) => user.following),
     __metadata("design:type", Array)
 ], User.prototype, "followers", void 0);
 __decorate([
-    typeorm_1.OneToMany((type) => post_entity_1.Post, (post) => post.user),
+    (0, typeorm_1.OneToMany)((type) => post_entity_1.Post, (post) => post.user),
     __metadata("design:type", Array)
 ], User.prototype, "posts", void 0);
 __decorate([
-    typeorm_1.OneToMany((type) => comment_entity_1.Comment, (comment) => comment.user),
+    (0, typeorm_1.OneToMany)((type) => comment_entity_1.Comment, (comment) => comment.user),
     __metadata("design:type", Array)
 ], User.prototype, "comments", void 0);
 __decorate([
-    typeorm_1.OneToMany((type) => coin_entity_1.Coin, (coin) => coin.user),
+    (0, typeorm_1.OneToMany)((type) => coin_entity_1.Coin, (coin) => coin.user),
     __metadata("design:type", Array)
 ], User.prototype, "interests", void 0);
 __decorate([
-    typeorm_1.ManyToMany((type) => coin_entity_1.Coin, (coin) => coin.rise),
-    typeorm_1.JoinTable(),
+    (0, typeorm_1.ManyToMany)((type) => coin_entity_1.Coin, (coin) => coin.rise),
+    (0, typeorm_1.JoinTable)(),
     __metadata("design:type", Array)
 ], User.prototype, "rise", void 0);
 __decorate([
-    typeorm_1.ManyToMany((type) => coin_entity_1.Coin, (coin) => coin.fall),
-    typeorm_1.JoinTable(),
+    (0, typeorm_1.ManyToMany)((type) => coin_entity_1.Coin, (coin) => coin.fall),
+    (0, typeorm_1.JoinTable)(),
     __metadata("design:type", Array)
 ], User.prototype, "fall", void 0);
 __decorate([
-    typeorm_1.CreateDateColumn(),
+    (0, typeorm_1.CreateDateColumn)(),
     __metadata("design:type", Date)
 ], User.prototype, "createdAt", void 0);
 __decorate([
-    typeorm_1.UpdateDateColumn(),
+    (0, typeorm_1.UpdateDateColumn)(),
     __metadata("design:type", Date)
 ], User.prototype, "updatedAt", void 0);
 User = User_1 = __decorate([
-    typeorm_1.Entity()
+    (0, typeorm_1.Entity)()
 ], User);
 exports.User = User;

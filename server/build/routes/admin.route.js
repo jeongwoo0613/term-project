@@ -5,7 +5,7 @@ const auth_controller_1 = require("../controllers/auth.controller");
 const admin_controller_1 = require("../controllers/admin.controller");
 const s3_util_1 = require("../utils/s3.util");
 const coin_controller_1 = require("../controllers/coin.controller");
-const router = express_1.Router();
+const router = (0, express_1.Router)();
 router.param("coinId", coin_controller_1.coinById);
 router
     .route("/admin/coin")

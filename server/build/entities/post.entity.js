@@ -17,46 +17,46 @@ const coin_entity_1 = require("./coin.entity");
 let Post = class Post {
 };
 __decorate([
-    typeorm_1.PrimaryGeneratedColumn(),
+    (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Number)
 ], Post.prototype, "id", void 0);
 __decorate([
-    typeorm_1.Column(),
+    (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], Post.prototype, "title", void 0);
 __decorate([
-    typeorm_1.Column("text"),
+    (0, typeorm_1.Column)("text"),
     __metadata("design:type", String)
 ], Post.prototype, "content", void 0);
 __decorate([
-    typeorm_1.Column(),
+    (0, typeorm_1.Column)(),
     __metadata("design:type", Boolean)
 ], Post.prototype, "rise", void 0);
 __decorate([
-    typeorm_1.Column(),
+    (0, typeorm_1.Column)(),
     __metadata("design:type", Boolean)
 ], Post.prototype, "fall", void 0);
 __decorate([
-    typeorm_1.ManyToOne((type) => coin_entity_1.Coin, (coin) => coin.posts),
+    (0, typeorm_1.ManyToOne)((type) => coin_entity_1.Coin, (coin) => coin.posts),
     __metadata("design:type", coin_entity_1.Coin)
 ], Post.prototype, "coin", void 0);
 __decorate([
-    typeorm_1.ManyToOne((type) => user_entity_1.User, (user) => user.posts),
+    (0, typeorm_1.ManyToOne)((type) => user_entity_1.User, (user) => user.posts),
     __metadata("design:type", user_entity_1.User)
 ], Post.prototype, "user", void 0);
 __decorate([
-    typeorm_1.OneToMany((type) => comment_entity_1.Comment, (comment) => comment.post),
+    (0, typeorm_1.OneToMany)((type) => comment_entity_1.Comment, (comment) => comment.post),
     __metadata("design:type", Array)
 ], Post.prototype, "comments", void 0);
 __decorate([
-    typeorm_1.CreateDateColumn(),
+    (0, typeorm_1.CreateDateColumn)(),
     __metadata("design:type", Date)
 ], Post.prototype, "createdAt", void 0);
 __decorate([
-    typeorm_1.UpdateDateColumn(),
+    (0, typeorm_1.UpdateDateColumn)(),
     __metadata("design:type", Date)
 ], Post.prototype, "updatedAt", void 0);
 Post = __decorate([
-    typeorm_1.Entity()
+    (0, typeorm_1.Entity)()
 ], Post);
 exports.Post = Post;

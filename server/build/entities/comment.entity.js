@@ -16,30 +16,30 @@ const post_entity_1 = require("./post.entity");
 let Comment = class Comment {
 };
 __decorate([
-    typeorm_1.PrimaryGeneratedColumn(),
+    (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Number)
 ], Comment.prototype, "id", void 0);
 __decorate([
-    typeorm_1.Column(),
+    (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], Comment.prototype, "content", void 0);
 __decorate([
-    typeorm_1.ManyToOne((type) => user_entity_1.User, (user) => user.comments),
+    (0, typeorm_1.ManyToOne)((type) => user_entity_1.User, (user) => user.comments),
     __metadata("design:type", user_entity_1.User)
 ], Comment.prototype, "user", void 0);
 __decorate([
-    typeorm_1.ManyToOne((type) => post_entity_1.Post, (post) => post.comments),
+    (0, typeorm_1.ManyToOne)((type) => post_entity_1.Post, (post) => post.comments),
     __metadata("design:type", post_entity_1.Post)
 ], Comment.prototype, "post", void 0);
 __decorate([
-    typeorm_1.CreateDateColumn(),
+    (0, typeorm_1.CreateDateColumn)(),
     __metadata("design:type", Date)
 ], Comment.prototype, "createdAt", void 0);
 __decorate([
-    typeorm_1.UpdateDateColumn(),
+    (0, typeorm_1.UpdateDateColumn)(),
     __metadata("design:type", Date)
 ], Comment.prototype, "updatedAt", void 0);
 Comment = __decorate([
-    typeorm_1.Entity()
+    (0, typeorm_1.Entity)()
 ], Comment);
 exports.Comment = Comment;

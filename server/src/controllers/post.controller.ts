@@ -98,7 +98,7 @@ const createPost = async (req: Request, res: Response): Promise<any> => {
     res.status(201).json({
       message: "succeed.",
     });
-  } catch (error) {
+  } catch (error: any) {
     res.status(400).json({
       code: 400,
       error: error.message,
@@ -106,21 +106,42 @@ const createPost = async (req: Request, res: Response): Promise<any> => {
   }
 };
 
-const getPosts = async (req: Request, res: Response): Promise<any> => {
+const getPosts = (req: Request, res: Response): void => {
   res.status(200).json(req.coin.posts);
 };
 
-const getPost = (req: Request, res: Response): any => {
-  const post = req.coin.posts.find((post) => post.id === req.post.id);
+const getPost = async (req: Request, res: Response): Promise<any> => {
+  try {
+    const matchedPost = req.coin.posts.find((post) => post.id === req.post.id);
 
-  if (!post) {
-    return res.status(404).json({
-      code: 404,
-      error: "post not found.",
+    if (!matchedPost) {
+      return res.status(404).json({
+        code: 404,
+        error: "post not found.",
+      });
+    }
+
+    const post = await getRepository(Post).findOne(matchedPost.id, {
+      relations: ["user"],
+    });
+
+    if (!post) {
+      return res.status(404).json({
+        code: 404,
+        error: "post not found.",
+      });
+    }
+
+    post.user.password = "";
+    post.user.salt = "";
+
+    res.status(200).json(post);
+  } catch (error) {
+    res.status(400).json({
+      code: 400,
+      error: "could not get post.",
     });
   }
-
-  res.status(200).json(post);
 };
 
 const updatePost = async (req: Request, res: Response): Promise<any> => {
@@ -199,7 +220,7 @@ const updatePost = async (req: Request, res: Response): Promise<any> => {
     res.status(200).json({
       message: "succeed.",
     });
-  } catch (error) {
+  } catch (error: any) {
     res.status(400).json({
       code: 400,
       error: error.message,

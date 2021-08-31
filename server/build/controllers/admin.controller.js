@@ -14,7 +14,7 @@ const createCoin = async (req, res) => {
         }
         const { location, key } = req.file;
         const { name, symbol, description, supplyLimit, homepage, author, github, whitepaper, initialRelease, market, } = req.body;
-        const [coinPrice] = await upbit_util_1.getUpbitCoinPrice(market);
+        const [coinPrice] = await (0, upbit_util_1.getUpbitCoinPrice)(market);
         const { opening_price, high_price, low_price, trade_price, prev_closing_price, change, acc_trade_price, acc_trade_price_24h, acc_trade_volume, acc_trade_volume_24h, highest_52_week_price, highest_52_week_date, lowest_52_week_price, lowest_52_week_date, } = coinPrice;
         const coin = new coin_entity_1.Coin();
         coin.name = name;
@@ -43,7 +43,7 @@ const createCoin = async (req, res) => {
         coin.initialRelease = initialRelease;
         coin.image = location;
         coin.imageKey = key;
-        await typeorm_1.getRepository(coin_entity_1.Coin).insert(coin);
+        await (0, typeorm_1.getRepository)(coin_entity_1.Coin).insert(coin);
         res.status(201).json({
             message: "succeed.",
         });
@@ -59,7 +59,7 @@ exports.createCoin = createCoin;
 const updateCoin = async (req, res) => {
     try {
         const { id } = req.coin;
-        await typeorm_1.getRepository(coin_entity_1.Coin).update(id, {
+        await (0, typeorm_1.getRepository)(coin_entity_1.Coin).update(id, {
             ...req.body,
         });
         res.status(200).json({

@@ -83,7 +83,7 @@ const googleStrategy = new passportGoogleStrategy.Strategy(
       await userRepository.insert(newUser);
 
       return done(null, newUser);
-    } catch (error) {
+    } catch (error: any) {
       return done(error, false);
     }
   }

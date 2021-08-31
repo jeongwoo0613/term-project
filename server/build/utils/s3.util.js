@@ -10,8 +10,8 @@ const s3_1 = __importDefault(require("aws-sdk/clients/s3"));
 const s3 = new s3_1.default();
 const userImageBucket = "term-project-user-image";
 const coinImageBucket = "term-project-coin-image";
-const uploadUserImage = multer_1.default({
-    storage: multer_s3_1.default({
+const uploadUserImage = (0, multer_1.default)({
+    storage: (0, multer_s3_1.default)({
         s3,
         bucket: userImageBucket,
         metadata(req, file, cb) {
@@ -24,8 +24,8 @@ const uploadUserImage = multer_1.default({
     }),
 });
 exports.uploadUserImage = uploadUserImage;
-const uploadCoinImage = multer_1.default({
-    storage: multer_s3_1.default({
+const uploadCoinImage = (0, multer_1.default)({
+    storage: (0, multer_s3_1.default)({
         s3,
         bucket: coinImageBucket,
         metadata(req, file, cb) {
