@@ -412,7 +412,10 @@ function Profile() {
                 </Modal.Title>
               </Modal.Header>
               {user.followers?.map((follower) => (
-                <Modal.Body key={follower.id}>{follower.nickname}</Modal.Body>
+                <Modal.Body key={follower.id}>
+                  <img src={follower.image} alt="" className="followImg" />
+                  {follower.nickname}
+                </Modal.Body>
               ))}
             </Modal>
             <div className="profileBodyCol" onClick={() => setSmShow2(true)}>
@@ -430,7 +433,10 @@ function Profile() {
                 </Modal.Title>
               </Modal.Header>
               {user.following?.map((following) => (
-                <Modal.Body key={following.id}>{following.nickname}</Modal.Body>
+                <Modal.Body key={following.id}>
+                  <img src={following.image} alt="" className="followImg" />
+                  {following.nickname}
+                </Modal.Body>
               ))}
             </Modal>
           </div>

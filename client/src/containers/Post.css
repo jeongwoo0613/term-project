@@ -1,0 +1,69 @@
+.postContainerDiv {
+  background-color: white;
+}
+.postContainer {
+  margin: 15px auto;
+  max-width: 700px;
+  padding: 10px;
+}
+
+.postHeader {
+  display: flex;
+  border-bottom: 1px solid #e0e0e0;
+  margin-bottom: 30px;
+}
+
+.postHeader img {
+  width: 25px;
+  height: 25px;
+}
+
+.postAuthorCreatedAt {
+  display: flex;
+  border-bottom: 1px solid #e0e0e0;
+  margin-bottom: 30px;
+}
+
+.postAuthor {
+  margin-right: 30px;
+}
+
+.postAuthorImg {
+  width: 40px;
+  margin-right: 10px;
+  border-radius: 9999px;
+}
+
+.postTitle {
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.postContentContainer {
+  height: 300px;
+  border-bottom: 1px solid #e0e0e0;
+  margin-bottom: 15px;
+}
+
+.postContent {
+  margin-top: 10px;
+  line-height: 2;
+}
+.postCreatedAt {
+  font-size: 15px;
+}
+
+.deleteEditBtnDiv {
+  float: right;
+}
+
+.editBtn {
+  margin-right: 5px;
+}
+
+@media (max-width: 370px) {
+  .deleteEditBtnDiv {
+    float: none;
+    text-align: right;
+  }
+}

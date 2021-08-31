@@ -69,6 +69,12 @@
   border-left: none;
   border-right: none;
 }
+
+.followImg {
+  width: 25px;
+  margin-right: 10px;
+}
+
 .profilePostsContainer {
   margin-top: 100px;
 }
