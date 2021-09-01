@@ -131,7 +131,7 @@ const updateUserImage = async (req, res) => {
         if (!req.file) {
             return res.status(400).json({
                 code: 400,
-                error: "form field something wrong.",
+                error: "could not upload file.",
             });
         }
         const { location, key } = req.file;

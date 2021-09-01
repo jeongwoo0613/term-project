@@ -34,7 +34,7 @@ const uploadCoinImage = multer({
   }),
 });
 
-const deleteUserImage = async (key: string): Promise<unknown> => {
+const deleteUserImage = async (key: string): Promise<any> => {
   return new Promise((resolve, reject) => {
     s3.deleteObject(
       {
@@ -52,7 +52,7 @@ const deleteUserImage = async (key: string): Promise<unknown> => {
   });
 };
 
-const deleteCoinImage = async (key: string): Promise<unknown> => {
+const deleteCoinImage = async (key: string): Promise<any> => {
   return new Promise((resolve, reject) => {
     s3.deleteObject(
       {

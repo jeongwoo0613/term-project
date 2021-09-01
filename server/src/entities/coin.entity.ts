@@ -6,7 +6,6 @@ import {
   UpdateDateColumn,
   OneToMany,
   ManyToOne,
-  ManyToMany,
 } from "typeorm";
 import { Post } from "./post.entity";
 import { User } from "./user.entity";
@@ -99,12 +98,6 @@ export class Coin {
 
   @ManyToOne((type) => User, (user) => user.interests)
   user!: User;
-
-  @ManyToMany((type) => User, (user) => user.rise)
-  rise!: User[];
-
-  @ManyToMany((type) => User, (user) => user.fall)
-  fall!: User[];
 
   @CreateDateColumn()
   createdAt!: Date;

@@ -132,14 +132,6 @@ __decorate([
     __metadata("design:type", user_entity_1.User)
 ], Coin.prototype, "user", void 0);
 __decorate([
-    (0, typeorm_1.ManyToMany)((type) => user_entity_1.User, (user) => user.rise),
-    __metadata("design:type", Array)
-], Coin.prototype, "rise", void 0);
-__decorate([
-    (0, typeorm_1.ManyToMany)((type) => user_entity_1.User, (user) => user.fall),
-    __metadata("design:type", Array)
-], Coin.prototype, "fall", void 0);
-__decorate([
     (0, typeorm_1.CreateDateColumn)(),
     __metadata("design:type", Date)
 ], Coin.prototype, "createdAt", void 0);

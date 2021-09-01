@@ -48,7 +48,7 @@ const createPost = async (req: Request, res: Response): Promise<any> => {
     await postRepository.insert(post);
 
     const user = await userRepository.findOne(req.user.id, {
-      relations: ["posts", "rise", "fall"],
+      relations: ["posts"],
     });
 
     if (!user) {
@@ -59,7 +59,7 @@ const createPost = async (req: Request, res: Response): Promise<any> => {
     }
 
     const coin = await coinRepository.findOne(req.coin.id, {
-      relations: ["posts", "rise", "fall"],
+      relations: ["posts"],
     });
 
     if (!coin) {
@@ -67,26 +67,6 @@ const createPost = async (req: Request, res: Response): Promise<any> => {
         code: 404,
         error: "coin not found",
       });
-    }
-
-    if (
-      rise &&
-      !user.rise.find((coin) => coin.id === req.coin.id) &&
-      !coin.rise.find((user) => user.id === req.user.id) &&
-      !user.fall.find((coin) => coin.id === req.coin.id) &&
-      !coin.fall.find((user) => user.id === req.user.id)
-    ) {
-      user.rise.push(req.coin);
-      coin.rise.push(req.user);
-    } else if (
-      fall &&
-      !user.fall.find((coin) => coin.id === req.coin.id) &&
-      !coin.fall.find((user) => user.id === req.user.id) &&
-      !user.rise.find((coin) => coin.id === req.coin.id) &&
-      !coin.rise.find((user) => user.id === req.user.id)
-    ) {
-      user.fall.push(req.coin);
-      coin.fall.push(req.user);
     }
 
     user.posts.push(post);
@@ -149,73 +129,13 @@ const updatePost = async (req: Request, res: Response): Promise<any> => {
     const value = await postSchema.validateAsync(req.body);
     const { title, content, rise, fall } = value;
     const postRepository = getRepository(Post);
-    const userRepository = getRepository(User);
-    const coinRepository = getRepository(Coin);
 
     await postRepository.update(req.post.id, {
       title,
       content,
+      rise,
+      fall,
     });
-
-    const user = await userRepository.findOne(req.user.id, {
-      relations: ["posts", "rise", "fall"],
-    });
-
-    if (!user) {
-      return res.status(404).json({
-        code: 404,
-        error: "user not found",
-      });
-    }
-
-    const coin = await coinRepository.findOne(req.coin.id, {
-      relations: ["posts", "rise", "fall"],
-    });
-
-    if (!coin) {
-      return res.status(404).json({
-        code: 404,
-        error: "coin not found",
-      });
-    }
-
-    if (
-      rise &&
-      user.fall.find((coin) => coin.id === req.coin.id) &&
-      coin.fall.find((user) => user.id === req.user.id)
-    ) {
-      user.fall.splice(
-        user.fall.findIndex((coin) => coin.id === req.coin.id),
-        1
-      );
-      coin.fall.splice(
-        coin.fall.findIndex((user) => user.id === req.user.id),
-        1
-      );
-
-      user.rise.push(req.coin);
-      coin.rise.push(req.user);
-    } else if (
-      fall &&
-      user.rise.find((coin) => coin.id === req.coin.id) &&
-      coin.rise.find((user) => user.id === req.user.id)
-    ) {
-      user.rise.splice(
-        user.rise.findIndex((coin) => coin.id === req.coin.id),
-        1
-      );
-      coin.rise.splice(
-        coin.rise.findIndex((user) => user.id === req.user.id),
-        1
-      );
-
-      user.fall.push(req.coin);
-      coin.fall.push(req.user);
-    }
-
-    await userRepository.save(user);
-
-    await coinRepository.save(coin);
 
     res.status(200).json({
       message: "succeed.",

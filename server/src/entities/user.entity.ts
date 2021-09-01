@@ -24,6 +24,9 @@ export class User {
   password!: string;
 
   @Column()
+  salt!: string;
+
+  @Column()
   nickname!: string;
 
   @Column()
@@ -34,9 +37,6 @@ export class User {
 
   @Column()
   email!: string;
-
-  @Column()
-  salt!: string;
 
   @Column()
   image!: string;
@@ -59,14 +59,6 @@ export class User {
 
   @OneToMany((type) => Coin, (coin) => coin.user)
   interests!: Coin[];
-
-  @ManyToMany((type) => Coin, (coin) => coin.rise)
-  @JoinTable()
-  rise!: Coin[];
-
-  @ManyToMany((type) => Coin, (coin) => coin.fall)
-  @JoinTable()
-  fall!: Coin[];
 
   @CreateDateColumn()
   createdAt!: Date;

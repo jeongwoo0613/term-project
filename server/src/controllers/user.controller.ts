@@ -155,7 +155,7 @@ const updateUserImage = async (req: Request, res: Response): Promise<any> => {
     if (!req.file) {
       return res.status(400).json({
         code: 400,
-        error: "form field something wrong.",
+        error: "could not upload file.",
       });
     }
 

@@ -32,6 +32,10 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
+], User.prototype, "salt", void 0);
+__decorate([
+    (0, typeorm_1.Column)(),
+    __metadata("design:type", String)
 ], User.prototype, "nickname", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
@@ -45,10 +49,6 @@ __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], User.prototype, "email", void 0);
-__decorate([
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", String)
-], User.prototype, "salt", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
@@ -78,16 +78,6 @@ __decorate([
     (0, typeorm_1.OneToMany)((type) => coin_entity_1.Coin, (coin) => coin.user),
     __metadata("design:type", Array)
 ], User.prototype, "interests", void 0);
-__decorate([
-    (0, typeorm_1.ManyToMany)((type) => coin_entity_1.Coin, (coin) => coin.rise),
-    (0, typeorm_1.JoinTable)(),
-    __metadata("design:type", Array)
-], User.prototype, "rise", void 0);
-__decorate([
-    (0, typeorm_1.ManyToMany)((type) => coin_entity_1.Coin, (coin) => coin.fall),
-    (0, typeorm_1.JoinTable)(),
-    __metadata("design:type", Array)
-], User.prototype, "fall", void 0);
 __decorate([
     (0, typeorm_1.CreateDateColumn)(),
     __metadata("design:type", Date)
