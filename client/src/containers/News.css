@@ -4,8 +4,7 @@
 .newsItemContainer {
   margin-top: 30px;
   border-top: 1px solid #d4d6dc;
-  margin-left: 10px;
-  margin-right: 10px;
+  margin: 0 10px;
 }
 .newsThumbnail {
   margin-top: 30px;
@@ -18,12 +17,12 @@
 
 .newsTitle {
   font-size: 20px;
-  font-weight: 600;
+  font-weight: bold;
   margin-left: 20px;
 }
 
 .newsTitleLink {
-  color: black;
+  color: #000;
 }
 
 .newsDescription,

@@ -1,24 +1,26 @@
 .newPostFormContainer {
   margin-top: 10px;
 }
-.newPostFirstDiv {
+
+.newPostHeader {
   display: flex;
   margin-bottom: 10px;
 }
-.writeForm {
+
+.newPostTitle {
   flex: 1;
 }
 
-.riseFallBtn {
+.riseFallBtnContainer {
   margin-left: 5px;
 }
 
 .riseBtn {
   margin-right: 2px;
 }
-.textArea {
-  height: 500px;
-  max-height: 530px;
+
+.newPostTextArea {
+  height: 600px;
 }
 
 .postBtn {

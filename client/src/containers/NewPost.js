@@ -82,11 +82,11 @@ function NewPost() {
 
   return (
     <Form className="newPostFormContainer" onSubmit={handleSubmit}>
-      <div className="newPostFirstDiv">
-        <div className="writeForm">
+      <div className="newPostHeader">
+        <div className="newPostTitle">
           <Form.Group controlId="title">
             <Form.Control
-              placeholder="제목을 입력해주세요."
+              placeholder="제목을 1 ~ 30자를 입력해주세요."
               autoFocus
               value={fields.title}
               onChange={setFields}
@@ -95,7 +95,7 @@ function NewPost() {
             />
           </Form.Group>
         </div>
-        <div className="riseFallBtn">
+        <div className="riseFallBtnContainer">
           <Button
             variant={rise ? "danger" : "outline-danger"}
             className="riseBtn"
@@ -114,21 +114,16 @@ function NewPost() {
       </div>
       <Form.Group controlId="content">
         <Form.Control
-          placeholder="내용을 입력해주세요."
+          placeholder="내용을 1 ~ 300자를 입력해주세요."
           value={fields.content}
           onChange={setFields}
           ref={refContent}
-          className="textArea"
+          className="newPostTextArea"
           as="textarea"
         />
       </Form.Group>
       {error && alert("제목을 1 ~ 30자, 내용을 1 ~ 300자를 입력해주세요.")}
-      <Button
-        disabled={!validateForm()}
-        type="submit"
-        className="postBtn"
-        size="sm"
-      >
+      <Button disabled={!validateForm()} type="submit" className="postBtn">
         {isPostLoading ? (
           <>
             <Spinner

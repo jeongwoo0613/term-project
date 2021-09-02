@@ -6,7 +6,6 @@ import Image from "react-bootstrap/Image";
 import Loading from "../components/Loading";
 import Spinner from "react-bootstrap/Spinner";
 import Card from "react-bootstrap/Card";
-
 import { useState, useEffect } from "react";
 import {
   follow,
@@ -34,11 +33,9 @@ function Profile() {
   const { userId } = useParams();
   const history = useHistory();
   const fileRef = useRef();
-  //
-  const [smShow, setSmShow] = useState(false);
-  const [smShow2, setSmShow2] = useState(false);
+  const [followerShow, setFollowerShow] = useState(false);
+  const [followShow, setFollowShow] = useState(false);
 
-  //
   useEffect(() => {
     const loadPublicUser = async () => {
       try {
@@ -147,6 +144,7 @@ function Profile() {
 
       setUser({ ...user, image: updateImageResult });
       setIsUploadLoading(false);
+      alert("이미지 업로드를 성공하였습니다.");
     } catch (error) {
       if (error.message === "Update Image failed") {
         alert("이미지 업로드를 실패하였습니다. 다시 시도해주세요.");
@@ -204,12 +202,6 @@ function Profile() {
     return getLocalToken() ? true : false;
   };
 
-  //
-  const handleClick = (userId, postsTitle) => {
-    history.push(`/${userId}/${postsTitle}`);
-  };
-  //
-
   if (!getLocalToken() || user?.userId !== userId) {
     return publicUser ? (
       <section className="profileContainer">
@@ -245,15 +237,51 @@ function Profile() {
               )}
             </div>
             <div className="profileBody">
-              <div className="profileBodyCol">
+              <div className="profileBodyColPost">
                 게시물 <strong>{publicUser.posts.length}</strong>
               </div>
-              <div className="profileBodyCol">
+              <div
+                className="profileBodyCol"
+                onClick={() => setFollowerShow(true)}
+              >
                 팔로워 <strong>{publicUser.followers.length}</strong>
               </div>
-              <div className="profileBodyCol">
+              <Modal
+                size="sm"
+                show={followerShow}
+                onHide={() => setFollowerShow(false)}
+              >
+                <Modal.Header closeButton>
+                  <Modal.Title>팔로워</Modal.Title>
+                </Modal.Header>
+                {publicUser.followers?.map((follower) => (
+                  <Modal.Body key={follower.id}>
+                    <img src={follower.image} alt="" className="followImg" />
+                    {follower.nickname}
+                  </Modal.Body>
+                ))}
+              </Modal>
+              <div
+                className="profileBodyCol"
+                onClick={() => setFollowShow(true)}
+              >
                 팔로우 <strong>{publicUser.following.length}</strong>
               </div>
+              <Modal
+                size="sm"
+                show={followShow}
+                onHide={() => setFollowShow(false)}
+              >
+                <Modal.Header closeButton>
+                  <Modal.Title>팔로우</Modal.Title>
+                </Modal.Header>
+                {publicUser.following?.map((following) => (
+                  <Modal.Body key={following.id}>
+                    <img src={following.image} alt="" className="followImg" />
+                    {following.nickname}
+                  </Modal.Body>
+                ))}
+              </Modal>
             </div>
           </div>
         </div>
@@ -261,33 +289,14 @@ function Profile() {
           {publicUser.posts
             ?.sort((a, b) => b.id - a.id)
             .map((post) => (
-              <Card
-                key={post.id}
-                className="profilePostsCard"
-                style={
-                  post.rise
-                    ? { borderColor: "#E09099" }
-                    : post.fall
-                    ? { borderColor: "#8689FA" }
-                    : { borderColor: "" }
-                }
-              >
-                <Card.Header
-                  className="profilePostsCardHeader"
-                  style={
-                    post.rise
-                      ? { backgroundColor: "#E09099" }
-                      : post.fall
-                      ? { backgroundColor: "#8689FA" }
-                      : { borderColor: "" }
-                  }
-                >
+              <Card key={post.id} className="profilePostsCard">
+                <Card.Header className="profilePostsCardHeader">
                   {post.title}
                 </Card.Header>
                 <Card.Body>
                   <Card.Text>{post.content}</Card.Text>
                   <Card.Text className="profilePostsCardCreatedAt">
-                    {post.createdAt.substr(0, 10)}
+                    {new Date(post.createdAt).toLocaleString("ko-kr")}
                   </Card.Text>
                 </Card.Body>
               </Card>
@@ -394,22 +403,22 @@ function Profile() {
             </Modal>
           </div>
           <div className="profileBody">
-            <div className="profileBodyCol">
+            <div className="profileBodyColPost">
               게시물 <strong>{user?.posts?.length}</strong>
             </div>
-            <div className="profileBodyCol" onClick={() => setSmShow(true)}>
+            <div
+              className="profileBodyCol"
+              onClick={() => setFollowerShow(true)}
+            >
               팔로워 <strong>{user?.followers?.length}</strong>
             </div>
             <Modal
               size="sm"
-              show={smShow}
-              onHide={() => setSmShow(false)}
-              aria-labelledby="example-modal-sizes-title-sm"
+              show={followerShow}
+              onHide={() => setFollowerShow(false)}
             >
               <Modal.Header closeButton>
-                <Modal.Title id="example-modal-sizes-title-sm">
-                  팔로워
-                </Modal.Title>
+                <Modal.Title>팔로워</Modal.Title>
               </Modal.Header>
               {user.followers?.map((follower) => (
                 <Modal.Body key={follower.id}>
@@ -418,19 +427,16 @@ function Profile() {
                 </Modal.Body>
               ))}
             </Modal>
-            <div className="profileBodyCol" onClick={() => setSmShow2(true)}>
+            <div className="profileBodyCol" onClick={() => setFollowShow(true)}>
               팔로우 <strong>{user?.following?.length}</strong>
             </div>
             <Modal
               size="sm"
-              show={smShow2}
-              onHide={() => setSmShow2(false)}
-              aria-labelledby="example-modal-sizes-title-sm"
+              show={followShow}
+              onHide={() => setFollowShow(false)}
             >
               <Modal.Header closeButton>
-                <Modal.Title id="example-modal-sizes-title-sm">
-                  팔로우
-                </Modal.Title>
+                <Modal.Title>팔로우</Modal.Title>
               </Modal.Header>
               {user.following?.map((following) => (
                 <Modal.Body key={following.id}>
@@ -446,35 +452,14 @@ function Profile() {
         {user.posts
           ?.sort((a, b) => b.id - a.id)
           .map((post) => (
-            <Card
-              key={post.id}
-              className="profilePostsCard"
-              style={
-                post.rise
-                  ? { borderColor: "#E09099" }
-                  : post.fall
-                  ? { borderColor: "#8689FA" }
-                  : { borderColor: "" }
-              }
-            >
-              <Card.Header
-                key={user.id}
-                onClick={() => handleClick(user.userId, post.title)}
-                className="profilePostsCardHeader"
-                style={
-                  post.rise
-                    ? { backgroundColor: "#E09099" }
-                    : post.fall
-                    ? { backgroundColor: "#8689FA" }
-                    : { borderColor: "" }
-                }
-              >
+            <Card key={post.id} className="profilePostsCard">
+              <Card.Header className="profilePostsCardHeader">
                 {post.title}
               </Card.Header>
               <Card.Body>
                 <Card.Text>{post.content}</Card.Text>
                 <Card.Text className="profilePostsCardCreatedAt">
-                  {post.createdAt.substr(0, 10)}
+                  {new Date(post.createdAt).toLocaleString("ko-kr")}
                 </Card.Text>
               </Card.Body>
             </Card>

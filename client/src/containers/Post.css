@@ -1,6 +1,3 @@
-.postContainerDiv {
-  background-color: white;
-}
 .postContainer {
   margin: 15px auto;
   max-width: 700px;
@@ -8,24 +5,17 @@
 }
 
 .postHeader {
-  display: flex;
   border-bottom: 1px solid #e0e0e0;
-  margin-bottom: 30px;
 }
 
-.postHeader img {
-  width: 25px;
-  height: 25px;
+.postTitle {
+  font-weight: bold;
 }
 
-.postAuthorCreatedAt {
-  display: flex;
+.postAuthorContainer {
   border-bottom: 1px solid #e0e0e0;
-  margin-bottom: 30px;
-}
-
-.postAuthor {
-  margin-right: 30px;
+  margin-bottom: 15px;
+  padding: 10px 0;
 }
 
 .postAuthorImg {
@@ -34,27 +24,23 @@
   border-radius: 9999px;
 }
 
-.postTitle {
-  font-weight: bold;
-  margin-bottom: 15px;
-}
-
 .postContentContainer {
   height: 300px;
-  border-bottom: 1px solid #e0e0e0;
   margin-bottom: 15px;
 }
 
 .postContent {
-  margin-top: 10px;
   line-height: 2;
 }
+
 .postCreatedAt {
-  font-size: 15px;
+  font-size: 14px;
+  border-bottom: 1px solid #e0e0e0;
 }
 
-.deleteEditBtnDiv {
+.editAndDeleteBtn {
   float: right;
+  margin-top: 10px;
 }
 
 .editBtn {

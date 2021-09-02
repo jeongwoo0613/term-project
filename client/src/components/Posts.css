@@ -7,13 +7,21 @@
   margin-bottom: 10px;
 }
 
-.postsDiv {
+.postsCardContainer {
   clear: both;
 }
+
 .postsCard {
-  margin-top: 10px;
+  margin: 25px auto;
   cursor: pointer;
 }
+
+.postsCardHeader {
+  font-weight: bold;
+  background-color: #fff;
+}
+
 .postsCardCreatedAt {
-  font-size: 5px;
+  font-size: 12px;
+  float: right;
 }

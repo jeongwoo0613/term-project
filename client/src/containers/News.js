@@ -1,7 +1,6 @@
 import "./News.css";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import NewsItem from "./NewsItem";
 import Loading from "../components/Loading";
 
 function News() {
@@ -23,8 +22,31 @@ function News() {
 
   return articles ? (
     <div className="newsContainer">
-      {articles.map((article) => (
-        <NewsItem key={article.url} article={article} />
+      {articles.map(({ title, description, url, urlToImage, publishedAt }) => (
+        <div className="newsItemContainer" key={url}>
+          <div className="newsThumbnail">
+            <a href={url} target="_blank" rel="noopener noreferrer">
+              <img src={urlToImage} alt="thumbnail" />
+            </a>
+            <p className="newsTitle">
+              <a
+                className="newsTitleLink"
+                href={url}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {title}
+              </a>
+            </p>
+          </div>
+          )
+          <div>
+            <p className="newsDescription">{description}</p>
+            <span className="newsPublishedAt">{publishedAt.substr(0, 10)}</span>
+            &nbsp;
+            <span className="newsPublishedAt">{publishedAt.substr(11, 8)}</span>
+          </div>
+        </div>
       ))}
     </div>
   ) : (

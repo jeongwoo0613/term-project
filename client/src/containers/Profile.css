@@ -30,8 +30,13 @@
   margin-left: 23px;
 }
 
+.profileBodyColPost {
+  margin-right: 32px;
+}
+
 .profileBodyCol {
   margin-right: 32px;
+  cursor: pointer;
 }
 
 .modalBody {
@@ -78,17 +83,21 @@
 .profilePostsContainer {
   margin-top: 100px;
 }
+
 .profilePostsCard {
-  margin: auto;
+  margin: 25px auto;
   width: 90%;
-  margin-bottom: 10px;
+  cursor: pointer;
 }
+
 .profilePostsCardHeader {
   font-weight: bold;
-  color: rgb(52, 58, 64);
+  background-color: #fff;
 }
+
 .profilePostsCardCreatedAt {
-  font-size: 5px;
+  font-size: 12px;
+  float: right;
 }
 
 @media (max-width: 625px) {
