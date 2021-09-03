@@ -67,7 +67,7 @@ const signup = async (req, res) => {
         if (result) {
             return res.status(400).json({
                 code: 400,
-                error: "user already exists.",
+                error: "user already exist.",
             });
         }
         const user = new user_entity_1.User();

@@ -73,8 +73,32 @@ const createPost = async (req, res) => {
     }
 };
 exports.createPost = createPost;
-const getPosts = (req, res) => {
-    res.status(200).json(req.coin.posts);
+const getPosts = async (req, res) => {
+    try {
+        const postRepository = (0, typeorm_1.getRepository)(post_entity_1.Post);
+        const posts = [];
+        for (const post of req.coin.posts) {
+            const matchedPost = await postRepository.findOne(post.id, {
+                relations: ["user", "coin"],
+            });
+            if (!matchedPost) {
+                return res.status(404).json({
+                    code: 404,
+                    error: "post not found.",
+                });
+            }
+            matchedPost.user.password = "";
+            matchedPost.user.salt = "";
+            posts.push(matchedPost);
+        }
+        res.status(200).json(posts);
+    }
+    catch (error) {
+        res.status(400).json({
+            code: 400,
+            error: "could not get posts.",
+        });
+    }
 };
 exports.getPosts = getPosts;
 const getPost = async (req, res) => {
@@ -87,7 +111,7 @@ const getPost = async (req, res) => {
             });
         }
         const post = await (0, typeorm_1.getRepository)(post_entity_1.Post).findOne(matchedPost.id, {
-            relations: ["user"],
+            relations: ["user", "coin"],
         });
         if (!post) {
             return res.status(404).json({

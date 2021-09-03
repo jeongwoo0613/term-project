@@ -46,7 +46,6 @@ const authGoogle = passport.authenticate("google", {
 
 const succeedAuthGoogle = (req: Request, res: Response): void => {
   const user = JSON.stringify(req.user);
-
   const token = sign(
     {
       id: req.user.id,
@@ -88,7 +87,7 @@ const signup = async (req: Request, res: Response): Promise<any> => {
     if (result) {
       return res.status(400).json({
         code: 400,
-        error: "user already exists.",
+        error: "user already exist.",
       });
     }
 
@@ -107,10 +106,11 @@ const signup = async (req: Request, res: Response): Promise<any> => {
     user.imageKey = "userdefault.png";
 
     await userRepository.insert(user);
+
     res.status(201).json({
       message: "succeed.",
     });
-  } catch (error: any) {
+  } catch (error) {
     res.status(400).json({
       code: 400,
       error: error.message,
@@ -158,7 +158,7 @@ const login = async (req: Request, res: Response): Promise<any> => {
       token,
       user,
     });
-  } catch (error: any) {
+  } catch (error) {
     res.status(400).json({
       code: 400,
       error: error.message,

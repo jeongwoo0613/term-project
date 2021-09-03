@@ -78,7 +78,7 @@ const getCoins = async (req, res) => {
     catch (error) {
         res.status(400).json({
             code: 400,
-            error: "could not load coins",
+            error: "could not get coins",
         });
     }
 };
@@ -126,7 +126,7 @@ const getCoin = async (req, res) => {
     catch (error) {
         res.status(404).json({
             code: 404,
-            error: "could not load coin",
+            error: "could not get coin",
         });
     }
 };

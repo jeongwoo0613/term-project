@@ -78,7 +78,7 @@ const createPost = async (req: Request, res: Response): Promise<any> => {
     res.status(201).json({
       message: "succeed.",
     });
-  } catch (error: any) {
+  } catch (error) {
     res.status(400).json({
       code: 400,
       error: error.message,
@@ -86,8 +86,35 @@ const createPost = async (req: Request, res: Response): Promise<any> => {
   }
 };
 
-const getPosts = (req: Request, res: Response): void => {
-  res.status(200).json(req.coin.posts);
+const getPosts = async (req: Request, res: Response): Promise<any> => {
+  try {
+    const postRepository = getRepository(Post);
+    const posts = [];
+
+    for (const post of req.coin.posts) {
+      const matchedPost = await postRepository.findOne(post.id, {
+        relations: ["user", "coin"],
+      });
+
+      if (!matchedPost) {
+        return res.status(404).json({
+          code: 404,
+          error: "post not found.",
+        });
+      }
+
+      matchedPost.user.password = "";
+      matchedPost.user.salt = "";
+      posts.push(matchedPost);
+    }
+
+    res.status(200).json(posts);
+  } catch (error) {
+    res.status(400).json({
+      code: 400,
+      error: "could not get posts.",
+    });
+  }
 };
 
 const getPost = async (req: Request, res: Response): Promise<any> => {
@@ -102,7 +129,7 @@ const getPost = async (req: Request, res: Response): Promise<any> => {
     }
 
     const post = await getRepository(Post).findOne(matchedPost.id, {
-      relations: ["user"],
+      relations: ["user", "coin"],
     });
 
     if (!post) {
@@ -140,7 +167,7 @@ const updatePost = async (req: Request, res: Response): Promise<any> => {
     res.status(200).json({
       message: "succeed.",
     });
-  } catch (error: any) {
+  } catch (error) {
     res.status(400).json({
       code: 400,
       error: error.message,

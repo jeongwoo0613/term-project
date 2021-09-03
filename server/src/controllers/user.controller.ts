@@ -63,7 +63,7 @@ const getUsers = async (req: Request, res: Response): Promise<any> => {
   } catch (error) {
     res.status(400).json({
       code: 400,
-      error: "could not load users.",
+      error: "could not get users.",
     });
   }
 };
