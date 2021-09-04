@@ -27,6 +27,30 @@ function Signup() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    const isNicknameValid =
+      fields.nickname.length >= 1 && fields.nickname.length <= 30;
+    if (!isNicknameValid) {
+      return alert("닉네임은 1 ~ 30자 이어야 합니다.");
+    }
+
+    const isUserIdValid =
+      /^[a-z0-9]+$/.test(fields.userId) &&
+      fields.userId.length >= 4 &&
+      fields.userId.length <= 16;
+    if (!isUserIdValid) {
+      return alert("아이디는 영문 소문자, 숫자 포함 4 ~ 16자 이어야 합니다.");
+    }
+
+    const isPasswordValid = /(?=.*[0-9])(?=.*[a-z])(?=.*[^0-9a-zA-Z])/.test(
+      fields.password
+    );
+    if (!isPasswordValid) {
+      return alert(
+        "비밀번호는 영문, 숫자, 특수문자가 반드시 포함되어야 합니다."
+      );
+    }
+
     setIsSignupLoading(true);
 
     try {

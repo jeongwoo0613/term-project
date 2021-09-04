@@ -12,7 +12,7 @@ function Posts({ coinId, posts }) {
 
   return (
     <div className="postsContainer">
-      <Button onClick={navigatePost} className="postsBtn">
+      <Button onClick={navigatePost} className="postsBtn" size="sm">
         글쓰기
       </Button>
       <div className="postsCardContainer">
