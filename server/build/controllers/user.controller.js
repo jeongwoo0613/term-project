@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteFollow = exports.addFollow = exports.updateUserImage = exports.deleteUser = exports.updateUser = exports.getUser = exports.getUserByUserId = exports.getUsers = exports.userByUserId = void 0;
 const typeorm_1 = require("typeorm");
+const post_entity_1 = require("../entities/post.entity");
 const user_entity_1 = require("../entities/user.entity");
 const s3_util_1 = require("../utils/s3.util");
 const userByUserId = async (req, res, next, id) => {
@@ -53,40 +54,86 @@ const getUsers = async (req, res) => {
     }
 };
 exports.getUsers = getUsers;
-const getUserByUserId = (req, res) => {
-    req.userByUserId.password = "";
-    req.userByUserId.salt = "";
-    if (req.userByUserId.followers.length > 0) {
-        req.userByUserId.followers.forEach((user) => {
-            user.password = "";
-            user.salt = "";
+const getUserByUserId = async (req, res) => {
+    try {
+        const postRepository = (0, typeorm_1.getRepository)(post_entity_1.Post);
+        const posts = [];
+        for (const post of req.userByUserId.posts) {
+            const matchedPost = await postRepository.findOne(post.id, {
+                relations: ["coin"],
+            });
+            if (!matchedPost) {
+                return res.status(404).json({
+                    code: 404,
+                    error: "post not found.",
+                });
+            }
+            posts.push(matchedPost);
+        }
+        req.userByUserId.password = "";
+        req.userByUserId.salt = "";
+        req.userByUserId.posts = posts;
+        if (req.userByUserId.followers.length > 0) {
+            req.userByUserId.followers.forEach((user) => {
+                user.password = "";
+                user.salt = "";
+            });
+        }
+        if (req.userByUserId.following.length > 0) {
+            req.userByUserId.following.forEach((user) => {
+                user.password = "";
+                user.salt = "";
+            });
+        }
+        res.status(200).json(req.userByUserId);
+    }
+    catch (error) {
+        res.status(400).json({
+            code: 400,
+            error: "could not get user.",
         });
     }
-    if (req.userByUserId.following.length > 0) {
-        req.userByUserId.following.forEach((user) => {
-            user.password = "";
-            user.salt = "";
-        });
-    }
-    res.status(200).json(req.userByUserId);
 };
 exports.getUserByUserId = getUserByUserId;
-const getUser = (req, res) => {
-    req.user.password = "";
-    req.user.salt = "";
-    if (req.user.followers.length > 0) {
-        req.user.followers.forEach((user) => {
-            user.password = "";
-            user.salt = "";
+const getUser = async (req, res) => {
+    try {
+        const postRepository = (0, typeorm_1.getRepository)(post_entity_1.Post);
+        const posts = [];
+        for (const post of req.user.posts) {
+            const matchedPost = await postRepository.findOne(post.id, {
+                relations: ["coin"],
+            });
+            if (!matchedPost) {
+                return res.status(404).json({
+                    code: 404,
+                    error: "post not found.",
+                });
+            }
+            posts.push(matchedPost);
+        }
+        req.user.password = "";
+        req.user.salt = "";
+        req.user.posts = posts;
+        if (req.user.followers.length > 0) {
+            req.user.followers.forEach((user) => {
+                user.password = "";
+                user.salt = "";
+            });
+        }
+        if (req.user.following.length > 0) {
+            req.user.following.forEach((user) => {
+                user.password = "";
+                user.salt = "";
+            });
+        }
+        res.status(200).json(req.user);
+    }
+    catch (error) {
+        res.status(400).json({
+            code: 400,
+            error: "could not get user.",
         });
     }
-    if (req.user.following.length > 0) {
-        req.user.following.forEach((user) => {
-            user.password = "";
-            user.salt = "";
-        });
-    }
-    res.status(200).json(req.user);
 };
 exports.getUser = getUser;
 const updateUser = async (req, res) => {

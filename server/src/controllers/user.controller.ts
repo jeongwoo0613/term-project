@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { getRepository, Not } from "typeorm";
+import { Post } from "../entities/post.entity";
 import { User } from "../entities/user.entity";
 import { deleteUserImage } from "../utils/s3.util";
 
@@ -68,46 +69,96 @@ const getUsers = async (req: Request, res: Response): Promise<any> => {
   }
 };
 
-const getUserByUserId = (req: Request, res: Response): void => {
-  req.userByUserId.password = "";
-  req.userByUserId.salt = "";
+const getUserByUserId = async (req: Request, res: Response): Promise<any> => {
+  try {
+    const postRepository = getRepository(Post);
+    const posts = [];
 
-  if (req.userByUserId.followers.length > 0) {
-    req.userByUserId.followers.forEach((user: IUser) => {
-      user.password = "";
-      user.salt = "";
+    for (const post of req.userByUserId.posts) {
+      const matchedPost = await postRepository.findOne(post.id, {
+        relations: ["coin"],
+      });
+
+      if (!matchedPost) {
+        return res.status(404).json({
+          code: 404,
+          error: "post not found.",
+        });
+      }
+
+      posts.push(matchedPost);
+    }
+
+    req.userByUserId.password = "";
+    req.userByUserId.salt = "";
+    req.userByUserId.posts = posts;
+
+    if (req.userByUserId.followers.length > 0) {
+      req.userByUserId.followers.forEach((user: IUser) => {
+        user.password = "";
+        user.salt = "";
+      });
+    }
+
+    if (req.userByUserId.following.length > 0) {
+      req.userByUserId.following.forEach((user: IUser) => {
+        user.password = "";
+        user.salt = "";
+      });
+    }
+    res.status(200).json(req.userByUserId);
+  } catch (error) {
+    res.status(400).json({
+      code: 400,
+      error: "could not get user.",
     });
   }
-
-  if (req.userByUserId.following.length > 0) {
-    req.userByUserId.following.forEach((user: IUser) => {
-      user.password = "";
-      user.salt = "";
-    });
-  }
-
-  res.status(200).json(req.userByUserId);
 };
 
-const getUser = (req: Request, res: Response): void => {
-  req.user.password = "";
-  req.user.salt = "";
+const getUser = async (req: Request, res: Response): Promise<any> => {
+  try {
+    const postRepository = getRepository(Post);
+    const posts = [];
 
-  if (req.user.followers.length > 0) {
-    req.user.followers.forEach((user: IUser) => {
-      user.password = "";
-      user.salt = "";
+    for (const post of req.user.posts) {
+      const matchedPost = await postRepository.findOne(post.id, {
+        relations: ["coin"],
+      });
+
+      if (!matchedPost) {
+        return res.status(404).json({
+          code: 404,
+          error: "post not found.",
+        });
+      }
+
+      posts.push(matchedPost);
+    }
+
+    req.user.password = "";
+    req.user.salt = "";
+    req.user.posts = posts;
+
+    if (req.user.followers.length > 0) {
+      req.user.followers.forEach((user: IUser) => {
+        user.password = "";
+        user.salt = "";
+      });
+    }
+
+    if (req.user.following.length > 0) {
+      req.user.following.forEach((user: IUser) => {
+        user.password = "";
+        user.salt = "";
+      });
+    }
+    res.status(200).json(req.user);
+  } catch (error) {
+    res.status(400).json({
+      code: 400,
+      error: "could not get user.",
     });
   }
-
-  if (req.user.following.length > 0) {
-    req.user.following.forEach((user: IUser) => {
-      user.password = "";
-      user.salt = "";
-    });
-  }
-
-  res.status(200).json(req.user);
 };
 
 const updateUser = async (req: Request, res: Response): Promise<void> => {
