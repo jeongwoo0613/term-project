@@ -19,6 +19,7 @@ import { useHistory, useParams } from "react-router-dom";
 import { getLocalToken } from "../utils/storage.util";
 import { useRef } from "react";
 import { useAppContext } from "../utils/context.util";
+import { AiOutlineRise, AiOutlineFall } from "react-icons/ai";
 
 function Profile() {
   const [fieldsUserId, setFieldsUserId] = useState("");
@@ -291,11 +292,20 @@ function Profile() {
               <Card key={post.id} className="profilePostsCard">
                 <Card.Header className="profilePostsCardHeader">
                   {post.title}
+                  {post.rise === true ? (
+                    <AiOutlineRise color="red" className="riseFallIcon" />
+                  ) : (
+                    <AiOutlineFall color="blue" className="riseFallIcon" />
+                  )}
                 </Card.Header>
                 <Card.Body>
                   <Card.Text>{post.content}</Card.Text>
-                  <Card.Text className="profilePostsCardCreatedAt">
-                    {new Date(post.createdAt).toLocaleString("ko-kr")}
+                  <Card.Text className="profilePostsCardInfo">
+                    <img src={post.coin.image} className="postCoinImg" />
+                    {post.coin.name}
+                    <span className="profilePostsCardCreatedAt">
+                      {new Date(post.createdAt).toLocaleString("ko-kr")}
+                    </span>
                   </Card.Text>
                 </Card.Body>
               </Card>
@@ -454,11 +464,20 @@ function Profile() {
             <Card key={post.id} className="profilePostsCard">
               <Card.Header className="profilePostsCardHeader">
                 {post.title}
+                {post.rise === true ? (
+                  <AiOutlineRise color="red" className="riseFallIcon" />
+                ) : (
+                  <AiOutlineFall color="blue" className="riseFallIcon" />
+                )}
               </Card.Header>
               <Card.Body>
                 <Card.Text>{post.content}</Card.Text>
-                <Card.Text className="profilePostsCardCreatedAt">
-                  {new Date(post.createdAt).toLocaleString("ko-kr")}
+                <Card.Text className="profilePostsCardInfo">
+                  <img src={post.coin.image} className="postCoinImg" />
+                  {post.coin.name}
+                  <span className="profilePostsCardCreatedAt">
+                    {new Date(post.createdAt).toLocaleString("ko-kr")}
+                  </span>
                 </Card.Text>
               </Card.Body>
             </Card>

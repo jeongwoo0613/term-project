@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { deletePost, getPost } from "../api/posts.api";
 import { getLocalToken } from "../utils/storage.util";
+import { AiOutlineRise, AiOutlineFall } from "react-icons/ai";
 
 function Post() {
   const [postData, setPostData] = useState();
@@ -45,6 +46,15 @@ function Post() {
     <section className="postContainer">
       <div className="postHeader">
         <h5 className="postTitle">{postData.title}</h5>
+        <span className="postTitleCoinInfo">
+          <img src={postData.coin.image} className="postTitleCoinImg" />
+          {postData.coin.name}
+          {postData.rise === true ? (
+            <AiOutlineRise color="red" className="riseFallIcon" />
+          ) : (
+            <AiOutlineFall color="blue" className="riseFallIcon" />
+          )}
+        </span>
       </div>
       <div className="postAuthorContainer">
         <img className="postAuthorImg" src={postData.user.image} />

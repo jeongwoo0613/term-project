@@ -2,6 +2,7 @@ import "./Posts.css";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import { useHistory } from "react-router-dom";
+import { AiOutlineRise, AiOutlineFall } from "react-icons/ai";
 
 function Posts({ coinId, posts }) {
   const history = useHistory();
@@ -26,11 +27,20 @@ function Posts({ coinId, posts }) {
             >
               <Card.Header className="postsCardHeader">
                 {post.title}
+                {post.rise === true ? (
+                  <AiOutlineRise color="red" className="riseFallIcon" />
+                ) : (
+                  <AiOutlineFall color="blue" className="riseFallIcon" />
+                )}
               </Card.Header>
               <Card.Body>
                 <Card.Text>{post.content}</Card.Text>
-                <Card.Text className="postsCardCreatedAt">
-                  {new Date(post?.createdAt).toLocaleString("ko-kr")}
+                <Card.Text className="postsCardInfo">
+                  <img src={post.user.image} className="postsAuthorImg" />
+                  {post.user.nickname}
+                  <span className="postsCardCreatedAt">
+                    {new Date(post?.createdAt).toLocaleString("ko-kr")}
+                  </span>
                 </Card.Text>
               </Card.Body>
             </Card>

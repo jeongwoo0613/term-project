@@ -21,6 +21,21 @@
   background-color: #fff;
 }
 
+.riseFallIcon {
+  float: right;
+  font-size: 30px;
+}
+
+.postsCardInfo {
+  margin-top: 50px;
+}
+
+.postsAuthorImg {
+  width: 25px;
+  margin-right: 5px;
+  border-radius: 9999px;
+}
+
 .postsCardCreatedAt {
   font-size: 12px;
   float: right;
