@@ -1,7 +1,7 @@
 import "./News.css";
-import { useState, useEffect } from "react";
 import axios from "axios";
 import Loading from "../components/Loading";
+import { useState, useEffect } from "react";
 
 function News() {
   const [articles, setArticles] = useState();

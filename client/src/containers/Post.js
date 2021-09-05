@@ -1,13 +1,15 @@
 import "./Post.css";
-import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { getPost } from "../api/posts.api";
 import Loading from "../components/Loading";
 import Button from "react-bootstrap/Button";
+import { useState, useEffect } from "react";
+import { useParams, useHistory } from "react-router-dom";
+import { deletePost, getPost } from "../api/posts.api";
+import { getLocalToken } from "../utils/storage.util";
 
 function Post() {
   const [postData, setPostData] = useState();
   const { coinId, postId } = useParams();
+  const history = useHistory();
 
   useEffect(() => {
     const loadPost = async () => {
@@ -20,6 +22,24 @@ function Post() {
     };
     loadPost();
   }, []);
+
+  const handleDelete = async (event) => {
+    event.preventDefault();
+
+    try {
+      const result = await deletePost(getLocalToken(), coinId, postId);
+
+      if (!result) {
+        throw new Error("post delete failed");
+      }
+
+      history.replace(`/coins/${coinId}`);
+    } catch (error) {
+      if (error.message === "post delete failed") {
+        alert("게시물 삭제를 실패하였습니다.");
+      }
+    }
+  };
 
   return postData ? (
     <section className="postContainer">
@@ -38,7 +58,7 @@ function Post() {
       </div>
       <div className="editAndDeleteBtn">
         <Button className="editBtn">수정</Button>
-        <Button variant="danger" className="deleteBtn">
+        <Button onClick={handleDelete} variant="danger" className="deleteBtn">
           삭제
         </Button>
       </div>

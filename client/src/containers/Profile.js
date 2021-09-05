@@ -51,7 +51,6 @@ function Profile() {
       const loadUser = async () => {
         try {
           const user = await getUser(getLocalToken());
-          console.log(user);
           setUser(user);
           setFieldsUserId(user.userId);
           setNickname(user.nickname);

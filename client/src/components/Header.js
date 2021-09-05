@@ -40,7 +40,7 @@ function Header() {
           <h2 className="headerLogo">coinplus</h2>
         </Link>
         {!getLocalToken() ? (
-          <Button onClick={handleLogin} className="headerLogin" size="sm">
+          <Button onClick={handleLogin} className="headerLogin">
             로그인
           </Button>
         ) : (

@@ -52,9 +52,9 @@ const updatePost = async (token, coinId, postId, post) => {
   }
 };
 
-const deletePost = async (token, coinId, postId, post) => {
+const deletePost = async (token, coinId, postId) => {
   try {
-    const result = await instance.delete(`/${coinId}/posts/${postId}`, post, {
+    const result = await instance.delete(`/${coinId}/posts/${postId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
