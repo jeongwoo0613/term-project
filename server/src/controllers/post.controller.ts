@@ -3,7 +3,6 @@ import { getRepository } from "typeorm";
 import { Coin } from "../entities/coin.entity";
 import { Post } from "../entities/post.entity";
 import { User } from "../entities/user.entity";
-import { postSchema } from "../schemas/post.schema";
 
 const postById = async (
   req: Request,
@@ -33,8 +32,7 @@ const postById = async (
 
 const createPost = async (req: Request, res: Response): Promise<any> => {
   try {
-    const value = await postSchema.validateAsync(req.body);
-    const { title, content, rise, fall } = value;
+    const { title, content, rise, fall } = req.body;
     const postRepository = getRepository(Post);
     const userRepository = getRepository(User);
     const coinRepository = getRepository(Coin);
@@ -153,8 +151,7 @@ const getPost = async (req: Request, res: Response): Promise<any> => {
 
 const updatePost = async (req: Request, res: Response): Promise<any> => {
   try {
-    const value = await postSchema.validateAsync(req.body);
-    const { title, content, rise, fall } = value;
+    const { title, content, rise, fall } = req.body;
     const postRepository = getRepository(Post);
 
     await postRepository.update(req.post.id, {

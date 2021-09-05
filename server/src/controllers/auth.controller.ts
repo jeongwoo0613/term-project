@@ -5,7 +5,6 @@ import { NextFunction, Request, Response } from "express";
 import { randomBytes, pbkdf2 } from "crypto";
 import { sign } from "jsonwebtoken";
 import { promisify } from "util";
-import { signupSchema } from "../schemas/auth.schema";
 
 const makeSalt = async (): Promise<string> => {
   const randomBytesPromise = promisify(randomBytes);
@@ -78,8 +77,7 @@ const verifyAdminAuthorization = (
 
 const signup = async (req: Request, res: Response): Promise<any> => {
   try {
-    const value = await signupSchema.validateAsync(req.body);
-    const { userId, password, nickname } = value;
+    const { userId, password, nickname } = req.body;
     const userRepository = getRepository(User);
 
     const result = await userRepository.findOne({ userId });

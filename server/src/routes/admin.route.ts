@@ -19,7 +19,6 @@ router
     uploadCoinImage.single("coinImage"),
     createCoin
   );
-
 router
   .route("/admin/coins/:coinId")
   .put(verifyToken, verifyAdminAuthorization, updateCoin);

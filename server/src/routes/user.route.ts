@@ -19,7 +19,6 @@ router.param("userId", userByUserId);
 
 router.route("/users").get(getUsers);
 router.route("/users/:userId").get(getUserByUserId);
-
 router
   .route("/user")
   .get(verifyToken, getUser)

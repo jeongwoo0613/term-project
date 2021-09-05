@@ -10,7 +10,6 @@ const user_entity_1 = require("../entities/user.entity");
 const crypto_1 = require("crypto");
 const jsonwebtoken_1 = require("jsonwebtoken");
 const util_1 = require("util");
-const auth_schema_1 = require("../schemas/auth.schema");
 const makeSalt = async () => {
     const randomBytesPromise = (0, util_1.promisify)(crypto_1.randomBytes);
     const buf = await randomBytesPromise(64);
@@ -60,8 +59,7 @@ const verifyAdminAuthorization = (req, res, next) => {
 exports.verifyAdminAuthorization = verifyAdminAuthorization;
 const signup = async (req, res) => {
     try {
-        const value = await auth_schema_1.signupSchema.validateAsync(req.body);
-        const { userId, password, nickname } = value;
+        const { userId, password, nickname } = req.body;
         const userRepository = (0, typeorm_1.getRepository)(user_entity_1.User);
         const result = await userRepository.findOne({ userId });
         if (result) {

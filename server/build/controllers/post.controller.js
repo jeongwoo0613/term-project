@@ -5,7 +5,6 @@ const typeorm_1 = require("typeorm");
 const coin_entity_1 = require("../entities/coin.entity");
 const post_entity_1 = require("../entities/post.entity");
 const user_entity_1 = require("../entities/user.entity");
-const post_schema_1 = require("../schemas/post.schema");
 const postById = async (req, res, next, id) => {
     try {
         const post = await (0, typeorm_1.getRepository)(post_entity_1.Post).findOne(id);
@@ -28,8 +27,7 @@ const postById = async (req, res, next, id) => {
 exports.postById = postById;
 const createPost = async (req, res) => {
     try {
-        const value = await post_schema_1.postSchema.validateAsync(req.body);
-        const { title, content, rise, fall } = value;
+        const { title, content, rise, fall } = req.body;
         const postRepository = (0, typeorm_1.getRepository)(post_entity_1.Post);
         const userRepository = (0, typeorm_1.getRepository)(user_entity_1.User);
         const coinRepository = (0, typeorm_1.getRepository)(coin_entity_1.Coin);
@@ -133,8 +131,7 @@ const getPost = async (req, res) => {
 exports.getPost = getPost;
 const updatePost = async (req, res) => {
     try {
-        const value = await post_schema_1.postSchema.validateAsync(req.body);
-        const { title, content, rise, fall } = value;
+        const { title, content, rise, fall } = req.body;
         const postRepository = (0, typeorm_1.getRepository)(post_entity_1.Post);
         await postRepository.update(req.post.id, {
             title,
