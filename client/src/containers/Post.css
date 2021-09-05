@@ -10,6 +10,21 @@
 
 .postTitle {
   font-weight: bold;
+  display: inline;
+}
+
+.postTitleCoinInfo {
+  float: right;
+}
+.postTitleCoinImg {
+  width: 20px;
+  margin-right: 5px;
+}
+
+.riseFallIcon {
+  float: right;
+  font-size: 30px;
+  margin-left: 5px;
 }
 
 .postAuthorContainer {

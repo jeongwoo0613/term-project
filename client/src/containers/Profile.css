@@ -95,6 +95,20 @@
   background-color: #fff;
 }
 
+.riseFallIcon {
+  float: right;
+  font-size: 30px;
+}
+
+.profilePostsCardInfo {
+  margin-top: 50px;
+}
+
+.postCoinImg {
+  width: 25px;
+  margin-right: 5px;
+}
+
 .profilePostsCardCreatedAt {
   font-size: 12px;
   float: right;
