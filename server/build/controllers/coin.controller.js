@@ -1,6 +1,10 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getCoin = exports.getCoins = exports.coinById = void 0;
+const http_errors_1 = __importDefault(require("http-errors"));
 const typeorm_1 = require("typeorm");
 const coin_entity_1 = require("../entities/coin.entity");
 const upbit_util_1 = require("../utils/upbit.util");
@@ -10,23 +14,17 @@ const coinById = async (req, res, next, id) => {
             relations: ["posts"],
         });
         if (!coin) {
-            return res.status(404).json({
-                code: 404,
-                error: "coin not found.",
-            });
+            return next((0, http_errors_1.default)(404, "coin not found"));
         }
         req.coin = coin;
         next();
     }
     catch (error) {
-        res.status(400).json({
-            code: 400,
-            error: "coin's id don't match.",
-        });
+        next((0, http_errors_1.default)(400, "coin's id don't match."));
     }
 };
 exports.coinById = coinById;
-const getCoins = async (req, res) => {
+const getCoins = async (req, res, next) => {
     try {
         const coinRepository = (0, typeorm_1.getRepository)(coin_entity_1.Coin);
         const coins = await coinRepository.find({
@@ -76,14 +74,11 @@ const getCoins = async (req, res) => {
         res.status(200).json(coins);
     }
     catch (error) {
-        res.status(400).json({
-            code: 400,
-            error: "could not get coins",
-        });
+        next((0, http_errors_1.default)(400, "could not get coins"));
     }
 };
 exports.getCoins = getCoins;
-const getCoin = async (req, res) => {
+const getCoin = async (req, res, next) => {
     try {
         const { id, market } = req.coin;
         const upbitCoinPrice = await (0, upbit_util_1.getUpbitCoinPrice)(market);
@@ -124,10 +119,7 @@ const getCoin = async (req, res) => {
         res.status(200).json(req.coin);
     }
     catch (error) {
-        res.status(404).json({
-            code: 404,
-            error: "could not get coin",
-        });
+        next((0, http_errors_1.default)(400, "could not get coin"));
     }
 };
 exports.getCoin = getCoin;

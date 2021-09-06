@@ -27,43 +27,43 @@ export class Coin {
   @Column()
   market!: string;
 
-  @Column({ type: "double" })
+  @Column("double")
   openingPrice!: number;
 
-  @Column({ type: "double" })
+  @Column("double")
   highPrice!: number;
 
-  @Column({ type: "double" })
+  @Column("double")
   lowPrice!: number;
 
-  @Column({ type: "double" })
+  @Column("double")
   tradePrice!: number;
 
-  @Column({ type: "double" })
+  @Column("double")
   prevClosingPrice!: number;
 
   @Column()
   change!: string;
 
-  @Column({ type: "double" })
+  @Column("double")
   accTradePrice!: number;
 
-  @Column({ type: "double" })
+  @Column("double")
   accTradePrice24h!: number;
 
-  @Column({ type: "double" })
+  @Column("double")
   accTradeVolume!: number;
 
-  @Column({ type: "double" })
+  @Column("double")
   accTradeVolume24h!: number;
 
-  @Column({ type: "double" })
+  @Column("double")
   highest52WeekPrice!: number;
 
   @Column()
   highest52WeekDate!: string;
 
-  @Column({ type: "double" })
+  @Column("double")
   lowest52WeekPrice!: number;
 
   @Column()

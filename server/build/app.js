@@ -15,6 +15,7 @@ const coin_route_1 = __importDefault(require("./routes/coin.route"));
 const post_route_1 = __importDefault(require("./routes/post.route"));
 const admin_route_1 = __importDefault(require("./routes/admin.route"));
 const passport_config_1 = require("./configs/passport.config");
+const error_config_1 = require("./configs/error.config");
 const app = (0, express_1.default)();
 if (process.env.NODE_ENV === "production") {
     app.use((0, helmet_1.default)());
@@ -35,10 +36,6 @@ app.use("/api", user_route_1.default);
 app.use("/api", coin_route_1.default);
 app.use("/api", post_route_1.default);
 app.use("/api", admin_route_1.default);
-app.use((err, req, res, next) => {
-    res.status(400).json({
-        code: 400,
-        error: err.message,
-    });
-});
+app.use(error_config_1.errorLogger);
+app.use(error_config_1.errorHandler);
 exports.default = app;

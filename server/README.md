@@ -28,7 +28,7 @@
 
 <br>
 
-- Error Code: 400 OR 401 OR 404
+- Error Code: 400 OR 401 OR 404 OR 500
 
 - Content: Error Code AND Error Message
 

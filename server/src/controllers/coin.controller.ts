@@ -1,3 +1,4 @@
+import createHttpError from "http-errors";
 import { NextFunction, Request, Response } from "express";
 import { getRepository } from "typeorm";
 import { Coin } from "../entities/coin.entity";
@@ -15,23 +16,21 @@ const coinById = async (
     });
 
     if (!coin) {
-      return res.status(404).json({
-        code: 404,
-        error: "coin not found.",
-      });
+      return next(createHttpError(404, "coin not found"));
     }
 
     req.coin = coin;
     next();
   } catch (error) {
-    res.status(400).json({
-      code: 400,
-      error: "coin's id don't match.",
-    });
+    next(createHttpError(400, "coin's id don't match."));
   }
 };
 
-const getCoins = async (req: Request, res: Response): Promise<any> => {
+const getCoins = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<any> => {
   try {
     const coinRepository = getRepository(Coin);
 
@@ -102,14 +101,15 @@ const getCoins = async (req: Request, res: Response): Promise<any> => {
 
     res.status(200).json(coins);
   } catch (error) {
-    res.status(400).json({
-      code: 400,
-      error: "could not get coins",
-    });
+    next(createHttpError(400, "could not get coins"));
   }
 };
 
-const getCoin = async (req: Request, res: Response): Promise<any> => {
+const getCoin = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<any> => {
   try {
     const { id, market } = req.coin;
 
@@ -170,10 +170,7 @@ const getCoin = async (req: Request, res: Response): Promise<any> => {
 
     res.status(200).json(req.coin);
   } catch (error) {
-    res.status(404).json({
-      code: 404,
-      error: "could not get coin",
-    });
+    next(createHttpError(400, "could not get coin"));
   }
 };
 

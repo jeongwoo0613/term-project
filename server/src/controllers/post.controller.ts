@@ -1,3 +1,4 @@
+import createHttpError from "http-errors";
 import { NextFunction, Request, Response } from "express";
 import { getRepository } from "typeorm";
 import { Coin } from "../entities/coin.entity";
@@ -14,23 +15,21 @@ const postById = async (
     const post = await getRepository(Post).findOne(id);
 
     if (!post) {
-      return res.status(404).json({
-        code: 404,
-        error: "post not found.",
-      });
+      return next(createHttpError(404, "post not found."));
     }
 
     req.post = post;
     next();
   } catch (error) {
-    res.status(400).json({
-      code: 400,
-      error: "post's id don't match.",
-    });
+    next(createHttpError(400, "post's id don't match."));
   }
 };
 
-const createPost = async (req: Request, res: Response): Promise<any> => {
+const createPost = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<any> => {
   try {
     const { title, content, rise, fall } = req.body;
     const postRepository = getRepository(Post);
@@ -50,10 +49,7 @@ const createPost = async (req: Request, res: Response): Promise<any> => {
     });
 
     if (!user) {
-      return res.status(404).json({
-        code: 404,
-        error: "user not found",
-      });
+      return next(createHttpError(404, "user not found."));
     }
 
     const coin = await coinRepository.findOne(req.coin.id, {
@@ -61,10 +57,7 @@ const createPost = async (req: Request, res: Response): Promise<any> => {
     });
 
     if (!coin) {
-      return res.status(404).json({
-        code: 404,
-        error: "coin not found",
-      });
+      return next(createHttpError(404, "coin not found."));
     }
 
     user.posts.push(post);
@@ -77,14 +70,15 @@ const createPost = async (req: Request, res: Response): Promise<any> => {
       message: "succeed.",
     });
   } catch (error) {
-    res.status(400).json({
-      code: 400,
-      error: error.message,
-    });
+    next(createHttpError(400, "could not create post."));
   }
 };
 
-const getPosts = async (req: Request, res: Response): Promise<any> => {
+const getPosts = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<any> => {
   try {
     const postRepository = getRepository(Post);
     const posts = [];
@@ -95,10 +89,7 @@ const getPosts = async (req: Request, res: Response): Promise<any> => {
       });
 
       if (!matchedPost) {
-        return res.status(404).json({
-          code: 404,
-          error: "post not found.",
-        });
+        return next(createHttpError(404, "post not found."));
       }
 
       matchedPost.user.password = "";
@@ -108,22 +99,20 @@ const getPosts = async (req: Request, res: Response): Promise<any> => {
 
     res.status(200).json(posts);
   } catch (error) {
-    res.status(400).json({
-      code: 400,
-      error: "could not get posts.",
-    });
+    next(createHttpError(400, "could not get posts."));
   }
 };
 
-const getPost = async (req: Request, res: Response): Promise<any> => {
+const getPost = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<any> => {
   try {
     const matchedPost = req.coin.posts.find((post) => post.id === req.post.id);
 
     if (!matchedPost) {
-      return res.status(404).json({
-        code: 404,
-        error: "post not found.",
-      });
+      return next(createHttpError(404, "post not found."));
     }
 
     const post = await getRepository(Post).findOne(matchedPost.id, {
@@ -131,10 +120,7 @@ const getPost = async (req: Request, res: Response): Promise<any> => {
     });
 
     if (!post) {
-      return res.status(404).json({
-        code: 404,
-        error: "post not found.",
-      });
+      return next(createHttpError(404, "post not found."));
     }
 
     post.user.password = "";
@@ -142,14 +128,15 @@ const getPost = async (req: Request, res: Response): Promise<any> => {
 
     res.status(200).json(post);
   } catch (error) {
-    res.status(400).json({
-      code: 400,
-      error: "could not get post.",
-    });
+    next(createHttpError(400, "could not get post."));
   }
 };
 
-const updatePost = async (req: Request, res: Response): Promise<any> => {
+const updatePost = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<any> => {
   try {
     const { title, content, rise, fall } = req.body;
     const postRepository = getRepository(Post);
@@ -165,14 +152,15 @@ const updatePost = async (req: Request, res: Response): Promise<any> => {
       message: "succeed.",
     });
   } catch (error) {
-    res.status(400).json({
-      code: 400,
-      error: error.message,
-    });
+    next(createHttpError(400, "could not update post."));
   }
 };
 
-const deletePost = async (req: Request, res: Response): Promise<any> => {
+const deletePost = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<any> => {
   try {
     await getRepository(Post).delete(req.post.id);
 
@@ -180,10 +168,7 @@ const deletePost = async (req: Request, res: Response): Promise<any> => {
       message: "succeed.",
     });
   } catch (error) {
-    res.status(400).json({
-      code: 400,
-      error: "could not delete post.",
-    });
+    next(createHttpError(400, "could not delete post."));
   }
 };
 

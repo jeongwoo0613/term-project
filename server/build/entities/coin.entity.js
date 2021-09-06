@@ -36,23 +36,23 @@ __decorate([
     __metadata("design:type", String)
 ], Coin.prototype, "market", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: "double" }),
+    (0, typeorm_1.Column)("double"),
     __metadata("design:type", Number)
 ], Coin.prototype, "openingPrice", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: "double" }),
+    (0, typeorm_1.Column)("double"),
     __metadata("design:type", Number)
 ], Coin.prototype, "highPrice", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: "double" }),
+    (0, typeorm_1.Column)("double"),
     __metadata("design:type", Number)
 ], Coin.prototype, "lowPrice", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: "double" }),
+    (0, typeorm_1.Column)("double"),
     __metadata("design:type", Number)
 ], Coin.prototype, "tradePrice", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: "double" }),
+    (0, typeorm_1.Column)("double"),
     __metadata("design:type", Number)
 ], Coin.prototype, "prevClosingPrice", void 0);
 __decorate([
@@ -60,23 +60,23 @@ __decorate([
     __metadata("design:type", String)
 ], Coin.prototype, "change", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: "double" }),
+    (0, typeorm_1.Column)("double"),
     __metadata("design:type", Number)
 ], Coin.prototype, "accTradePrice", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: "double" }),
+    (0, typeorm_1.Column)("double"),
     __metadata("design:type", Number)
 ], Coin.prototype, "accTradePrice24h", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: "double" }),
+    (0, typeorm_1.Column)("double"),
     __metadata("design:type", Number)
 ], Coin.prototype, "accTradeVolume", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: "double" }),
+    (0, typeorm_1.Column)("double"),
     __metadata("design:type", Number)
 ], Coin.prototype, "accTradeVolume24h", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: "double" }),
+    (0, typeorm_1.Column)("double"),
     __metadata("design:type", Number)
 ], Coin.prototype, "highest52WeekPrice", void 0);
 __decorate([
@@ -84,7 +84,7 @@ __decorate([
     __metadata("design:type", String)
 ], Coin.prototype, "highest52WeekDate", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ type: "double" }),
+    (0, typeorm_1.Column)("double"),
     __metadata("design:type", Number)
 ], Coin.prototype, "lowest52WeekPrice", void 0);
 __decorate([

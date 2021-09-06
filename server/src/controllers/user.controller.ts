@@ -1,3 +1,4 @@
+import createHttpError from "http-errors";
 import { NextFunction, Request, Response } from "express";
 import { getRepository, Not } from "typeorm";
 import { Post } from "../entities/post.entity";
@@ -26,33 +27,28 @@ const userByUserId = async (
     );
 
     if (!user) {
-      return res.status(404).json({
-        code: 404,
-        error: "user not found.",
-      });
+      return next(createHttpError(404, "user not found."));
     }
 
     req.userByUserId = user;
     next();
   } catch (error) {
-    res.status(400).json({
-      code: 400,
-      error: "user's id don't match.",
-    });
+    next(createHttpError(400, "user's id don't match."));
   }
 };
 
-const getUsers = async (req: Request, res: Response): Promise<any> => {
+const getUsers = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<any> => {
   try {
     const users = await getRepository(User).find({
       userId: Not("admin"),
     });
 
     if (!users) {
-      return res.status(404).json({
-        code: 404,
-        error: "users not found.",
-      });
+      return next(createHttpError(404, "users not found."));
     }
 
     users.forEach((user) => {
@@ -62,14 +58,15 @@ const getUsers = async (req: Request, res: Response): Promise<any> => {
 
     res.status(200).json(users);
   } catch (error) {
-    res.status(400).json({
-      code: 400,
-      error: "could not get users.",
-    });
+    next(createHttpError(400, "could not get users."));
   }
 };
 
-const getUserByUserId = async (req: Request, res: Response): Promise<any> => {
+const getUserByUserId = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<any> => {
   try {
     const postRepository = getRepository(Post);
     const posts = [];
@@ -80,10 +77,7 @@ const getUserByUserId = async (req: Request, res: Response): Promise<any> => {
       });
 
       if (!matchedPost) {
-        return res.status(404).json({
-          code: 404,
-          error: "post not found.",
-        });
+        return next(createHttpError(404, "post not found."));
       }
 
       posts.push(matchedPost);
@@ -108,14 +102,15 @@ const getUserByUserId = async (req: Request, res: Response): Promise<any> => {
     }
     res.status(200).json(req.userByUserId);
   } catch (error) {
-    res.status(400).json({
-      code: 400,
-      error: "could not get user.",
-    });
+    next(createHttpError(400, "could not get user."));
   }
 };
 
-const getUser = async (req: Request, res: Response): Promise<any> => {
+const getUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<any> => {
   try {
     const postRepository = getRepository(Post);
     const posts = [];
@@ -126,10 +121,7 @@ const getUser = async (req: Request, res: Response): Promise<any> => {
       });
 
       if (!matchedPost) {
-        return res.status(404).json({
-          code: 404,
-          error: "post not found.",
-        });
+        return next(createHttpError(404, "post not found."));
       }
 
       posts.push(matchedPost);
@@ -154,14 +146,15 @@ const getUser = async (req: Request, res: Response): Promise<any> => {
     }
     res.status(200).json(req.user);
   } catch (error) {
-    res.status(400).json({
-      code: 400,
-      error: "could not get user.",
-    });
+    next(createHttpError(400, "could not get user."));
   }
 };
 
-const updateUser = async (req: Request, res: Response): Promise<void> => {
+const updateUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
   try {
     const { id } = req.user;
 
@@ -173,14 +166,15 @@ const updateUser = async (req: Request, res: Response): Promise<void> => {
       message: "succeed.",
     });
   } catch (error) {
-    res.status(400).json({
-      code: 400,
-      error: "could not update user.",
-    });
+    next(createHttpError(400, "could not update user."));
   }
 };
 
-const deleteUser = async (req: Request, res: Response): Promise<void> => {
+const deleteUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
   try {
     const { imageKey } = req.user;
 
@@ -194,20 +188,18 @@ const deleteUser = async (req: Request, res: Response): Promise<void> => {
       message: "succeed.",
     });
   } catch (error) {
-    res.status(400).json({
-      code: 400,
-      error: "could not delete user.",
-    });
+    next(createHttpError(400, "could not delete user."));
   }
 };
 
-const updateUserImage = async (req: Request, res: Response): Promise<any> => {
+const updateUserImage = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<any> => {
   try {
     if (!req.file) {
-      return res.status(400).json({
-        code: 400,
-        error: "could not upload file.",
-      });
+      return next(createHttpError(400, "could not upload file."));
     }
 
     const { location, key } = req.file;
@@ -224,14 +216,15 @@ const updateUserImage = async (req: Request, res: Response): Promise<any> => {
 
     res.status(200).json(location);
   } catch (error) {
-    res.status(400).json({
-      code: 400,
-      error: "could not upload image.",
-    });
+    next(createHttpError(400, "could not upload image."));
   }
 };
 
-const addFollow = async (req: Request, res: Response): Promise<any> => {
+const addFollow = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<any> => {
   try {
     const { id } = req.user;
     const { followingId } = req.body;
@@ -242,10 +235,7 @@ const addFollow = async (req: Request, res: Response): Promise<any> => {
     });
 
     if (!currentUser) {
-      return res.status(404).json({
-        code: 404,
-        error: "current user not found.",
-      });
+      return next(createHttpError(404, "current user not found."));
     }
 
     const followingUser = await userRepository.findOne(followingId, {
@@ -253,10 +243,7 @@ const addFollow = async (req: Request, res: Response): Promise<any> => {
     });
 
     if (!followingUser) {
-      return res.status(404).json({
-        code: 404,
-        error: "following user not found.",
-      });
+      return next(createHttpError(404, "following user not found."));
     }
 
     if (
@@ -274,14 +261,15 @@ const addFollow = async (req: Request, res: Response): Promise<any> => {
       message: "succeed.",
     });
   } catch (error) {
-    res.status(400).json({
-      code: 400,
-      error: "could not follow user.",
-    });
+    next(createHttpError(400, "could not follow user."));
   }
 };
 
-const deleteFollow = async (req: Request, res: Response): Promise<any> => {
+const deleteFollow = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<any> => {
   try {
     const { id } = req.user;
     const { followingId } = req.body;
@@ -292,10 +280,7 @@ const deleteFollow = async (req: Request, res: Response): Promise<any> => {
     });
 
     if (!currentUser) {
-      return res.status(404).json({
-        code: 404,
-        error: "current user not found.",
-      });
+      return next(createHttpError(404, "current user not found."));
     }
 
     const followingUser = await userRepository.findOne(followingId, {
@@ -303,10 +288,7 @@ const deleteFollow = async (req: Request, res: Response): Promise<any> => {
     });
 
     if (!followingUser) {
-      return res.status(404).json({
-        code: 404,
-        error: "following user not found.",
-      });
+      return next(createHttpError(404, "following user not found."));
     }
 
     if (
@@ -330,10 +312,7 @@ const deleteFollow = async (req: Request, res: Response): Promise<any> => {
       message: "succeed.",
     });
   } catch (error) {
-    res.status(400).json({
-      code: 400,
-      error: "could not unfollow user.",
-    });
+    next(createHttpError(400, "could not unfollow user."));
   }
 };
 

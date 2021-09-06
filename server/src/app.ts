@@ -1,4 +1,4 @@
-import express, { NextFunction, Request, Response } from "express";
+import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import compression from "compression";
@@ -10,6 +10,7 @@ import coin from "./routes/coin.route";
 import post from "./routes/post.route";
 import admin from "./routes/admin.route";
 import { googleStrategy, jwtStrategy } from "./configs/passport.config";
+import { errorHandler, errorLogger } from "./configs/error.config";
 
 const app = express();
 
@@ -35,11 +36,7 @@ app.use("/api", coin);
 app.use("/api", post);
 app.use("/api", admin);
 
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-  res.status(400).json({
-    code: 400,
-    error: err.message,
-  });
-});
+app.use(errorLogger);
+app.use(errorHandler);
 
 export default app;

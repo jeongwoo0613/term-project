@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.verifyAdminAuthorization = exports.succeedAuthGoogle = exports.authGoogle = exports.verifyGoogle = exports.verifyToken = exports.login = exports.signup = void 0;
 const passport_1 = __importDefault(require("passport"));
+const http_errors_1 = __importDefault(require("http-errors"));
 const typeorm_1 = require("typeorm");
 const user_entity_1 = require("../entities/user.entity");
 const crypto_1 = require("crypto");
@@ -49,24 +50,18 @@ exports.succeedAuthGoogle = succeedAuthGoogle;
 const verifyAdminAuthorization = (req, res, next) => {
     const authorized = req.user && req.user.userId === "admin";
     if (!authorized) {
-        return res.status(401).json({
-            code: 401,
-            error: "admin is not authorized.",
-        });
+        return next((0, http_errors_1.default)(401, "admin is not authorized."));
     }
     next();
 };
 exports.verifyAdminAuthorization = verifyAdminAuthorization;
-const signup = async (req, res) => {
+const signup = async (req, res, next) => {
     try {
         const { userId, password, nickname } = req.body;
         const userRepository = (0, typeorm_1.getRepository)(user_entity_1.User);
         const result = await userRepository.findOne({ userId });
         if (result) {
-            return res.status(400).json({
-                code: 400,
-                error: "user already exist.",
-            });
+            return next((0, http_errors_1.default)(400, "user already exist."));
         }
         const user = new user_entity_1.User();
         const salt = await makeSalt();
@@ -87,29 +82,20 @@ const signup = async (req, res) => {
         });
     }
     catch (error) {
-        res.status(400).json({
-            code: 400,
-            error: error.message,
-        });
+        next((0, http_errors_1.default)(400, "could not signup."));
     }
 };
 exports.signup = signup;
-const login = async (req, res) => {
+const login = async (req, res, next) => {
     try {
         const { userId, password } = req.body;
         const user = await (0, typeorm_1.getRepository)(user_entity_1.User).findOne({ userId });
         if (!user) {
-            return res.status(404).json({
-                code: 404,
-                error: "user not found.",
-            });
+            return next((0, http_errors_1.default)(404, "user not found."));
         }
         const check = await verifyPassword(password, user.password, user.salt);
         if (!check) {
-            return res.status(400).json({
-                code: 400,
-                error: "password don't match.",
-            });
+            return next((0, http_errors_1.default)(400, "password don't match."));
         }
         const token = (0, jsonwebtoken_1.sign)({
             id: user.id,
@@ -125,10 +111,7 @@ const login = async (req, res) => {
         });
     }
     catch (error) {
-        res.status(400).json({
-            code: 400,
-            error: error.message,
-        });
+        next((0, http_errors_1.default)(400, "could not login."));
     }
 };
 exports.login = login;

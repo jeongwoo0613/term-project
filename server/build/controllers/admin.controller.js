@@ -1,16 +1,17 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateCoin = exports.createCoin = void 0;
+const http_errors_1 = __importDefault(require("http-errors"));
 const typeorm_1 = require("typeorm");
 const coin_entity_1 = require("../entities/coin.entity");
 const upbit_util_1 = require("../utils/upbit.util");
-const createCoin = async (req, res) => {
+const createCoin = async (req, res, next) => {
     try {
         if (!req.file) {
-            return res.status(400).json({
-                code: 400,
-                error: "could not upload file.",
-            });
+            return next((0, http_errors_1.default)(400, "could not upload file."));
         }
         const { location, key } = req.file;
         const { name, symbol, description, supplyLimit, homepage, author, github, whitepaper, initialRelease, market, } = req.body;
@@ -49,14 +50,11 @@ const createCoin = async (req, res) => {
         });
     }
     catch (error) {
-        res.status(400).json({
-            code: 400,
-            error: "coin already exist.",
-        });
+        next((0, http_errors_1.default)(400, "coin already exist."));
     }
 };
 exports.createCoin = createCoin;
-const updateCoin = async (req, res) => {
+const updateCoin = async (req, res, next) => {
     try {
         const { id } = req.coin;
         await (0, typeorm_1.getRepository)(coin_entity_1.Coin).update(id, {
@@ -67,10 +65,7 @@ const updateCoin = async (req, res) => {
         });
     }
     catch (error) {
-        res.status(400).json({
-            code: 400,
-            error: "could not update coin.",
-        });
+        next((0, http_errors_1.default)(400, "could not update coin."));
     }
 };
 exports.updateCoin = updateCoin;

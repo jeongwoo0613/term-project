@@ -1,15 +1,17 @@
-import { Request, Response } from "express";
+import createHttpError from "http-errors";
+import { Request, Response, NextFunction } from "express";
 import { getRepository } from "typeorm";
 import { Coin } from "../entities/coin.entity";
 import { getUpbitCoinPrice } from "../utils/upbit.util";
 
-const createCoin = async (req: Request, res: Response): Promise<any> => {
+const createCoin = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<any> => {
   try {
     if (!req.file) {
-      return res.status(400).json({
-        code: 400,
-        error: "could not upload file.",
-      });
+      return next(createHttpError(400, "could not upload file."));
     }
 
     const { location, key } = req.file;
@@ -78,14 +80,15 @@ const createCoin = async (req: Request, res: Response): Promise<any> => {
       message: "succeed.",
     });
   } catch (error) {
-    res.status(400).json({
-      code: 400,
-      error: "coin already exist.",
-    });
+    next(createHttpError(400, "coin already exist."));
   }
 };
 
-const updateCoin = async (req: Request, res: Response): Promise<void> => {
+const updateCoin = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
   try {
     const { id } = req.coin;
 
@@ -97,10 +100,7 @@ const updateCoin = async (req: Request, res: Response): Promise<void> => {
       message: "succeed.",
     });
   } catch (error) {
-    res.status(400).json({
-      code: 400,
-      error: "could not update coin.",
-    });
+    next(createHttpError(400, "could not update coin."));
   }
 };
 

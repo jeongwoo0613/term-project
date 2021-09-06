@@ -18,9 +18,7 @@ const validatePost = async (req, res, next) => {
         next();
     }
     catch (error) {
-        res.status(400).json({
-            message: error.message,
-        });
+        next(error);
     }
 };
 exports.validatePost = validatePost;

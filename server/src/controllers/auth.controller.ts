@@ -1,4 +1,5 @@
 import passport from "passport";
+import createHttpError from "http-errors";
 import { getRepository } from "typeorm";
 import { User } from "../entities/user.entity";
 import { NextFunction, Request, Response } from "express";
@@ -67,15 +68,16 @@ const verifyAdminAuthorization = (
   const authorized = req.user && req.user.userId === "admin";
 
   if (!authorized) {
-    return res.status(401).json({
-      code: 401,
-      error: "admin is not authorized.",
-    });
+    return next(createHttpError(401, "admin is not authorized."));
   }
   next();
 };
 
-const signup = async (req: Request, res: Response): Promise<any> => {
+const signup = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<any> => {
   try {
     const { userId, password, nickname } = req.body;
     const userRepository = getRepository(User);
@@ -83,10 +85,7 @@ const signup = async (req: Request, res: Response): Promise<any> => {
     const result = await userRepository.findOne({ userId });
 
     if (result) {
-      return res.status(400).json({
-        code: 400,
-        error: "user already exist.",
-      });
+      return next(createHttpError(400, "user already exist."));
     }
 
     const user = new User();
@@ -109,33 +108,28 @@ const signup = async (req: Request, res: Response): Promise<any> => {
       message: "succeed.",
     });
   } catch (error) {
-    res.status(400).json({
-      code: 400,
-      error: error.message,
-    });
+    next(createHttpError(400, "could not signup."));
   }
 };
 
-const login = async (req: Request, res: Response): Promise<any> => {
+const login = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<any> => {
   try {
     const { userId, password } = req.body;
 
     const user = await getRepository(User).findOne({ userId });
 
     if (!user) {
-      return res.status(404).json({
-        code: 404,
-        error: "user not found.",
-      });
+      return next(createHttpError(404, "user not found."));
     }
 
     const check = await verifyPassword(password, user.password, user.salt);
 
     if (!check) {
-      return res.status(400).json({
-        code: 400,
-        error: "password don't match.",
-      });
+      return next(createHttpError(400, "password don't match."));
     }
 
     const token = sign(
@@ -157,10 +151,7 @@ const login = async (req: Request, res: Response): Promise<any> => {
       user,
     });
   } catch (error) {
-    res.status(400).json({
-      code: 400,
-      error: error.message,
-    });
+    next(createHttpError(400, "could not login."));
   }
 };
 

@@ -1,6 +1,10 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deletePost = exports.updatePost = exports.getPost = exports.getPosts = exports.createPost = exports.postById = void 0;
+const http_errors_1 = __importDefault(require("http-errors"));
 const typeorm_1 = require("typeorm");
 const coin_entity_1 = require("../entities/coin.entity");
 const post_entity_1 = require("../entities/post.entity");
@@ -9,23 +13,17 @@ const postById = async (req, res, next, id) => {
     try {
         const post = await (0, typeorm_1.getRepository)(post_entity_1.Post).findOne(id);
         if (!post) {
-            return res.status(404).json({
-                code: 404,
-                error: "post not found.",
-            });
+            return next((0, http_errors_1.default)(404, "post not found."));
         }
         req.post = post;
         next();
     }
     catch (error) {
-        res.status(400).json({
-            code: 400,
-            error: "post's id don't match.",
-        });
+        next((0, http_errors_1.default)(400, "post's id don't match."));
     }
 };
 exports.postById = postById;
-const createPost = async (req, res) => {
+const createPost = async (req, res, next) => {
     try {
         const { title, content, rise, fall } = req.body;
         const postRepository = (0, typeorm_1.getRepository)(post_entity_1.Post);
@@ -41,19 +39,13 @@ const createPost = async (req, res) => {
             relations: ["posts"],
         });
         if (!user) {
-            return res.status(404).json({
-                code: 404,
-                error: "user not found",
-            });
+            return next((0, http_errors_1.default)(404, "user not found."));
         }
         const coin = await coinRepository.findOne(req.coin.id, {
             relations: ["posts"],
         });
         if (!coin) {
-            return res.status(404).json({
-                code: 404,
-                error: "coin not found",
-            });
+            return next((0, http_errors_1.default)(404, "coin not found."));
         }
         user.posts.push(post);
         await userRepository.save(user);
@@ -64,14 +56,11 @@ const createPost = async (req, res) => {
         });
     }
     catch (error) {
-        res.status(400).json({
-            code: 400,
-            error: error.message,
-        });
+        next((0, http_errors_1.default)(400, "could not create post."));
     }
 };
 exports.createPost = createPost;
-const getPosts = async (req, res) => {
+const getPosts = async (req, res, next) => {
     try {
         const postRepository = (0, typeorm_1.getRepository)(post_entity_1.Post);
         const posts = [];
@@ -80,10 +69,7 @@ const getPosts = async (req, res) => {
                 relations: ["user", "coin"],
             });
             if (!matchedPost) {
-                return res.status(404).json({
-                    code: 404,
-                    error: "post not found.",
-                });
+                return next((0, http_errors_1.default)(404, "post not found."));
             }
             matchedPost.user.password = "";
             matchedPost.user.salt = "";
@@ -92,44 +78,32 @@ const getPosts = async (req, res) => {
         res.status(200).json(posts);
     }
     catch (error) {
-        res.status(400).json({
-            code: 400,
-            error: "could not get posts.",
-        });
+        next((0, http_errors_1.default)(400, "could not get posts."));
     }
 };
 exports.getPosts = getPosts;
-const getPost = async (req, res) => {
+const getPost = async (req, res, next) => {
     try {
         const matchedPost = req.coin.posts.find((post) => post.id === req.post.id);
         if (!matchedPost) {
-            return res.status(404).json({
-                code: 404,
-                error: "post not found.",
-            });
+            return next((0, http_errors_1.default)(404, "post not found."));
         }
         const post = await (0, typeorm_1.getRepository)(post_entity_1.Post).findOne(matchedPost.id, {
             relations: ["user", "coin"],
         });
         if (!post) {
-            return res.status(404).json({
-                code: 404,
-                error: "post not found.",
-            });
+            return next((0, http_errors_1.default)(404, "post not found."));
         }
         post.user.password = "";
         post.user.salt = "";
         res.status(200).json(post);
     }
     catch (error) {
-        res.status(400).json({
-            code: 400,
-            error: "could not get post.",
-        });
+        next((0, http_errors_1.default)(400, "could not get post."));
     }
 };
 exports.getPost = getPost;
-const updatePost = async (req, res) => {
+const updatePost = async (req, res, next) => {
     try {
         const { title, content, rise, fall } = req.body;
         const postRepository = (0, typeorm_1.getRepository)(post_entity_1.Post);
@@ -144,14 +118,11 @@ const updatePost = async (req, res) => {
         });
     }
     catch (error) {
-        res.status(400).json({
-            code: 400,
-            error: error.message,
-        });
+        next((0, http_errors_1.default)(400, "could not update post."));
     }
 };
 exports.updatePost = updatePost;
-const deletePost = async (req, res) => {
+const deletePost = async (req, res, next) => {
     try {
         await (0, typeorm_1.getRepository)(post_entity_1.Post).delete(req.post.id);
         res.status(200).json({
@@ -159,10 +130,7 @@ const deletePost = async (req, res) => {
         });
     }
     catch (error) {
-        res.status(400).json({
-            code: 400,
-            error: "could not delete post.",
-        });
+        next((0, http_errors_1.default)(400, "could not delete post."));
     }
 };
 exports.deletePost = deletePost;
