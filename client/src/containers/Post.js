@@ -42,6 +42,10 @@ function Post() {
     }
   };
 
+  const handleUpdate = () => {
+    history.push(`/coins/${coinId}/posts/${postId}/edit`);
+  };
+
   return postData ? (
     <section className="postContainer">
       <div className="postHeader">
@@ -67,7 +71,9 @@ function Post() {
         <p>{new Date(postData.createdAt).toLocaleString("ko-kr")}</p>
       </div>
       <div className="editAndDeleteBtn">
-        <Button className="editBtn">수정</Button>
+        <Button onClick={handleUpdate} className="editBtn">
+          수정
+        </Button>
         <Button onClick={handleDelete} variant="danger" className="deleteBtn">
           삭제
         </Button>

@@ -39,7 +39,7 @@ function Posts({ coinId, posts }) {
                   <img src={post.user.image} className="postsAuthorImg" />
                   {post.user.nickname}
                   <span className="postsCardCreatedAt">
-                    {new Date(post?.createdAt).toLocaleString("ko-kr")}
+                    {new Date(post.createdAt).toLocaleString("ko-kr")}
                   </span>
                 </Card.Text>
               </Card.Body>

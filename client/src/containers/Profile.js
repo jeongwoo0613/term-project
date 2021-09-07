@@ -202,6 +202,10 @@ function Profile() {
     return getLocalToken() ? true : false;
   };
 
+  const handleNavigate = (coinId, postId) => {
+    history.push(`/coins/${coinId}/posts/${postId}`);
+  };
+
   if (!getLocalToken() || user?.userId !== userId) {
     return publicUser ? (
       <section className="profileContainer">
@@ -461,7 +465,11 @@ function Profile() {
         {user.posts
           ?.sort((a, b) => b.id - a.id)
           .map((post) => (
-            <Card key={post.id} className="profilePostsCard">
+            <Card
+              key={post.id}
+              className="profilePostsCard"
+              onClick={() => handleNavigate(post.coin.id, post.id)}
+            >
               <Card.Header className="profilePostsCardHeader">
                 {post.title}
                 {post.rise === true ? (

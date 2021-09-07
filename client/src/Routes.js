@@ -14,6 +14,7 @@ const Profile = lazy(() => import("./containers/Profile"));
 const NotFound = lazy(() => import("./containers/NotFound"));
 const NewPost = lazy(() => import("./containers/NewPost"));
 const Post = lazy(() => import("./containers/Post"));
+const EditPost = lazy(() => import("./containers/EditPost"));
 
 function Routes() {
   return (
@@ -39,6 +40,9 @@ function Routes() {
         </Route>
         <AuthenticatedRoute path="/coins/:coinId/post/new">
           <NewPost />
+        </AuthenticatedRoute>
+        <AuthenticatedRoute path="/coins/:coinId/posts/:postId/edit">
+          <EditPost />
         </AuthenticatedRoute>
         <Route path="/coins/:coinId/posts/:postId">
           <Post />

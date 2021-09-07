@@ -1,0 +1,31 @@
+.editPostFormContainer {
+  margin-top: 10px;
+}
+
+.editPostHeader {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.editPostTitle {
+  flex: 1;
+}
+
+.riseFallBtnContainer {
+  margin-left: 5px;
+}
+
+.riseBtn {
+  margin-right: 2px;
+}
+
+.editPostTextArea {
+  height: 600px;
+}
+
+.editPostBtn {
+  position: fixed;
+  bottom: 0;
+  max-width: 768px;
+  width: 100%;
+}
