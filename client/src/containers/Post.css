@@ -4,13 +4,32 @@
   padding: 10px;
 }
 
-.postHeader {
+.postInfo {
   border-bottom: 1px solid #e0e0e0;
+}
+
+.postInfoDiv {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  color: #949eac;
+}
+
+.rightArrowIcon {
+  margin-left: 3px;
+  margin-right: 3px;
+}
+
+.postHeader {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
 }
 
 .postTitle {
   font-weight: bold;
   display: inline;
+  font-size: 24px;
 }
 
 .postTitleCoinInfo {
@@ -22,20 +41,24 @@
 }
 
 .riseFallIcon {
-  float: right;
   font-size: 30px;
   margin-left: 5px;
 }
 
 .postAuthorContainer {
   border-bottom: 1px solid #e0e0e0;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
   padding: 10px 0;
+  padding-bottom: 20px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  color: #949eac;
 }
 
 .postAuthorImg {
-  width: 40px;
-  margin-right: 10px;
+  width: 20px;
+  margin-right: 5px;
   border-radius: 9999px;
 }
 
@@ -51,6 +74,7 @@
 .postCreatedAt {
   font-size: 14px;
   border-bottom: 1px solid #e0e0e0;
+  color: #949eac;
 }
 
 .editAndDeleteBtn {
@@ -60,6 +84,14 @@
 
 .editBtn {
   margin-right: 5px;
+}
+.editBtn,
+.deleteBtn,
+.editBtn:hover,
+.deleteBtn:hover {
+  background-color: #fff;
+  border-color: #dbdbdb;
+  color: #757575;
 }
 
 @media (max-width: 370px) {
