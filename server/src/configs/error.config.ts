@@ -1,7 +1,13 @@
 import { NextFunction, Request, Response } from "express";
+import { ValidationError } from "joi";
+
+interface IError {
+  status: number;
+  message: string;
+}
 
 const errorLogger = (
-  err: any,
+  err: IError,
   req: Request,
   res: Response,
   next: NextFunction
@@ -11,12 +17,13 @@ const errorLogger = (
 };
 
 const errorHandler = (
-  err: any,
+  err: IError,
   req: Request,
   res: Response,
   next: NextFunction
 ): void => {
-  const errorStatusCode = err.status || 500;
+  const errorStatusCode =
+    err instanceof ValidationError ? 400 : err.status || 500;
   const errorMessage = err.message || "Internal Server Error";
 
   res.status(errorStatusCode).json({
