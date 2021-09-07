@@ -293,7 +293,11 @@ function Profile() {
           {publicUser.posts
             ?.sort((a, b) => b.id - a.id)
             .map((post) => (
-              <Card key={post.id} className="profilePostsCard">
+              <Card
+                key={post.id}
+                className="profilePostsCard"
+                onClick={() => handleNavigate(post.coin.id, post.id)}
+              >
                 <Card.Header className="profilePostsCardHeader">
                   {post.title}
                   {post.rise === true ? (
