@@ -27,14 +27,14 @@ function NewPost() {
     setIsPostLoading(true);
 
     try {
-      const postResult = await createPost(getLocalToken(), coinId, {
+      const result = await createPost(getLocalToken(), coinId, {
         title: fields.title,
         content: fields.content,
         rise,
         fall,
       });
 
-      if (!postResult) {
+      if (!result) {
         throw new Error("Post creation failed");
       }
 
@@ -95,17 +95,16 @@ function NewPost() {
             />
           </Form.Group>
         </div>
-        <div className="riseFallBtnContainer">
+        <div className="newPostRiseFallBtnContainer">
           <Button
             variant={rise ? "danger" : "outline-danger"}
-            className="riseBtn"
+            className="newPostRiseBtn"
             onClick={handleRise}
           >
             오른다
           </Button>
           <Button
             variant={fall ? "primary" : "outline-primary"}
-            className="fallBtn"
             onClick={handleFall}
           >
             내린다
@@ -118,12 +117,12 @@ function NewPost() {
           value={fields.content}
           onChange={setFields}
           ref={refContent}
-          className="newPostTextArea"
+          className="newPostContentInput"
           as="textarea"
         />
       </Form.Group>
       {error && alert("제목을 1 ~ 30자, 내용을 1 ~ 300자를 입력해주세요.")}
-      <Button disabled={!validateForm()} type="submit" className="postBtn">
+      <Button disabled={!validateForm()} type="submit" className="newPostBtn">
         {isPostLoading ? (
           <>
             <Spinner

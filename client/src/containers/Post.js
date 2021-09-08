@@ -8,7 +8,7 @@ import { getLocalToken } from "../utils/storage.util";
 import { AiOutlineRise, AiOutlineFall, AiOutlineRight } from "react-icons/ai";
 
 function Post() {
-  const [postData, setPostData] = useState();
+  const [post, setPost] = useState();
   const { coinId, postId } = useParams();
   const history = useHistory();
 
@@ -16,7 +16,7 @@ function Post() {
     const loadPost = async () => {
       try {
         const post = await getPost(coinId, postId);
-        setPostData(post);
+        setPost(post);
       } catch (error) {
         console.log(error);
       }
@@ -46,43 +46,49 @@ function Post() {
     history.push(`/coins/${coinId}/posts/${postId}/edit`);
   };
 
-  return postData ? (
+  return post ? (
     <section className="postContainer">
-      <div className="postInfo">
-        <div className="postInfoDiv">
+      <div className="postInfoContainer">
+        <div className="postInfo">
           <span>암호화폐</span>
-          <AiOutlineRight className="rightArrowIcon" />
+          <AiOutlineRight className="postInfoIcon" />
           <span>
-            <img src={postData.coin.image} className="postTitleCoinImg" />
-            {postData.coin.name}
+            <img src={post.coin.image} className="postInfoCoinImg" />
+            {post.coin.name}
           </span>
         </div>
       </div>
-      <div className="postHeader">
-        <h5 className="postTitle">{postData.title}</h5>
-        <span className="postTitleCoinInfo">
-          {postData.rise === true ? (
-            <AiOutlineRise color="red" className="riseFallIcon" />
+      <div className="postTitleContainer">
+        <h5 className="postTitle">{post.title}</h5>
+        <span className="postTitleRiseFall">
+          {post.rise === true ? (
+            <AiOutlineRise color="red" className="postTitleRiseFallIcon" />
           ) : (
-            <AiOutlineFall color="blue" className="riseFallIcon" />
+            <AiOutlineFall color="blue" className="postTitleRiseFallIcon" />
           )}
         </span>
       </div>
       <div className="postAuthorContainer">
-        <img className="postAuthorImg" src={postData.user.image} />
-        {postData.user.nickname}
+        <img className="postAuthorImg" src={post.user.image} />
+        {post.user.nickname}
       </div>
       <div className="postContentContainer">
-        <p className="postContent">{postData.content}</p>
+        <p className="postContent">{post.content}</p>
       </div>
       <div className="postCreatedAt">
-        <p>{new Date(postData.createdAt).toLocaleString("ko-kr")}</p>
+        <p>{`${new Date(post.createdAt).getFullYear()}년 ${
+          new Date(post.createdAt).getMonth() + 1
+        }월 ${new Date(post.createdAt).getDate()}일`}</p>
       </div>
-      <div className="editAndDeleteBtn">
-        <Button onClick={handleUpdate} className="editBtn">
+      <div className="postEditAndDeleteContainer">
+        <Button onClick={handleUpdate} className="postEditBtn">
           수정
         </Button>
-        <Button onClick={handleDelete} variant="danger" className="deleteBtn">
+        <Button
+          onClick={handleDelete}
+          variant="danger"
+          className="postDeleteBtn"
+        >
           삭제
         </Button>
       </div>

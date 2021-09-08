@@ -1,11 +1,13 @@
 .newsContainer {
   background-color: #fff;
 }
+
 .newsItemContainer {
   margin-top: 30px;
   border-top: 1px solid #d4d6dc;
   margin: 0 10px;
 }
+
 .newsThumbnail {
   margin-top: 30px;
   display: flex;

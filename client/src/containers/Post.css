@@ -1,26 +1,29 @@
 .postContainer {
-  margin: 15px auto;
-  max-width: 700px;
-  padding: 10px;
+  padding: 30px;
 }
 
-.postInfo {
+.postInfoContainer {
   border-bottom: 1px solid #e0e0e0;
 }
 
-.postInfoDiv {
+.postInfo {
   margin-bottom: 20px;
   display: flex;
   align-items: center;
   color: #949eac;
 }
 
-.rightArrowIcon {
+.postInfoIcon {
   margin-left: 3px;
   margin-right: 3px;
 }
 
-.postHeader {
+.postInfoCoinImg {
+  width: 20px;
+  margin-right: 5px;
+}
+
+.postTitleContainer {
   margin-top: 20px;
   display: flex;
   align-items: center;
@@ -32,15 +35,11 @@
   font-size: 24px;
 }
 
-.postTitleCoinInfo {
+.postTitleRiseFall {
   float: right;
 }
-.postTitleCoinImg {
-  width: 20px;
-  margin-right: 5px;
-}
 
-.riseFallIcon {
+.postTitleRiseFallIcon {
   font-size: 30px;
   margin-left: 5px;
 }
@@ -77,26 +76,19 @@
   color: #949eac;
 }
 
-.editAndDeleteBtn {
+.postEditAndDeleteContainer {
   float: right;
   margin-top: 10px;
 }
 
-.editBtn {
+.postEditBtn {
   margin-right: 5px;
 }
-.editBtn,
-.deleteBtn,
-.editBtn:hover,
-.deleteBtn:hover {
+.postEditBtn,
+.postDeleteBtn,
+.postEditBtn:hover,
+.postDeleteBtn:hover {
   background-color: #fff;
   border-color: #dbdbdb;
   color: #757575;
-}
-
-@media (max-width: 370px) {
-  .deleteEditBtnDiv {
-    float: none;
-    text-align: right;
-  }
 }

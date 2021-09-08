@@ -7,23 +7,27 @@ import { AiOutlineRise, AiOutlineFall } from "react-icons/ai";
 function Posts({ coinId, posts }) {
   const history = useHistory();
 
-  const navigatePost = () => {
+  const navigateNewPost = () => {
     history.push(`/coins/${coinId}/post/new`);
+  };
+
+  const navigatePost = (postId) => {
+    history.push(`/coins/${coinId}/posts/${postId}`);
   };
 
   return (
     <div className="postsContainer">
-      <Button onClick={navigatePost} className="postsBtn">
+      <Button onClick={navigateNewPost} className="postsBtn">
         글쓰기
       </Button>
       <div className="postsCardContainer">
         {posts
-          ?.sort((a, b) => b.id - a.id)
+          .sort((a, b) => b.id - a.id)
           .map((post) => (
             <Card
               key={post.id}
               className="postsCard"
-              onClick={() => history.push(`/coins/${coinId}/posts/${post.id}`)}
+              onClick={() => navigatePost(post.id)}
             >
               <Card.Header className="postsCardHeader">
                 {post.title}
@@ -39,7 +43,9 @@ function Posts({ coinId, posts }) {
                   <img src={post.user.image} className="postsAuthorImg" />
                   {post.user.nickname}
                   <span className="postsCardCreatedAt">
-                    {new Date(post.createdAt).toLocaleString("ko-kr")}
+                    {`${new Date(post.createdAt).getFullYear()}년 ${
+                      new Date(post.createdAt).getMonth() + 1
+                    }월 ${new Date(post.createdAt).getDate()}일`}
                   </span>
                 </Card.Text>
               </Card.Body>

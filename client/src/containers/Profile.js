@@ -488,7 +488,9 @@ function Profile() {
                   <img src={post.coin.image} className="postCoinImg" />
                   {post.coin.name}
                   <span className="profilePostsCardCreatedAt">
-                    {new Date(post.createdAt).toLocaleString("ko-kr")}
+                    {`${new Date(post.createdAt).getFullYear()}년 ${
+                      new Date(post.createdAt).getMonth() + 1
+                    }월 ${new Date(post.createdAt).getDate()}일`}
                   </span>
                 </Card.Text>
               </Card.Body>

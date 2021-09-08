@@ -11,19 +11,19 @@
   flex: 1;
 }
 
-.riseFallBtnContainer {
+.newPostRiseFallBtnContainer {
   margin-left: 5px;
 }
 
-.riseBtn {
+.newPostRiseBtn {
   margin-right: 2px;
 }
 
-.newPostTextArea {
-  height: 600px;
+.newPostContentInput {
+  height: 200px;
 }
 
-.postBtn {
+.newPostBtn {
   position: fixed;
   bottom: 0;
   max-width: 768px;

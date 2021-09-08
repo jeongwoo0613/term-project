@@ -19,16 +19,16 @@ function Header() {
   const location = useLocation();
   const { user } = useAppContext();
 
-  const handleLogin = () => {
+  const navigateLogin = () => {
     history.push("/login");
   };
 
-  const handleLogout = () => {
+  const navigateLogout = () => {
     removeLocalToken();
     history.push("/login");
   };
 
-  const handleProfile = () => {
+  const navigateProfile = () => {
     document.body.click();
     history.push(`/${user.userId}`);
   };
@@ -40,7 +40,7 @@ function Header() {
           <h2 className="headerLogo">coinplus</h2>
         </Link>
         {!getLocalToken() ? (
-          <Button onClick={handleLogin} className="headerLogin">
+          <Button onClick={navigateLogin} className="headerLogin">
             로그인
           </Button>
         ) : (
@@ -55,12 +55,15 @@ function Header() {
                     <Popover.Body>
                       <div
                         className="headerUserProfile"
-                        onClick={handleProfile}
+                        onClick={navigateProfile}
                       >
                         프로필
                       </div>
                       <hr />
-                      <div className="headerUserLogout" onClick={handleLogout}>
+                      <div
+                        className="headerUserLogout"
+                        onClick={navigateLogout}
+                      >
                         로그아웃
                       </div>
                     </Popover.Body>

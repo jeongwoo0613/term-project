@@ -6,14 +6,14 @@ import { useState, useEffect } from "react";
 import { getCoins } from "../api/coins.api";
 
 function Coins() {
-  const [coinsData, setCoinsData] = useState();
+  const [coins, setCoins] = useState();
   const history = useHistory();
 
   useEffect(() => {
     const loadCoins = async () => {
       try {
         const coins = await getCoins();
-        setCoinsData(coins);
+        setCoins(coins);
       } catch (error) {
         console.log(error);
       }
@@ -21,11 +21,11 @@ function Coins() {
     loadCoins();
   }, []);
 
-  const handleClick = (coinId) => {
+  const navigateCoin = (coinId) => {
     history.push(`/coins/${coinId}`);
   };
 
-  return coinsData ? (
+  return coins ? (
     <section>
       <Table hover borderless className="coinsTable">
         <thead>
@@ -39,9 +39,9 @@ function Coins() {
           </tr>
         </thead>
         <tbody>
-          {coinsData.map((coin) => (
+          {coins.map((coin) => (
             <tr
-              onClick={() => handleClick(coin.id)}
+              onClick={() => navigateCoin(coin.id)}
               key={coin.id}
               className="coinsTableRow"
             >

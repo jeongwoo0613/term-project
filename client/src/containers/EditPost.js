@@ -19,15 +19,16 @@ function EditPost() {
   const refTitle = useRef();
   const refContent = useRef();
   const { coinId, postId } = useParams();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isPostLoading, setIsPostLoading] = useState(false);
+
   useEffect(() => {
     const loadPost = async () => {
-      setIsLoading(true);
+      setIsPostLoading(true);
       try {
         const post = await getPost(coinId, postId);
         setTitle(post.title);
         setContent(post.content);
-        setIsLoading(false);
+        setIsPostLoading(false);
       } catch (error) {
         console.log(error);
       }
@@ -40,14 +41,14 @@ function EditPost() {
     setIsPostUpdateLoading(true);
 
     try {
-      const postResult = await updatePost(getLocalToken(), coinId, postId, {
+      const result = await updatePost(getLocalToken(), coinId, postId, {
         title,
         content,
         rise,
         fall,
       });
 
-      if (!postResult) {
+      if (!result) {
         throw new Error("post update failed");
       }
 
@@ -91,7 +92,7 @@ function EditPost() {
     setRise(false);
   };
 
-  return isLoading ? (
+  return isPostLoading ? (
     <Loading />
   ) : (
     <Form className="editPostFormContainer" onSubmit={handleSubmit}>
@@ -108,17 +109,16 @@ function EditPost() {
             />
           </Form.Group>
         </div>
-        <div className="riseFallBtnContainer">
+        <div className="editPostRiseFallBtnContainer">
           <Button
             variant={rise ? "danger" : "outline-danger"}
-            className="riseBtn"
+            className="editPostRiseBtn"
             onClick={handleRise}
           >
             오른다
           </Button>
           <Button
             variant={fall ? "primary" : "outline-primary"}
-            className="fallBtn"
             onClick={handleFall}
           >
             내린다
@@ -131,7 +131,7 @@ function EditPost() {
           value={content}
           onChange={(e) => setContent(e.target.value)}
           ref={refContent}
-          className="editPostTextArea"
+          className="editPostContentInput"
           as="textarea"
         />
       </Form.Group>
