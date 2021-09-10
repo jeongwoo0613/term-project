@@ -1,11 +1,11 @@
 .coinContainer {
-  background-color: #fff;
+  background-color: var(--main-white);
   padding: 30px;
 }
 
 .coinHeader {
   display: flex;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid var(--main-light-gray);
   margin-bottom: 30px;
 }
 
@@ -20,7 +20,7 @@
 
 .coinTradePrice {
   display: flex;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid var(--main-light-gray);
   margin-bottom: 30px;
 }
 
@@ -49,20 +49,20 @@
   width: 76px;
   line-height: 24px;
   margin: 0 0 0 4px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--main-light-gray);
   font-size: 12px;
   text-align: center;
   color: #000;
 }
 
 .coinMetaContainer {
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--main-light-gray);
   padding: 13px;
   font-size: 14px;
 }
 
 .coinMeta {
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid var(--main-light-gray);
   padding-bottom: 10px;
 }
 

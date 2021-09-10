@@ -1,5 +1,5 @@
 .coinsTable {
-  border-bottom: 2px #007aff solid;
+  border-bottom: 2px solid var(--main-blue);
   text-align: center;
 }
 

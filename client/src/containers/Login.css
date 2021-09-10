@@ -9,7 +9,7 @@
 }
 
 .loginFormLogo {
-  color: #007aff;
+  color: var(--main-blue);
   margin-bottom: 30px;
 }
 
@@ -20,9 +20,9 @@
 
 .googleLoginBtn {
   width: 100%;
-  background-color: #fff;
-  color: #000;
-  border: 1px solid #ddd;
+  background-color: var(--main-white);
+  color: var(--main-black);
+  border: 1px solid var(--main-light-gray);
   border-radius: 0.25rem;
   padding: 5px;
 }
@@ -43,14 +43,14 @@
 .hr-sect {
   display: flex;
   align-items: center;
-  color: rgba(0, 0, 0, 0.35);
+  color: var(--main-black);
   margin: 25px 0px;
 }
 .hr-sect::before,
 .hr-sect::after {
   content: "";
   flex-grow: 1;
-  background: rgba(0, 0, 0, 0.35);
+  background: var(--main-light-gray);
   height: 1px;
   margin: 0px 10px;
 }

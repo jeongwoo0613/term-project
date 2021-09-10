@@ -18,7 +18,7 @@
 
 .postsCardHeader {
   font-weight: bold;
-  background-color: #fff;
+  background-color: var(--main-white);
 }
 
 .riseFallIcon {

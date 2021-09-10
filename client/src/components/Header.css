@@ -1,5 +1,5 @@
 .headerContainer {
-  border-bottom: 2px solid #007aff;
+  border-bottom: 2px solid var(--main-blue);
 }
 
 .headerTop {
@@ -10,7 +10,7 @@
   float: left;
   margin-top: 20px;
   margin-left: 15px;
-  color: #007aff;
+  color: var(--main-blue);
 }
 
 .headerLogin {
@@ -45,7 +45,7 @@
 }
 
 .headerSearchInput {
-  border: 2px solid #007aff;
+  border: 2px solid var(--main-blue);
   padding: 10px 20px;
 }
 

@@ -66,4 +66,66 @@ const deletePost = async (token, coinId, postId) => {
   }
 };
 
-export { getPosts, getPost, createPost, updatePost, deletePost };
+const createComment = async (token, coinId, postId, comment) => {
+  try {
+    const result = await instance.post(
+      `/${coinId}/posts/${postId}/comment`,
+      comment,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return result.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const updateComment = async (token, coinId, postId, commentId, comment) => {
+  try {
+    const result = await instance.put(
+      `/${coinId}/posts/${postId}/comments/${commentId}`,
+      comment,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return result.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const deleteComment = async (token, coinId, postId, commentId) => {
+  try {
+    const result = await instance.delete(
+      `/${coinId}/posts/${postId}/comments/${commentId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return result.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export {
+  getPosts,
+  getPost,
+  createPost,
+  updatePost,
+  deletePost,
+  createComment,
+  updateComment,
+  deleteComment,
+};

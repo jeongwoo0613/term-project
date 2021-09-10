@@ -1,10 +1,10 @@
 .newsContainer {
-  background-color: #fff;
+  background-color: var(--main-white);
 }
 
 .newsItemContainer {
   margin-top: 30px;
-  border-top: 1px solid #d4d6dc;
+  border-top: 1px solid var(--main-light-gray);
   margin: 0 10px;
 }
 
@@ -24,7 +24,7 @@
 }
 
 .newsTitleLink {
-  color: #000;
+  color: var(--main-black);
 }
 
 .newsDescription,

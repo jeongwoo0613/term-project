@@ -3,14 +3,14 @@
 }
 
 .postInfoContainer {
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid var(--main-light-gray);
 }
 
 .postInfo {
   margin-bottom: 20px;
   display: flex;
   align-items: center;
-  color: #949eac;
+  color: var(--main-gray);
 }
 
 .postInfoIcon {
@@ -45,14 +45,14 @@
 }
 
 .postAuthorContainer {
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid var(--main-light-gray);
   margin-bottom: 20px;
   padding: 10px 0;
   padding-bottom: 20px;
   font-size: 14px;
   display: flex;
   align-items: center;
-  color: #949eac;
+  color: var(--main-gray);
 }
 
 .postAuthorImg {
@@ -72,8 +72,8 @@
 
 .postCreatedAt {
   font-size: 14px;
-  border-bottom: 1px solid #e0e0e0;
-  color: #949eac;
+  border-bottom: 1px solid var(--main-light-gray);
+  color: var(--main-gray);
 }
 
 .postEditAndDeleteContainer {
@@ -88,7 +88,7 @@
 .postDeleteBtn,
 .postEditBtn:hover,
 .postDeleteBtn:hover {
-  background-color: #fff;
-  border-color: #dbdbdb;
-  color: #757575;
+  background-color: var(--main-white);
+  border-color: var(--main-light-gray);
+  color: var(--main-gray);
 }

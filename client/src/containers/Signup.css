@@ -9,7 +9,7 @@
 }
 
 .signupFormLogo {
-  color: #007aff;
+  color: var(--main-blue);
   margin-bottom: 30px;
 }
 
