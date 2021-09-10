@@ -4,6 +4,7 @@ import { getRepository } from "typeorm";
 import { Coin } from "../entities/coin.entity";
 import { Post } from "../entities/post.entity";
 import { User } from "../entities/user.entity";
+import { Comment } from "../entities/comment.entity";
 
 const postById = async (
   req: Request,
@@ -125,6 +126,23 @@ const getPost = async (
     post.user.password = "";
     post.user.salt = "";
 
+    const comments = [];
+
+    for (const comment of post.comments) {
+      const matchedComment = await getRepository(Comment).findOne(comment.id, {
+        relations: ["user"],
+      });
+
+      if (!matchedComment) {
+        return next(createHttpError(404, "comment not found."));
+      }
+
+      matchedComment.user.password = "";
+      matchedComment.user.salt = "";
+      comments.push(matchedComment);
+    }
+
+    post.comments = comments;
     res.status(200).json(post);
   } catch (error) {
     next(createHttpError(400, "could not get post."));

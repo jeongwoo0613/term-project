@@ -9,6 +9,7 @@ const typeorm_1 = require("typeorm");
 const coin_entity_1 = require("../entities/coin.entity");
 const post_entity_1 = require("../entities/post.entity");
 const user_entity_1 = require("../entities/user.entity");
+const comment_entity_1 = require("../entities/comment.entity");
 const postById = async (req, res, next, id) => {
     try {
         const post = await (0, typeorm_1.getRepository)(post_entity_1.Post).findOne(id);
@@ -95,6 +96,19 @@ const getPost = async (req, res, next) => {
         }
         post.user.password = "";
         post.user.salt = "";
+        const comments = [];
+        for (const comment of post.comments) {
+            const matchedComment = await (0, typeorm_1.getRepository)(comment_entity_1.Comment).findOne(comment.id, {
+                relations: ["user"],
+            });
+            if (!matchedComment) {
+                return next((0, http_errors_1.default)(404, "comment not found."));
+            }
+            matchedComment.user.password = "";
+            matchedComment.user.salt = "";
+            comments.push(matchedComment);
+        }
+        post.comments = comments;
         res.status(200).json(post);
     }
     catch (error) {
