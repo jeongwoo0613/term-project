@@ -80,11 +80,10 @@ const getPosts = async (
   next: NextFunction
 ): Promise<any> => {
   try {
-    const postRepository = getRepository(Post);
     const posts = [];
 
     for (const post of req.coin.posts) {
-      const matchedPost = await postRepository.findOne(post.id, {
+      const matchedPost = await getRepository(Post).findOne(post.id, {
         relations: ["user", "coin"],
       });
 
@@ -116,7 +115,7 @@ const getPost = async (
     }
 
     const post = await getRepository(Post).findOne(matchedPost.id, {
-      relations: ["user", "coin"],
+      relations: ["user", "coin", "comments"],
     });
 
     if (!post) {
@@ -139,9 +138,8 @@ const updatePost = async (
 ): Promise<any> => {
   try {
     const { title, content, rise, fall } = req.body;
-    const postRepository = getRepository(Post);
 
-    await postRepository.update(req.post.id, {
+    await getRepository(Post).update(req.post.id, {
       title,
       content,
       rise,

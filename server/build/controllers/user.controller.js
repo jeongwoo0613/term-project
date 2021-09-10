@@ -48,10 +48,9 @@ const getUsers = async (req, res, next) => {
 exports.getUsers = getUsers;
 const getUserByUserId = async (req, res, next) => {
     try {
-        const postRepository = (0, typeorm_1.getRepository)(post_entity_1.Post);
         const posts = [];
         for (const post of req.userByUserId.posts) {
-            const matchedPost = await postRepository.findOne(post.id, {
+            const matchedPost = await (0, typeorm_1.getRepository)(post_entity_1.Post).findOne(post.id, {
                 relations: ["coin"],
             });
             if (!matchedPost) {
@@ -83,10 +82,9 @@ const getUserByUserId = async (req, res, next) => {
 exports.getUserByUserId = getUserByUserId;
 const getUser = async (req, res, next) => {
     try {
-        const postRepository = (0, typeorm_1.getRepository)(post_entity_1.Post);
         const posts = [];
         for (const post of req.user.posts) {
-            const matchedPost = await postRepository.findOne(post.id, {
+            const matchedPost = await (0, typeorm_1.getRepository)(post_entity_1.Post).findOne(post.id, {
                 relations: ["coin"],
             });
             if (!matchedPost) {

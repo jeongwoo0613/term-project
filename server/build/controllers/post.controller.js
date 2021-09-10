@@ -62,10 +62,9 @@ const createPost = async (req, res, next) => {
 exports.createPost = createPost;
 const getPosts = async (req, res, next) => {
     try {
-        const postRepository = (0, typeorm_1.getRepository)(post_entity_1.Post);
         const posts = [];
         for (const post of req.coin.posts) {
-            const matchedPost = await postRepository.findOne(post.id, {
+            const matchedPost = await (0, typeorm_1.getRepository)(post_entity_1.Post).findOne(post.id, {
                 relations: ["user", "coin"],
             });
             if (!matchedPost) {
@@ -89,7 +88,7 @@ const getPost = async (req, res, next) => {
             return next((0, http_errors_1.default)(404, "post not found."));
         }
         const post = await (0, typeorm_1.getRepository)(post_entity_1.Post).findOne(matchedPost.id, {
-            relations: ["user", "coin"],
+            relations: ["user", "coin", "comments"],
         });
         if (!post) {
             return next((0, http_errors_1.default)(404, "post not found."));
@@ -106,8 +105,7 @@ exports.getPost = getPost;
 const updatePost = async (req, res, next) => {
     try {
         const { title, content, rise, fall } = req.body;
-        const postRepository = (0, typeorm_1.getRepository)(post_entity_1.Post);
-        await postRepository.update(req.post.id, {
+        await (0, typeorm_1.getRepository)(post_entity_1.Post).update(req.post.id, {
             title,
             content,
             rise,

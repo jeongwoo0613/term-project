@@ -232,6 +232,36 @@
 
   `Authorization: Bearer ${Token}`
 
+#### Create Comment
+
+- URL
+
+  /:coinId/posts/:postId/comment
+
+- Method
+
+  `POST`
+
+- Headers
+
+  `Authorization: Bearer ${Token}`
+
+#### Update, Delete Comment
+
+- URL
+
+  /:coinId/posts/:postId/comments/:commentId
+
+- Method
+
+  `PUT`
+
+  `DELETE`
+
+- Headers
+
+  `Authorization: Bearer ${Token}`
+
 ### Admin
 
 ---

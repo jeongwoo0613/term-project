@@ -68,11 +68,10 @@ const getUserByUserId = async (
   next: NextFunction
 ): Promise<any> => {
   try {
-    const postRepository = getRepository(Post);
     const posts = [];
 
     for (const post of req.userByUserId.posts) {
-      const matchedPost = await postRepository.findOne(post.id, {
+      const matchedPost = await getRepository(Post).findOne(post.id, {
         relations: ["coin"],
       });
 
@@ -112,11 +111,10 @@ const getUser = async (
   next: NextFunction
 ): Promise<any> => {
   try {
-    const postRepository = getRepository(Post);
     const posts = [];
 
     for (const post of req.user.posts) {
-      const matchedPost = await postRepository.findOne(post.id, {
+      const matchedPost = await getRepository(Post).findOne(post.id, {
         relations: ["coin"],
       });
 
