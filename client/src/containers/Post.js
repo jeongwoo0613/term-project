@@ -93,7 +93,7 @@ function Post() {
           삭제
         </Button>
       </div>
-      <Comment />
+      <Comment coinId={coinId} postId={postId} />
     </section>
   ) : (
     <Loading />

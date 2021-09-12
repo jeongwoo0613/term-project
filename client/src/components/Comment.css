@@ -1,14 +1,17 @@
 .commentContainer {
   margin-top: 60px;
 }
-.commentTitle {
+
+.commentHeader {
   margin-bottom: 25px;
   font-weight: bold;
 }
+
 .commentImgContent {
   display: flex;
   align-items: center;
 }
+
 .commentProfileImg {
   border-radius: 9999px;
   width: 38px;
