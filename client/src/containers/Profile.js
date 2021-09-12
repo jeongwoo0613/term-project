@@ -202,8 +202,12 @@ function Profile() {
     return getLocalToken() ? true : false;
   };
 
-  const handleNavigate = (coinId, postId) => {
+  const navigatePost = (coinId, postId) => {
     history.push(`/coins/${coinId}/posts/${postId}`);
+  };
+
+  const navigateUser = (userId) => {
+    history.push(`/${userId}`);
   };
 
   if (!getLocalToken() || user?.userId !== userId) {
@@ -261,7 +265,12 @@ function Profile() {
                 {publicUser.followers?.map((follower) => (
                   <Modal.Body key={follower.id}>
                     <img src={follower.image} alt="" className="followImg" />
-                    {follower.nickname}
+                    <span
+                      className="navigateUser"
+                      onClick={() => navigateUser(follower.userId)}
+                    >
+                      {follower.nickname}
+                    </span>
                   </Modal.Body>
                 ))}
               </Modal>
@@ -282,7 +291,12 @@ function Profile() {
                 {publicUser.following?.map((following) => (
                   <Modal.Body key={following.id}>
                     <img src={following.image} alt="" className="followImg" />
-                    {following.nickname}
+                    <span
+                      className="navigateUser"
+                      onClick={() => navigateUser(following.userId)}
+                    >
+                      {following.nickname}
+                    </span>
                   </Modal.Body>
                 ))}
               </Modal>
@@ -296,7 +310,7 @@ function Profile() {
               <Card
                 key={post.id}
                 className="profilePostsCard"
-                onClick={() => handleNavigate(post.coin.id, post.id)}
+                onClick={() => navigatePost(post.coin.id, post.id)}
               >
                 <Card.Header className="profilePostsCardHeader">
                   {post.title}
@@ -440,7 +454,12 @@ function Profile() {
               {user.followers?.map((follower) => (
                 <Modal.Body key={follower.id}>
                   <img src={follower.image} alt="" className="followImg" />
-                  {follower.nickname}
+                  <span
+                    className="navigateUser"
+                    onClick={() => navigateUser(follower.userId)}
+                  >
+                    {follower.nickname}
+                  </span>
                 </Modal.Body>
               ))}
             </Modal>
@@ -458,7 +477,12 @@ function Profile() {
               {user.following?.map((following) => (
                 <Modal.Body key={following.id}>
                   <img src={following.image} alt="" className="followImg" />
-                  {following.nickname}
+                  <span
+                    className="navigateUser"
+                    onClick={() => navigateUser(following.userId)}
+                  >
+                    {following.nickname}
+                  </span>
                 </Modal.Body>
               ))}
             </Modal>
@@ -466,13 +490,13 @@ function Profile() {
         </div>
       </div>
       <div className="profilePostsContainer">
-        {user.posts
+        {user?.posts
           ?.sort((a, b) => b.id - a.id)
           .map((post) => (
             <Card
               key={post.id}
               className="profilePostsCard"
-              onClick={() => handleNavigate(post.coin.id, post.id)}
+              onClick={() => navigatePost(post.coin.id, post.id)}
             >
               <Card.Header className="profilePostsCardHeader">
                 {post.title}
@@ -485,7 +509,7 @@ function Profile() {
               <Card.Body>
                 <Card.Text>{post.content}</Card.Text>
                 <Card.Text className="profilePostsCardInfo">
-                  <img src={post.coin.image} className="postCoinImg" />
+                  <img src={post?.coin.image} className="postCoinImg" />
                   {post.coin.name}
                   <span className="profilePostsCardCreatedAt">
                     {`${new Date(post.createdAt).getFullYear()}년 ${

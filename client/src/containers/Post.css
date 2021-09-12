@@ -93,3 +93,6 @@
   border-color: var(--main-light-gray);
   color: var(--main-gray);
 }
+.navigateCoin {
+  cursor: pointer;
+}

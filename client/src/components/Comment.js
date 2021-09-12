@@ -1,15 +1,14 @@
 import "./Comment.css";
 import Form from "react-bootstrap/Form";
-import { useFormFields } from "../utils/hooks.util";
 import { useAppContext } from "../utils/context.util";
 import { createComment } from "../api/posts.api";
 import { getLocalToken } from "../utils/storage.util";
+import { getPost } from "../api/posts.api";
+import { useState } from "react";
 
-function Comment({ coinId, postId }) {
-  const [fields, setFields] = useFormFields({
-    content: "",
-  });
+function Comment({ coinId, postId, setPost, post }) {
   const { user } = useAppContext();
+  const [content, setContent] = useState("");
 
   const handleEnter = async (event) => {
     if (event.keyCode === 13) {
@@ -17,12 +16,17 @@ function Comment({ coinId, postId }) {
 
       try {
         const result = await createComment(getLocalToken(), coinId, postId, {
-          content: fields.content,
+          content,
         });
 
         if (!result) {
           throw new Error("Comment creation failed");
         }
+
+        const post = await getPost(coinId, postId);
+
+        setPost(post);
+        setContent("");
       } catch (error) {
         if (error.message === "Comment creation failed") {
           alert("댓글 생성을 실패하였습니다.");
@@ -33,15 +37,15 @@ function Comment({ coinId, postId }) {
 
   return (
     <div className="commentContainer">
-      <h5 className="commentHeader">댓글</h5>
+      <h5 className="commentHeader">댓글 {post.comments.length}</h5>
       <div className="commentImgContent">
         <img src={user.image} className="commentProfileImg" />
         <Form className="commentFormContainer">
           <Form.Group controlId="content">
             <Form.Control
               placeholder="댓글을 입력해주세요."
-              value={fields.content}
-              onChange={setFields}
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
               onKeyDown={handleEnter}
             />
           </Form.Group>

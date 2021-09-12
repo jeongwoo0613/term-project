@@ -1,0 +1,37 @@
+.commentsContainer {
+  margin-top: 35px;
+}
+.commentsImgContent {
+  display: flex;
+  align-items: center;
+}
+.commentsAuthor {
+  margin-left: 10px;
+  color: #424242;
+  font-weight: bold;
+  font-size: 15px;
+  cursor: pointer;
+}
+.commentsProfileImg {
+  border-radius: 9999px;
+  width: 38px;
+}
+.commentsContent {
+  margin-left: 48px;
+  font-size: 15px;
+}
+.commentsEditDelete {
+  margin-left: 48px;
+  font-size: 12px;
+  margin-top: 5px;
+}
+.commentsEdit {
+  margin-right: 3px;
+}
+.commentsEdit,
+.commentsDelete {
+  color: var(--main-gray);
+  background-color: var(--main-white);
+  border: none;
+  padding: 0;
+}

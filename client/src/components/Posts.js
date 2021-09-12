@@ -22,7 +22,7 @@ function Posts({ coinId, posts }) {
       </Button>
       <div className="postsCardContainer">
         {posts
-          .sort((a, b) => b.id - a.id)
+          ?.sort((a, b) => b.id - a.id)
           .map((post) => (
             <Card
               key={post.id}

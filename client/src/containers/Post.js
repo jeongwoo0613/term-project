@@ -1,12 +1,13 @@
 import "./Post.css";
 import Loading from "../components/Loading";
 import Button from "react-bootstrap/Button";
+import Comment from "../components/Comment";
+import Comments from "../components/Comments";
 import { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { deletePost, getPost } from "../api/posts.api";
 import { getLocalToken } from "../utils/storage.util";
 import { AiOutlineRise, AiOutlineFall, AiOutlineRight } from "react-icons/ai";
-import Comment from "../components/Comment";
 
 function Post() {
   const [post, setPost] = useState();
@@ -47,13 +48,25 @@ function Post() {
     history.push(`/coins/${coinId}/posts/${postId}/edit`);
   };
 
+  const navigateCoin = (coinId) => {
+    history.push(`/coins/${coinId}`);
+  };
+  const navigateCoins = () => {
+    history.push(`/`);
+  };
+
   return post ? (
     <section className="postContainer">
       <div className="postInfoContainer">
         <div className="postInfo">
-          <span>암호화폐</span>
+          <span className="navigateCoin" onClick={navigateCoins}>
+            암호화폐
+          </span>
           <AiOutlineRight className="postInfoIcon" />
-          <span>
+          <span
+            className="navigateCoin"
+            onClick={() => navigateCoin(post.coin.id)}
+          >
             <img src={post.coin.image} className="postInfoCoinImg" />
             {post.coin.name}
           </span>
@@ -93,7 +106,8 @@ function Post() {
           삭제
         </Button>
       </div>
-      <Comment coinId={coinId} postId={postId} />
+      <Comment coinId={coinId} postId={postId} setPost={setPost} post={post} />
+      <Comments comments={post.comments} />
     </section>
   ) : (
     <Loading />
