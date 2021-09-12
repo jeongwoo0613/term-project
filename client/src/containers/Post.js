@@ -6,6 +6,7 @@ import { useParams, useHistory } from "react-router-dom";
 import { deletePost, getPost } from "../api/posts.api";
 import { getLocalToken } from "../utils/storage.util";
 import { AiOutlineRise, AiOutlineFall, AiOutlineRight } from "react-icons/ai";
+import Comment from "../components/Comment";
 
 function Post() {
   const [post, setPost] = useState();
@@ -92,6 +93,7 @@ function Post() {
           삭제
         </Button>
       </div>
+      <Comment />
     </section>
   ) : (
     <Loading />

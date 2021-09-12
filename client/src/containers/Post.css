@@ -1,5 +1,6 @@
 .postContainer {
   padding: 30px;
+  background-color: var(--main-white);
 }
 
 .postInfoContainer {
