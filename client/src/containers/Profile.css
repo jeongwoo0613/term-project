@@ -78,6 +78,7 @@
 .followImg {
   width: 25px;
   margin-right: 10px;
+  border-radius: 9999px;
 }
 
 .profilePostsContainer {
@@ -114,6 +115,10 @@
   float: right;
 }
 
+.navigateUser {
+  cursor: pointer;
+}
+
 @media (max-width: 625px) {
   .profileImg {
     margin: 0px 80px;
@@ -130,7 +135,8 @@
   .profileImg {
     margin: 0px 40px;
   }
-  .profileBodyCol {
+  .profileBodyCol,
+  .profileBodyColPost {
     margin-right: 16px;
   }
 }
