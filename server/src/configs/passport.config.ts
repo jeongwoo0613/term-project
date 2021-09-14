@@ -62,7 +62,6 @@ const googleStrategy = new passportGoogleStrategy.Strategy(
 
       const newUser = new User();
       newUser.googleId = id;
-      newUser.facebookId = "";
       newUser.nickname = displayName;
       newUser.email = email[0].value;
       newUser.image = image[0].value;
@@ -71,14 +70,11 @@ const googleStrategy = new passportGoogleStrategy.Strategy(
         "https://term-project-default.s3.ap-northeast-2.amazonaws.com/userdefault.png"
       ) {
         newUser.imageKey = "userdefault.png";
-      } else {
-        newUser.imageKey = "";
       }
+
       newUser.userId = uuidv4()
         .replace(/[^0-9a-z]/g, "")
         .substring(0, 17);
-      newUser.password = "";
-      newUser.salt = "";
 
       await userRepository.insert(newUser);
 

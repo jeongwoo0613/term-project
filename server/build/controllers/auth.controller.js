@@ -68,9 +68,6 @@ const signup = async (req, res, next) => {
         const hashedPassword = await hashPassword(password, salt);
         user.userId = userId;
         user.password = hashedPassword;
-        user.googleId = "";
-        user.facebookId = "";
-        user.email = "";
         user.nickname = nickname;
         user.salt = salt;
         user.image =

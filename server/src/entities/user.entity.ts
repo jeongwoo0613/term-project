@@ -20,28 +20,28 @@ export class User {
   @Column({ unique: true })
   userId!: string;
 
-  @Column()
+  @Column({ nullable: true })
   password!: string;
 
-  @Column()
+  @Column({ nullable: true })
   salt!: string;
 
   @Column()
   nickname!: string;
 
-  @Column()
+  @Column({ nullable: true })
   googleId!: string;
 
-  @Column()
+  @Column({ nullable: true })
   facebookId!: string;
 
-  @Column()
+  @Column({ nullable: true })
   email!: string;
 
   @Column()
   image!: string;
 
-  @Column()
+  @Column({ nullable: true })
   imageKey!: string;
 
   @ManyToMany((type) => User, (user) => user.followers)

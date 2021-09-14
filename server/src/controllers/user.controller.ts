@@ -176,7 +176,7 @@ const deleteUser = async (
   try {
     const { imageKey } = req.user;
 
-    if (imageKey !== "userdefault.png") {
+    if (imageKey && imageKey !== "userdefault.png") {
       await deleteUserImage(imageKey);
     }
 

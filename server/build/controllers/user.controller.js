@@ -132,7 +132,7 @@ exports.updateUser = updateUser;
 const deleteUser = async (req, res, next) => {
     try {
         const { imageKey } = req.user;
-        if (imageKey !== "userdefault.png") {
+        if (imageKey && imageKey !== "userdefault.png") {
             await (0, s3_util_1.deleteUserImage)(imageKey);
         }
         await (0, typeorm_1.getRepository)(user_entity_1.User).delete(req.user.id);

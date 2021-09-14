@@ -51,7 +51,6 @@ const googleStrategy = new passport_google_oauth20_1.default.Strategy({
         ];
         const newUser = new user_entity_1.User();
         newUser.googleId = id;
-        newUser.facebookId = "";
         newUser.nickname = displayName;
         newUser.email = email[0].value;
         newUser.image = image[0].value;
@@ -59,14 +58,9 @@ const googleStrategy = new passport_google_oauth20_1.default.Strategy({
             "https://term-project-default.s3.ap-northeast-2.amazonaws.com/userdefault.png") {
             newUser.imageKey = "userdefault.png";
         }
-        else {
-            newUser.imageKey = "";
-        }
         newUser.userId = (0, uuid_1.v4)()
             .replace(/[^0-9a-z]/g, "")
             .substring(0, 17);
-        newUser.password = "";
-        newUser.salt = "";
         await userRepository.insert(newUser);
         return done(null, newUser);
     }
