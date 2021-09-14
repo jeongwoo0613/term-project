@@ -107,7 +107,12 @@ function Post() {
         </Button>
       </div>
       <Comment coinId={coinId} postId={postId} setPost={setPost} post={post} />
-      <Comments comments={post.comments} />
+      <Comments
+        coinId={coinId}
+        postId={postId}
+        comments={post.comments}
+        setPost={setPost}
+      />
     </section>
   ) : (
     <Loading />

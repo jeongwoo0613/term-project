@@ -1,12 +1,40 @@
 import "./Comments.css";
 import { useHistory } from "react-router-dom";
+import { getLocalToken } from "../utils/storage.util";
+import { getPost, deleteComment } from "../api/posts.api";
 
-function Comments({ comments }) {
+function Comments({ coinId, postId, setPost, comments }) {
   const history = useHistory();
 
   const navigateUser = (userId) => {
     history.push(`/${userId}`);
   };
+
+  const handleDelete = async (event, commentId) => {
+    event.preventDefault();
+
+    try {
+      const result = await deleteComment(
+        getLocalToken(),
+        coinId,
+        postId,
+        commentId
+      );
+
+      if (!result) {
+        throw new Error("comment delete failed");
+      }
+
+      const post = await getPost(coinId, postId);
+
+      setPost(post);
+    } catch (error) {
+      if (error.message === "comment delete failed") {
+        alert("댓글 삭제를 실패하였습니다.");
+      }
+    }
+  };
+
   return (
     <>
       {comments?.map((comment) => (
@@ -23,7 +51,12 @@ function Comments({ comments }) {
           <span className="commentsContent">{comment.content}</span>
           <div className="commentsEditDelete">
             <button className="commentsEdit">수정</button>
-            <button className="commentsDelete">삭제</button>
+            <button
+              onClick={(event) => handleDelete(event, comment.id)}
+              className="commentsDelete"
+            >
+              삭제
+            </button>
           </div>
         </div>
       ))}
