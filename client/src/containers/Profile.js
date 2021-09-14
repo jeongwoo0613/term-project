@@ -64,7 +64,7 @@ function Profile() {
 
     setIsFollowLoading(false);
     setIsUnFollowLoading(false);
-  }, [isFollowLoading, isUnFollowLoading]);
+  }, [isFollowLoading, isUnFollowLoading, userId]);
 
   const handleUpdateUser = async (event) => {
     event.preventDefault();
@@ -208,6 +208,8 @@ function Profile() {
 
   const navigateUser = (userId) => {
     history.push(`/${userId}`);
+    setFollowShow(false);
+    setFollowerShow(false);
   };
 
   if (!getLocalToken() || user?.userId !== userId) {
