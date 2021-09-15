@@ -50,12 +50,13 @@ const googleStrategy = new passport_google_oauth20_1.default.Strategy({
             },
         ];
         const newUser = new user_entity_1.User();
+        const checkUserDefaultImage = image[0].value ===
+            "https://term-project-default.s3.ap-northeast-2.amazonaws.com/userdefault.png";
         newUser.googleId = id;
         newUser.nickname = displayName;
         newUser.email = email[0].value;
         newUser.image = image[0].value;
-        if (image[0].value ===
-            "https://term-project-default.s3.ap-northeast-2.amazonaws.com/userdefault.png") {
+        if (checkUserDefaultImage) {
             newUser.imageKey = "userdefault.png";
         }
         newUser.userId = (0, uuid_1.v4)()

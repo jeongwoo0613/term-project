@@ -59,21 +59,21 @@ const signup = async (req, res, next) => {
     try {
         const { userId, password, nickname } = req.body;
         const userRepository = (0, typeorm_1.getRepository)(user_entity_1.User);
-        const result = await userRepository.findOne({ userId });
-        if (result) {
+        const user = await userRepository.findOne({ userId });
+        if (user) {
             return next((0, http_errors_1.default)(400, "user already exist."));
         }
-        const user = new user_entity_1.User();
+        const newUser = new user_entity_1.User();
         const salt = await makeSalt();
         const hashedPassword = await hashPassword(password, salt);
-        user.userId = userId;
-        user.password = hashedPassword;
-        user.nickname = nickname;
-        user.salt = salt;
-        user.image =
+        newUser.userId = userId;
+        newUser.password = hashedPassword;
+        newUser.nickname = nickname;
+        newUser.salt = salt;
+        newUser.image =
             "https://term-project-default.s3.ap-northeast-2.amazonaws.com/userdefault.png";
-        user.imageKey = "userdefault.png";
-        await userRepository.insert(user);
+        newUser.imageKey = "userdefault.png";
+        await userRepository.insert(newUser);
         res.status(201).json({
             message: "succeed.",
         });
@@ -90,8 +90,8 @@ const login = async (req, res, next) => {
         if (!user) {
             return next((0, http_errors_1.default)(404, "user not found."));
         }
-        const check = await verifyPassword(password, user.password, user.salt);
-        if (!check) {
+        const match = await verifyPassword(password, user.password, user.salt);
+        if (!match) {
             return next((0, http_errors_1.default)(400, "password don't match."));
         }
         const token = (0, jsonwebtoken_1.sign)({

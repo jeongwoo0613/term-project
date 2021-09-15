@@ -244,10 +244,11 @@ const addFollow = async (
       return next(createHttpError(404, "following user not found."));
     }
 
-    if (
-      !currentUser.following.some((user) => user.id === followingId) &&
-      !followingUser.followers.some((user) => user.id === id)
-    ) {
+    const checkFollowingAndFollowers =
+      currentUser.following.some((user) => user.id === followingId) &&
+      followingUser.followers.some((user) => user.id === id);
+
+    if (!checkFollowingAndFollowers) {
       currentUser.following.push(followingUser);
       await userRepository.save(currentUser);
 
@@ -289,10 +290,11 @@ const deleteFollow = async (
       return next(createHttpError(404, "following user not found."));
     }
 
-    if (
+    const checkFollowingAndFollowers =
       currentUser.following.some((user) => user.id === followingId) &&
-      followingUser.followers.some((user) => user.id === id)
-    ) {
+      followingUser.followers.some((user) => user.id === id);
+
+    if (checkFollowingAndFollowers) {
       currentUser.following.splice(
         currentUser.following.findIndex((user) => user.id === followingId),
         1
