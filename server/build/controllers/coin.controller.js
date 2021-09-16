@@ -38,7 +38,7 @@ const getCoins = async (req, res, next) => {
             return res.status(200).json(coins);
         }
         for (const coin of coins) {
-            const [upbitCoinPrice] = upbitCoinsPrice[coin.symbol];
+            const upbitCoinPrice = upbitCoinsPrice[coin.symbol];
             const { opening_price, high_price, low_price, trade_price, prev_closing_price, change, acc_trade_price, acc_trade_price_24h, acc_trade_volume, acc_trade_volume_24h, highest_52_week_price, highest_52_week_date, lowest_52_week_price, lowest_52_week_date, } = upbitCoinPrice;
             await coinRepository.update(coin.id, {
                 openingPrice: opening_price,
@@ -85,7 +85,7 @@ const getCoin = async (req, res, next) => {
         if (!upbitCoinPrice) {
             return res.status(200).json(req.coin);
         }
-        const { opening_price, high_price, low_price, trade_price, prev_closing_price, change, acc_trade_price, acc_trade_price_24h, acc_trade_volume, acc_trade_volume_24h, highest_52_week_price, highest_52_week_date, lowest_52_week_price, lowest_52_week_date, } = upbitCoinPrice[0];
+        const { opening_price, high_price, low_price, trade_price, prev_closing_price, change, acc_trade_price, acc_trade_price_24h, acc_trade_volume, acc_trade_volume_24h, highest_52_week_price, highest_52_week_date, lowest_52_week_price, lowest_52_week_date, } = upbitCoinPrice;
         await (0, typeorm_1.getRepository)(coin_entity_1.Coin).update(id, {
             openingPrice: opening_price,
             highPrice: high_price,

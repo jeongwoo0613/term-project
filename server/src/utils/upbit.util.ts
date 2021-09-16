@@ -1,8 +1,64 @@
 import axios, { AxiosResponse } from "axios";
 import { Coin } from "../entities/coin.entity";
 
-interface ICoinsPrice {
-  [key: string]: any;
+interface IUpbitCoinsPrice {
+  [key: string]: {
+    market: string;
+    trade_date: string;
+    trade_time: string;
+    trade_date_kst: string;
+    trade_time_kst: string;
+    trade_timestamp: number;
+    opening_price: number;
+    high_price: number;
+    low_price: number;
+    trade_price: number;
+    prev_closing_price: number;
+    change: string;
+    change_price: number;
+    change_rate: number;
+    signed_change_price: number;
+    signed_change_rate: number;
+    trade_volume: number;
+    acc_trade_price: number;
+    acc_trade_price_24h: number;
+    acc_trade_volume: number;
+    acc_trade_volume_24h: number;
+    highest_52_week_price: number;
+    highest_52_week_date: string;
+    lowest_52_week_price: number;
+    lowest_52_week_date: string;
+    timestamp: number;
+  };
+}
+
+interface IUpbitCoinPrice {
+  market: string;
+  trade_date: string;
+  trade_time: string;
+  trade_date_kst: string;
+  trade_time_kst: string;
+  trade_timestamp: number;
+  opening_price: number;
+  high_price: number;
+  low_price: number;
+  trade_price: number;
+  prev_closing_price: number;
+  change: string;
+  change_price: number;
+  change_rate: number;
+  signed_change_price: number;
+  signed_change_rate: number;
+  trade_volume: number;
+  acc_trade_price: number;
+  acc_trade_price_24h: number;
+  acc_trade_volume: number;
+  acc_trade_volume_24h: number;
+  highest_52_week_price: number;
+  highest_52_week_date: string;
+  lowest_52_week_price: number;
+  lowest_52_week_date: string;
+  timestamp: number;
 }
 
 const instance = axios.create({
@@ -11,7 +67,7 @@ const instance = axios.create({
 
 const getUpbitCoinsPrice = async (
   coins: Coin[]
-): Promise<ICoinsPrice | undefined> => {
+): Promise<IUpbitCoinsPrice | undefined> => {
   try {
     const upbitCoinsPrice = await Promise.all(
       coins.reduce((acc, coin) => {
@@ -22,22 +78,26 @@ const getUpbitCoinsPrice = async (
     );
 
     return upbitCoinsPrice.reduce((acc, coin, i) => {
-      acc[coins[i].symbol] = coin.data;
+      acc[coins[i].symbol] = coin.data[0];
 
       return acc;
-    }, {} as ICoinsPrice);
+    }, {} as IUpbitCoinsPrice);
   } catch (error) {
     console.log(error);
   }
 };
 
-const getUpbitCoinPrice = async (market: string): Promise<any> => {
+const getUpbitCoinPrice = async (
+  market: string
+): Promise<IUpbitCoinPrice | undefined> => {
   try {
     const result = await instance.get("/ticker", {
       params: { markets: market },
     });
 
-    return result.data;
+    const upbitCoinPrice: IUpbitCoinPrice = result.data[0];
+
+    return upbitCoinPrice;
   } catch (error) {
     console.log(error);
   }

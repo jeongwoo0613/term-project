@@ -48,7 +48,7 @@ const getCoins = async (
     }
 
     for (const coin of coins) {
-      const [upbitCoinPrice] = upbitCoinsPrice[coin.symbol];
+      const upbitCoinPrice = upbitCoinsPrice[coin.symbol];
       const {
         opening_price,
         high_price,
@@ -134,7 +134,7 @@ const getCoin = async (
       highest_52_week_date,
       lowest_52_week_price,
       lowest_52_week_date,
-    } = upbitCoinPrice[0];
+    } = upbitCoinPrice;
 
     await getRepository(Coin).update(id, {
       openingPrice: opening_price,

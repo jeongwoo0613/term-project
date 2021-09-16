@@ -15,7 +15,7 @@ const getUpbitCoinsPrice = async (coins) => {
             return acc;
         }, []));
         return upbitCoinsPrice.reduce((acc, coin, i) => {
-            acc[coins[i].symbol] = coin.data;
+            acc[coins[i].symbol] = coin.data[0];
             return acc;
         }, {});
     }
@@ -29,7 +29,8 @@ const getUpbitCoinPrice = async (market) => {
         const result = await instance.get("/ticker", {
             params: { markets: market },
         });
-        return result.data;
+        const upbitCoinPrice = result.data[0];
+        return upbitCoinPrice;
     }
     catch (error) {
         console.log(error);

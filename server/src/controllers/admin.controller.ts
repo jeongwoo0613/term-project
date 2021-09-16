@@ -28,7 +28,12 @@ const createCoin = async (
       market,
     } = req.body;
 
-    const [coinPrice] = await getUpbitCoinPrice(market);
+    const upbitCoinPrice = await getUpbitCoinPrice(market);
+
+    if (!upbitCoinPrice) {
+      return next(createHttpError(400, "could not get upbit coin price"));
+    }
+
     const {
       opening_price,
       high_price,
@@ -44,7 +49,7 @@ const createCoin = async (
       highest_52_week_date,
       lowest_52_week_price,
       lowest_52_week_date,
-    } = coinPrice;
+    } = upbitCoinPrice;
 
     const coin = new Coin();
     coin.name = name;
