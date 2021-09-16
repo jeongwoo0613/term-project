@@ -10,7 +10,7 @@ const commentById = async (
   res: Response,
   next: NextFunction,
   id: number
-): Promise<any> => {
+): Promise<void> => {
   try {
     const comment = await getRepository(Comment).findOne(id);
 
@@ -29,7 +29,7 @@ const createComment = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<any> => {
+): Promise<void> => {
   try {
     const { content } = req.body;
     const commentRepository = getRepository(Comment);
@@ -75,7 +75,7 @@ const updateComment = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<any> => {
+): Promise<void> => {
   try {
     const { content } = req.body;
 
@@ -95,7 +95,7 @@ const deleteComment = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<any> => {
+): Promise<void> => {
   try {
     await getRepository(Comment).delete(req.comment.id);
 

@@ -11,7 +11,7 @@ const postById = async (
   res: Response,
   next: NextFunction,
   id: number
-): Promise<any> => {
+): Promise<void> => {
   try {
     const post = await getRepository(Post).findOne(id);
 
@@ -30,7 +30,7 @@ const createPost = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<any> => {
+): Promise<void> => {
   try {
     const { title, content, rise, fall } = req.body;
     const postRepository = getRepository(Post);
@@ -79,7 +79,7 @@ const getPosts = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<any> => {
+): Promise<void> => {
   try {
     const posts = [];
 
@@ -107,7 +107,7 @@ const getPost = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<any> => {
+): Promise<void> => {
   try {
     const matchedPost = req.coin.posts.find((post) => post.id === req.post.id);
 
@@ -153,7 +153,7 @@ const updatePost = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<any> => {
+): Promise<void> => {
   try {
     const { title, content, rise, fall } = req.body;
 
@@ -176,7 +176,7 @@ const deletePost = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<any> => {
+): Promise<void> => {
   try {
     await getRepository(Post).delete(req.post.id);
 

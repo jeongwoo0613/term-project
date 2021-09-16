@@ -9,7 +9,7 @@ const coinById = async (
   res: Response,
   next: NextFunction,
   id: string
-): Promise<any> => {
+): Promise<void> => {
   try {
     const coin = await getRepository(Coin).findOne(id, {
       relations: ["posts"],
@@ -30,7 +30,7 @@ const getCoins = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<any> => {
+): Promise<Response<any, Record<string, any>> | undefined> => {
   try {
     const coinRepository = getRepository(Coin);
 
@@ -109,7 +109,7 @@ const getCoin = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<any> => {
+): Promise<Response<any, Record<string, any>> | undefined> => {
   try {
     const { id, market } = req.coin;
 

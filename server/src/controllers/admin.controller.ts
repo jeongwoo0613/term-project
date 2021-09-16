@@ -8,7 +8,7 @@ const createCoin = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<any> => {
+): Promise<void> => {
   try {
     if (!req.file) {
       return next(createHttpError(400, "could not upload file."));

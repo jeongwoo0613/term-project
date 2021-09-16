@@ -15,7 +15,7 @@ const userByUserId = async (
   res: Response,
   next: NextFunction,
   id: string
-): Promise<any> => {
+): Promise<void> => {
   try {
     const user = await getRepository(User).findOne(
       {
@@ -41,7 +41,7 @@ const getUsers = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<any> => {
+): Promise<void> => {
   try {
     const users = await getRepository(User).find({
       userId: Not("admin"),
@@ -66,7 +66,7 @@ const getUserByUserId = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<any> => {
+): Promise<void> => {
   try {
     const posts = [];
 
@@ -109,7 +109,7 @@ const getUser = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<any> => {
+): Promise<void> => {
   try {
     const posts = [];
 
@@ -194,7 +194,7 @@ const updateUserImage = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<any> => {
+): Promise<void> => {
   try {
     if (!req.file) {
       return next(createHttpError(400, "could not upload file."));
@@ -222,7 +222,7 @@ const addFollow = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<any> => {
+): Promise<void> => {
   try {
     const { id } = req.user;
     const { followingId } = req.body;
@@ -268,7 +268,7 @@ const deleteFollow = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<any> => {
+): Promise<void> => {
   try {
     const { id } = req.user;
     const { followingId } = req.body;

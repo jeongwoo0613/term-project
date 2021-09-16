@@ -77,7 +77,7 @@ const signup = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<any> => {
+): Promise<void> => {
   try {
     const { userId, password, nickname } = req.body;
     const userRepository = getRepository(User);
@@ -113,7 +113,7 @@ const login = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<any> => {
+): Promise<void> => {
   try {
     const { userId, password } = req.body;
 
