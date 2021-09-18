@@ -1,24 +1,24 @@
 # Temporal API Docs
 
-### Local Development Base URL
+## Local Development Base URL
 
 ---
 
 - `http://localhost:8080/api`
 
-### Remote Production Base URL
+## Remote Production Base URL
 
 ---
 
 - `http://ec2-15-165-76-37.ap-northeast-2.compute.amazonaws.com/api`
 
-### External API Base URL
+## External API Base URL
 
 ---
 
 - `https://api.upbit.com/v1`
 
-### Common Responses
+## Common Responses
 
 ---
 
@@ -32,11 +32,11 @@
 
 - Content: Error Code AND Error Message
 
-### Authentication
+## Authentication
 
 ---
 
-#### Sign up(userId, password)
+### Sign up(userId, password)
 
 - URL
 
@@ -46,7 +46,7 @@
 
   `POST`
 
-#### Login(userId, password)
+### Login(userId, password)
 
 - URL
 
@@ -56,7 +56,7 @@
 
   `POST`
 
-#### Social Authentication(google)
+### Social Authentication(google)
 
 - URL
 
@@ -66,11 +66,11 @@
 
   `GET`
 
-### Public Users, User
+## Public Users, User
 
 ---
 
-#### Get Users
+### Get Users
 
 - URL
 
@@ -80,7 +80,7 @@
 
   `GET`
 
-#### Get User
+### Get User
 
 - URL
 
@@ -90,11 +90,11 @@
 
   `GET`
 
-### Private User
+## Private User
 
 ---
 
-#### Get, Update, Delete User
+### Get, Update, Delete User
 
 - URL
 
@@ -112,7 +112,7 @@
 
   `Authorization: Bearer ${Token}`
 
-#### Update User Image
+### Update User Image
 
 - URL
 
@@ -126,7 +126,7 @@
 
   `Authorization: Bearer ${Token}`
 
-#### Follow User
+### Follow User
 
 - URL
 
@@ -140,7 +140,7 @@
 
   `Authorization: Bearer ${Token}`
 
-#### UnFollow User
+### UnFollow User
 
 - URL
 
@@ -154,11 +154,11 @@
 
   `Authorization: Bearer ${Token}`
 
-### Coins
+## Coins
 
 ---
 
-#### Get Coins
+### Get Coins
 
 - URL
 
@@ -168,7 +168,7 @@
 
   `GET`
 
-#### Get Coin
+### Get Coin
 
 - URL
 
@@ -178,11 +178,11 @@
 
   `GET`
 
-### Posts
+## Posts
 
 ---
 
-#### Get Posts
+### Get Posts
 
 - URL
 
@@ -192,7 +192,7 @@
 
   `GET`
 
-#### Get Post
+### Get Post
 
 - URL
 
@@ -202,7 +202,7 @@
 
   `GET`
 
-#### Update, Delete Post
+### Update, Delete Post
 
 - URL
 
@@ -218,7 +218,7 @@
 
   `Authorization: Bearer ${Token}`
 
-#### Create Post
+### Create Post
 
 - URL
 
@@ -232,7 +232,7 @@
 
   `Authorization: Bearer ${Token}`
 
-#### Create Comment
+### Create Comment
 
 - URL
 
@@ -246,7 +246,7 @@
 
   `Authorization: Bearer ${Token}`
 
-#### Update, Delete Comment
+### Update, Delete Comment
 
 - URL
 
@@ -262,11 +262,11 @@
 
   `Authorization: Bearer ${Token}`
 
-### Admin
+## Admin
 
 ---
 
-#### Create Coin
+### Create Coin
 
 - URL
 
@@ -280,7 +280,7 @@
 
   `Authorization: Bearer ${Admin Token}`
 
-#### Update Coin
+### Update Coin
 
 - URL
 
