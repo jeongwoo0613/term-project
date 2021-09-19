@@ -2,25 +2,17 @@
 
 ## Local Development Base URL
 
----
-
 - `http://localhost:8080/api`
 
 ## Remote Production Base URL
-
----
 
 - `http://ec2-15-165-76-37.ap-northeast-2.compute.amazonaws.com/api`
 
 ## External API Base URL
 
----
-
 - `https://api.upbit.com/v1`
 
 ## Common Responses
-
----
 
 - Success Code: 200 OR 201
 
@@ -33,8 +25,6 @@
 - Content: Error Code AND Error Message
 
 ## Authentication
-
----
 
 ### Sign up(userId, password)
 
@@ -68,8 +58,6 @@
 
 ## Public Users, User
 
----
-
 ### Get Users
 
 - URL
@@ -91,8 +79,6 @@
   `GET`
 
 ## Private User
-
----
 
 ### Get, Update, Delete User
 
@@ -156,8 +142,6 @@
 
 ## Coins
 
----
-
 ### Get Coins
 
 - URL
@@ -179,8 +163,6 @@
   `GET`
 
 ## Posts
-
----
 
 ### Get Posts
 
@@ -263,8 +245,6 @@
   `Authorization: Bearer ${Token}`
 
 ## Admin
-
----
 
 ### Create Coin
 
