@@ -64,7 +64,7 @@ const verifyAdminAuthorization = (
   req: Request,
   res: Response,
   next: NextFunction
-): any => {
+): void => {
   const authorized = req.user && req.user.userId === "admin";
 
   if (!authorized) {
