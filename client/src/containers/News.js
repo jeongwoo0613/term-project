@@ -39,7 +39,6 @@ function News() {
               </a>
             </p>
           </div>
-          )
           <div>
             <p className="newsDescription">{description}</p>
             <span className="newsPublishedAt">{publishedAt.substr(0, 10)}</span>

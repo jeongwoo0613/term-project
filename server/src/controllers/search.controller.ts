@@ -10,7 +10,7 @@ const searchCoin = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const { search } = req.body;
+    const { name } = req.query;
 
     const coins = await getRepository(Coin).find();
 
@@ -18,7 +18,7 @@ const searchCoin = async (
       keys: ["name", "symbol"],
     });
 
-    const searchResult = fuse.search(search);
+    const searchResult = fuse.search(name as string);
 
     if (searchResult.length === 0) {
       return next(createHttpError(400, "could not search coin"));

@@ -8,13 +8,12 @@ import Image from "react-bootstrap/Image";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import { getLocalToken, removeLocalToken } from "../utils/storage.util";
-import { useFormFields } from "../utils/hooks.util";
 import { useAppContext } from "../utils/context.util";
+import { searchCoin } from "../api/search.api";
+import { useState } from "react";
 
 function Header() {
-  const [fields, setFields] = useFormFields({
-    search: "",
-  });
+  const [search, setSearch] = useState("");
   const history = useHistory();
   const location = useLocation();
   const { user } = useAppContext();
@@ -31,6 +30,25 @@ function Header() {
   const navigateProfile = () => {
     document.body.click();
     history.push(`/${user.userId}`);
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      const result = await searchCoin(search);
+
+      if (!result) {
+        throw new Error("Coin not found");
+      }
+      setSearch("");
+      history.push(`/coins/${result.id}`);
+    } catch (error) {
+      if (error.message === "Coin not found") {
+        alert("해당 코인이 존재하지 않습니다.");
+      }
+      setSearch("");
+    }
   };
 
   return (
@@ -83,13 +101,13 @@ function Header() {
         )}
       </div>
       <div className="headerSearch">
-        <Form>
+        <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3" controlId="search">
             <Form.Control
               placeholder="코인 심볼, 코인명 검색"
               className="headerSearchInput"
-              value={fields.search}
-              onChange={setFields}
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
               size="sm"
             />
           </Form.Group>

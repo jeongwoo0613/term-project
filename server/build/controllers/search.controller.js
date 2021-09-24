@@ -10,12 +10,12 @@ const typeorm_1 = require("typeorm");
 const coin_entity_1 = require("../entities/coin.entity");
 const searchCoin = async (req, res, next) => {
     try {
-        const { search } = req.body;
+        const { name } = req.query;
         const coins = await (0, typeorm_1.getRepository)(coin_entity_1.Coin).find();
         const fuse = new fuse_js_1.default(coins, {
             keys: ["name", "symbol"],
         });
-        const searchResult = fuse.search(search);
+        const searchResult = fuse.search(name);
         if (searchResult.length === 0) {
             return next((0, http_errors_1.default)(400, "could not search coin"));
         }

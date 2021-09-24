@@ -31,7 +31,7 @@ function Coin() {
       }
     };
     loadPosts();
-  }, []);
+  }, [coinId]);
 
   return coin ? (
     <section className="coinContainer">

@@ -27,7 +27,7 @@ function Coins() {
 
   return coins ? (
     <section>
-      <Table hover borderless className="coinsTable">
+      <Table borderless className="coinsTable">
         <thead>
           <tr>
             <th></th>
