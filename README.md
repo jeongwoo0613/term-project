@@ -1,6 +1,20 @@
 # Temporal Project Docs
 
-## Installation
+## Introduction
+
+This project is developing on the topic of Cryptocurrency Forum. Cryptocurrency market price is using Korea's top exchange Upbit Market API.
+
+## Getting Started
+
+### Prerequisites
+
+- npm v7.24.0
+
+- Node.js v16.10.0
+
+- mysql v8.0.26
+
+### Installation
 
 ```
 git clone https://github.com/jeongwoo0613/term-project
@@ -25,8 +39,8 @@ npm start - open browser and running port on 3000
 
 - Server
   - TypeScript
-  - Node
-  - Express
+  - Node.js
+  - Express.js
   - MySQL
   - TypeORM
   - AWS

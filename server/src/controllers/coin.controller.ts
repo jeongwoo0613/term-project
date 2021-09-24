@@ -100,6 +100,8 @@ const getCoins = async (
       coin.lowest52WeekDate = lowest_52_week_date;
     }
 
+    coins.sort((a, b) => b.accTradePrice24h - a.accTradePrice24h);
+
     res.status(200).json(coins);
   } catch (error) {
     next(createHttpError(400, "could not get coins"));

@@ -70,6 +70,7 @@ const verifyAdminAuthorization = (
   if (!authorized) {
     return next(createHttpError(401, "admin is not authorized."));
   }
+
   next();
 };
 

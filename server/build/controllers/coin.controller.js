@@ -72,6 +72,7 @@ const getCoins = async (req, res, next) => {
             coin.lowest52WeekPrice = lowest_52_week_price;
             coin.lowest52WeekDate = lowest_52_week_date;
         }
+        coins.sort((a, b) => b.accTradePrice24h - a.accTradePrice24h);
         res.status(200).json(coins);
     }
     catch (error) {
