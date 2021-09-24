@@ -128,9 +128,9 @@ __decorate([
     __metadata("design:type", Array)
 ], Coin.prototype, "posts", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)((type) => user_entity_1.User, (user) => user.interests),
-    __metadata("design:type", user_entity_1.User)
-], Coin.prototype, "user", void 0);
+    (0, typeorm_1.ManyToMany)((type) => user_entity_1.User, (user) => user.interests),
+    __metadata("design:type", Array)
+], Coin.prototype, "users", void 0);
 __decorate([
     (0, typeorm_1.CreateDateColumn)(),
     __metadata("design:type", Date)

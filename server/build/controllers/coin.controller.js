@@ -128,10 +128,19 @@ exports.getCoin = getCoin;
 const addInterestCoin = async (req, res, next) => {
     try {
         const { interest } = req.body;
-        const checkInterestCoin = req.user.interests.some((coin) => coin.id === req.coin.id);
+        const coin = await (0, typeorm_1.getRepository)(coin_entity_1.Coin).findOne(req.coin.id, {
+            relations: ["users"],
+        });
+        if (!coin) {
+            return next((0, http_errors_1.default)(400, "coin not found"));
+        }
+        const checkInterestCoin = req.user.interests.some((coin) => coin.id === req.coin.id) &&
+            coin.users.some((user) => user.id === req.user.id);
         if (interest && !checkInterestCoin) {
             req.user.interests.push(req.coin);
             await (0, typeorm_1.getRepository)(user_entity_1.User).save(req.user);
+            coin.users.push(req.user);
+            await (0, typeorm_1.getRepository)(coin_entity_1.Coin).save(coin);
             return res.status(200).json({
                 message: "succeed.",
             });
@@ -139,6 +148,7 @@ const addInterestCoin = async (req, res, next) => {
         next((0, http_errors_1.default)(400, "interest coin already exists."));
     }
     catch (error) {
+        console.log(error);
         next((0, http_errors_1.default)(400, "could not add interest coin."));
     }
 };
@@ -146,10 +156,19 @@ exports.addInterestCoin = addInterestCoin;
 const deleteInterestCoin = async (req, res, next) => {
     try {
         const { interest } = req.body;
-        const checkInterestCoin = req.user.interests.some((coin) => coin.id === req.coin.id);
+        const coin = await (0, typeorm_1.getRepository)(coin_entity_1.Coin).findOne(req.coin.id, {
+            relations: ["users"],
+        });
+        if (!coin) {
+            return next((0, http_errors_1.default)(400, "coin not found"));
+        }
+        const checkInterestCoin = req.user.interests.some((coin) => coin.id === req.coin.id) &&
+            coin.users.some((user) => user.id === req.user.id);
         if (!interest && checkInterestCoin) {
             req.user.interests.splice(req.user.interests.findIndex((coin) => coin.id === req.coin.id), 1);
             await (0, typeorm_1.getRepository)(user_entity_1.User).save(req.user);
+            coin.users.splice(coin.users.findIndex((user) => user.id === req.user.id), 1);
+            await (0, typeorm_1.getRepository)(coin_entity_1.Coin).save(req.coin);
             return res.status(200).json({
                 message: "succeed.",
             });

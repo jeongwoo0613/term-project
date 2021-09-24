@@ -75,7 +75,8 @@ __decorate([
     __metadata("design:type", Array)
 ], User.prototype, "comments", void 0);
 __decorate([
-    (0, typeorm_1.OneToMany)((type) => coin_entity_1.Coin, (coin) => coin.user),
+    (0, typeorm_1.ManyToMany)((type) => coin_entity_1.Coin, (coin) => coin.users),
+    (0, typeorm_1.JoinTable)(),
     __metadata("design:type", Array)
 ], User.prototype, "interests", void 0);
 __decorate([

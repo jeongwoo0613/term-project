@@ -181,16 +181,27 @@ const addInterestCoin = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<Response<any, Record<string, any>> | undefined> => {
+): Promise<void | Response<any, Record<string, any>>> => {
   try {
     const { interest } = req.body;
-    const checkInterestCoin = req.user.interests.some(
-      (coin) => coin.id === req.coin.id
-    );
+    const coin = await getRepository(Coin).findOne(req.coin.id, {
+      relations: ["users"],
+    });
+
+    if (!coin) {
+      return next(createHttpError(400, "coin not found"));
+    }
+
+    const checkInterestCoin =
+      req.user.interests.some((coin) => coin.id === req.coin.id) &&
+      coin.users.some((user) => user.id === req.user.id);
 
     if (interest && !checkInterestCoin) {
       req.user.interests.push(req.coin);
       await getRepository(User).save(req.user);
+
+      coin.users.push(req.user);
+      await getRepository(Coin).save(coin);
 
       return res.status(200).json({
         message: "succeed.",
@@ -199,6 +210,8 @@ const addInterestCoin = async (
 
     next(createHttpError(400, "interest coin already exists."));
   } catch (error) {
+    console.log(error);
+
     next(createHttpError(400, "could not add interest coin."));
   }
 };
@@ -207,12 +220,20 @@ const deleteInterestCoin = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<Response<any, Record<string, any>> | undefined> => {
+): Promise<void | Response<any, Record<string, any>>> => {
   try {
     const { interest } = req.body;
-    const checkInterestCoin = req.user.interests.some(
-      (coin) => coin.id === req.coin.id
-    );
+    const coin = await getRepository(Coin).findOne(req.coin.id, {
+      relations: ["users"],
+    });
+
+    if (!coin) {
+      return next(createHttpError(400, "coin not found"));
+    }
+
+    const checkInterestCoin =
+      req.user.interests.some((coin) => coin.id === req.coin.id) &&
+      coin.users.some((user) => user.id === req.user.id);
 
     if (!interest && checkInterestCoin) {
       req.user.interests.splice(
@@ -220,6 +241,12 @@ const deleteInterestCoin = async (
         1
       );
       await getRepository(User).save(req.user);
+
+      coin.users.splice(
+        coin.users.findIndex((user) => user.id === req.user.id),
+        1
+      );
+      await getRepository(Coin).save(req.coin);
 
       return res.status(200).json({
         message: "succeed.",

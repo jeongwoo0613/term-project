@@ -57,7 +57,8 @@ export class User {
   @OneToMany((type) => Comment, (comment) => comment.user)
   comments!: Comment[];
 
-  @OneToMany((type) => Coin, (coin) => coin.user)
+  @ManyToMany((type) => Coin, (coin) => coin.users)
+  @JoinTable()
   interests!: Coin[];
 
   @CreateDateColumn()

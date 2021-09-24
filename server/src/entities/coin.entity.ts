@@ -5,7 +5,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   OneToMany,
-  ManyToOne,
+  ManyToMany,
 } from "typeorm";
 import { Post } from "./post.entity";
 import { User } from "./user.entity";
@@ -96,8 +96,8 @@ export class Coin {
   @OneToMany((type) => Post, (post) => post.coin)
   posts!: Post[];
 
-  @ManyToOne((type) => User, (user) => user.interests)
-  user!: User;
+  @ManyToMany((type) => User, (user) => user.interests)
+  users!: User[];
 
   @CreateDateColumn()
   createdAt!: Date;
