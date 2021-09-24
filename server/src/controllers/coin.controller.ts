@@ -181,7 +181,7 @@ const addInterestCoin = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<void | Response<any, Record<string, any>>> => {
+): Promise<void> => {
   try {
     const { interest } = req.body;
     const coin = await getRepository(Coin).findOne(req.coin.id, {
@@ -196,22 +196,20 @@ const addInterestCoin = async (
       req.user.interests.some((coin) => coin.id === req.coin.id) &&
       coin.users.some((user) => user.id === req.user.id);
 
-    if (interest && !checkInterestCoin) {
-      req.user.interests.push(req.coin);
-      await getRepository(User).save(req.user);
-
-      coin.users.push(req.user);
-      await getRepository(Coin).save(coin);
-
-      return res.status(200).json({
-        message: "succeed.",
-      });
+    if (!interest || checkInterestCoin) {
+      next(createHttpError(400, "interest coin already exists."));
     }
 
-    next(createHttpError(400, "interest coin already exists."));
-  } catch (error) {
-    console.log(error);
+    req.user.interests.push(req.coin);
+    await getRepository(User).save(req.user);
 
+    coin.users.push(req.user);
+    await getRepository(Coin).save(coin);
+
+    res.status(200).json({
+      message: "succeed.",
+    });
+  } catch (error) {
     next(createHttpError(400, "could not add interest coin."));
   }
 };
@@ -220,7 +218,7 @@ const deleteInterestCoin = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<void | Response<any, Record<string, any>>> => {
+): Promise<void> => {
   try {
     const { interest } = req.body;
     const coin = await getRepository(Coin).findOne(req.coin.id, {
@@ -235,25 +233,25 @@ const deleteInterestCoin = async (
       req.user.interests.some((coin) => coin.id === req.coin.id) &&
       coin.users.some((user) => user.id === req.user.id);
 
-    if (!interest && checkInterestCoin) {
-      req.user.interests.splice(
-        req.user.interests.findIndex((coin) => coin.id === req.coin.id),
-        1
-      );
-      await getRepository(User).save(req.user);
-
-      coin.users.splice(
-        coin.users.findIndex((user) => user.id === req.user.id),
-        1
-      );
-      await getRepository(Coin).save(req.coin);
-
-      return res.status(200).json({
-        message: "succeed.",
-      });
+    if (interest || !checkInterestCoin) {
+      next(createHttpError(400, "could not find interest coin"));
     }
 
-    next(createHttpError(400, "could not find interest coin"));
+    req.user.interests.splice(
+      req.user.interests.findIndex((coin) => coin.id === req.coin.id),
+      1
+    );
+    await getRepository(User).save(req.user);
+
+    coin.users.splice(
+      coin.users.findIndex((user) => user.id === req.user.id),
+      1
+    );
+    await getRepository(Coin).save(req.coin);
+
+    res.status(200).json({
+      message: "succeed.",
+    });
   } catch (error) {
     next(createHttpError(400, "could not delete interest coin."));
   }

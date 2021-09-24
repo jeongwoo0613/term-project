@@ -191,16 +191,16 @@ const addFollow = async (req, res, next) => {
         }
         const checkFollowingAndFollowers = currentUser.following.some((user) => user.id === followingId) &&
             followingUser.followers.some((user) => user.id === id);
-        if (!checkFollowingAndFollowers) {
-            currentUser.following.push(followingUser);
-            await userRepository.save(currentUser);
-            followingUser.followers.push(currentUser);
-            await userRepository.save(followingUser);
-            return res.status(200).json({
-                message: "succeed.",
-            });
+        if (checkFollowingAndFollowers) {
+            next((0, http_errors_1.default)(400, "already following."));
         }
-        next((0, http_errors_1.default)(400, "already following."));
+        currentUser.following.push(followingUser);
+        await userRepository.save(currentUser);
+        followingUser.followers.push(currentUser);
+        await userRepository.save(followingUser);
+        res.status(200).json({
+            message: "succeed.",
+        });
     }
     catch (error) {
         next((0, http_errors_1.default)(400, "could not follow user."));
@@ -226,16 +226,16 @@ const deleteFollow = async (req, res, next) => {
         }
         const checkFollowingAndFollowers = currentUser.following.some((user) => user.id === followingId) &&
             followingUser.followers.some((user) => user.id === id);
-        if (checkFollowingAndFollowers) {
-            currentUser.following.splice(currentUser.following.findIndex((user) => user.id === followingId), 1);
-            await userRepository.save(currentUser);
-            followingUser.followers.splice(followingUser.followers.findIndex((user) => user.id === id), 1);
-            await userRepository.save(followingUser);
-            return res.status(200).json({
-                message: "succeed.",
-            });
+        if (!checkFollowingAndFollowers) {
+            next((0, http_errors_1.default)(400, "not following."));
         }
-        next((0, http_errors_1.default)(400, "not following."));
+        currentUser.following.splice(currentUser.following.findIndex((user) => user.id === followingId), 1);
+        await userRepository.save(currentUser);
+        followingUser.followers.splice(followingUser.followers.findIndex((user) => user.id === id), 1);
+        await userRepository.save(followingUser);
+        res.status(200).json({
+            message: "succeed.",
+        });
     }
     catch (error) {
         next((0, http_errors_1.default)(400, "could not unfollow user."));

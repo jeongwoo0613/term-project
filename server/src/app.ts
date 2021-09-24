@@ -9,6 +9,7 @@ import user from "./routes/user.route";
 import coin from "./routes/coin.route";
 import post from "./routes/post.route";
 import admin from "./routes/admin.route";
+import search from "./routes/search.route";
 import { googleStrategy, jwtStrategy } from "./configs/passport.config";
 import { errorHandler, errorLogger } from "./configs/error.config";
 
@@ -35,6 +36,7 @@ app.use("/api", user);
 app.use("/api", coin);
 app.use("/api", post);
 app.use("/api", admin);
+app.use("/api", search);
 
 app.use(errorLogger);
 app.use(errorHandler);

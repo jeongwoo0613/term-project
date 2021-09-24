@@ -232,55 +232,7 @@ const addFollow = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<void | Response<any, Record<string, any>>> => {
-  try {
-    const { id } = req.user;
-    const { followingId } = req.body;
-    const userRepository = getRepository(User);
-
-    const currentUser = await userRepository.findOne(id, {
-      relations: ["following"],
-    });
-
-    if (!currentUser) {
-      return next(createHttpError(404, "current user not found."));
-    }
-
-    const followingUser = await userRepository.findOne(followingId, {
-      relations: ["followers"],
-    });
-
-    if (!followingUser) {
-      return next(createHttpError(404, "following user not found."));
-    }
-
-    const checkFollowingAndFollowers =
-      currentUser.following.some((user) => user.id === followingId) &&
-      followingUser.followers.some((user) => user.id === id);
-
-    if (!checkFollowingAndFollowers) {
-      currentUser.following.push(followingUser);
-      await userRepository.save(currentUser);
-
-      followingUser.followers.push(currentUser);
-      await userRepository.save(followingUser);
-
-      return res.status(200).json({
-        message: "succeed.",
-      });
-    }
-
-    next(createHttpError(400, "already following."));
-  } catch (error) {
-    next(createHttpError(400, "could not follow user."));
-  }
-};
-
-const deleteFollow = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void | Response<any, Record<string, any>>> => {
+): Promise<void> => {
   try {
     const { id } = req.user;
     const { followingId } = req.body;
@@ -307,24 +259,72 @@ const deleteFollow = async (
       followingUser.followers.some((user) => user.id === id);
 
     if (checkFollowingAndFollowers) {
-      currentUser.following.splice(
-        currentUser.following.findIndex((user) => user.id === followingId),
-        1
-      );
-      await userRepository.save(currentUser);
-
-      followingUser.followers.splice(
-        followingUser.followers.findIndex((user) => user.id === id),
-        1
-      );
-      await userRepository.save(followingUser);
-
-      return res.status(200).json({
-        message: "succeed.",
-      });
+      next(createHttpError(400, "already following."));
     }
 
-    next(createHttpError(400, "not following."));
+    currentUser.following.push(followingUser);
+    await userRepository.save(currentUser);
+
+    followingUser.followers.push(currentUser);
+    await userRepository.save(followingUser);
+
+    res.status(200).json({
+      message: "succeed.",
+    });
+  } catch (error) {
+    next(createHttpError(400, "could not follow user."));
+  }
+};
+
+const deleteFollow = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const { id } = req.user;
+    const { followingId } = req.body;
+    const userRepository = getRepository(User);
+
+    const currentUser = await userRepository.findOne(id, {
+      relations: ["following"],
+    });
+
+    if (!currentUser) {
+      return next(createHttpError(404, "current user not found."));
+    }
+
+    const followingUser = await userRepository.findOne(followingId, {
+      relations: ["followers"],
+    });
+
+    if (!followingUser) {
+      return next(createHttpError(404, "following user not found."));
+    }
+
+    const checkFollowingAndFollowers =
+      currentUser.following.some((user) => user.id === followingId) &&
+      followingUser.followers.some((user) => user.id === id);
+
+    if (!checkFollowingAndFollowers) {
+      next(createHttpError(400, "not following."));
+    }
+
+    currentUser.following.splice(
+      currentUser.following.findIndex((user) => user.id === followingId),
+      1
+    );
+    await userRepository.save(currentUser);
+
+    followingUser.followers.splice(
+      followingUser.followers.findIndex((user) => user.id === id),
+      1
+    );
+    await userRepository.save(followingUser);
+
+    res.status(200).json({
+      message: "succeed.",
+    });
   } catch (error) {
     next(createHttpError(400, "could not unfollow user."));
   }

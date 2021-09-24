@@ -136,19 +136,18 @@ const addInterestCoin = async (req, res, next) => {
         }
         const checkInterestCoin = req.user.interests.some((coin) => coin.id === req.coin.id) &&
             coin.users.some((user) => user.id === req.user.id);
-        if (interest && !checkInterestCoin) {
-            req.user.interests.push(req.coin);
-            await (0, typeorm_1.getRepository)(user_entity_1.User).save(req.user);
-            coin.users.push(req.user);
-            await (0, typeorm_1.getRepository)(coin_entity_1.Coin).save(coin);
-            return res.status(200).json({
-                message: "succeed.",
-            });
+        if (!interest || checkInterestCoin) {
+            next((0, http_errors_1.default)(400, "interest coin already exists."));
         }
-        next((0, http_errors_1.default)(400, "interest coin already exists."));
+        req.user.interests.push(req.coin);
+        await (0, typeorm_1.getRepository)(user_entity_1.User).save(req.user);
+        coin.users.push(req.user);
+        await (0, typeorm_1.getRepository)(coin_entity_1.Coin).save(coin);
+        res.status(200).json({
+            message: "succeed.",
+        });
     }
     catch (error) {
-        console.log(error);
         next((0, http_errors_1.default)(400, "could not add interest coin."));
     }
 };
@@ -164,16 +163,16 @@ const deleteInterestCoin = async (req, res, next) => {
         }
         const checkInterestCoin = req.user.interests.some((coin) => coin.id === req.coin.id) &&
             coin.users.some((user) => user.id === req.user.id);
-        if (!interest && checkInterestCoin) {
-            req.user.interests.splice(req.user.interests.findIndex((coin) => coin.id === req.coin.id), 1);
-            await (0, typeorm_1.getRepository)(user_entity_1.User).save(req.user);
-            coin.users.splice(coin.users.findIndex((user) => user.id === req.user.id), 1);
-            await (0, typeorm_1.getRepository)(coin_entity_1.Coin).save(req.coin);
-            return res.status(200).json({
-                message: "succeed.",
-            });
+        if (interest || !checkInterestCoin) {
+            next((0, http_errors_1.default)(400, "could not find interest coin"));
         }
-        next((0, http_errors_1.default)(400, "could not find interest coin"));
+        req.user.interests.splice(req.user.interests.findIndex((coin) => coin.id === req.coin.id), 1);
+        await (0, typeorm_1.getRepository)(user_entity_1.User).save(req.user);
+        coin.users.splice(coin.users.findIndex((user) => user.id === req.user.id), 1);
+        await (0, typeorm_1.getRepository)(coin_entity_1.Coin).save(req.coin);
+        res.status(200).json({
+            message: "succeed.",
+        });
     }
     catch (error) {
         next((0, http_errors_1.default)(400, "could not delete interest coin."));
