@@ -89,7 +89,7 @@ function Login() {
 
   return (
     <div className="loginContainer">
-      <Form className="loginFormContainer" onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit}>
         <h2 className="loginFormLogo">coinplus</h2>
         <Form.Group className="mb-3" controlId="userId">
           <Form.Control
@@ -118,7 +118,7 @@ function Login() {
         <Button
           disabled={!validateForm()}
           type="submit"
-          className="mb-3 loginBtn"
+          className="loginBtn"
           size="sm"
         >
           {isLoginLoading ? (

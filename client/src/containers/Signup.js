@@ -106,7 +106,7 @@ function Signup() {
 
   return (
     <div className="signupContainer">
-      <Form className="signupFormContainer" onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit}>
         <h2 className="signupFormLogo">coinplus</h2>
         <Form.Group className="mb-3" controlId="nickname">
           <Form.Control
