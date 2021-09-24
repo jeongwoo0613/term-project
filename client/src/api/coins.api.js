@@ -24,4 +24,32 @@ const getCoin = async (coinId) => {
   }
 };
 
-export { getCoins, getCoin };
+const addInterestCoin = async (token, coinId, interest) => {
+  try {
+    const result = await instance.put(`/coins/${coinId}/interest`, interest, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return result.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const deleteInterestCoin = async (token, coinId, interest) => {
+  try {
+    const result = await instance.put(`/coins/${coinId}/uninterest`, interest, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return result.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export { getCoins, getCoin, addInterestCoin, deleteInterestCoin };
