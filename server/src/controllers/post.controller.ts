@@ -83,18 +83,21 @@ const getPosts = async (
   try {
     const posts = [];
 
-    for (const post of req.coin.posts) {
-      const matchedPost = await getRepository(Post).findOne(post.id, {
-        relations: ["user", "coin"],
-      });
+    if (req.coin.posts.length > 0) {
+      for (const post of req.coin.posts) {
+        const matchedPost = await getRepository(Post).findOne(post.id, {
+          relations: ["user", "coin"],
+        });
 
-      if (!matchedPost) {
-        return next(createHttpError(404, "post not found."));
+        if (!matchedPost) {
+          return next(createHttpError(404, "post not found."));
+        }
+
+        matchedPost.user.password = "";
+        matchedPost.user.salt = "";
+        posts.push(matchedPost);
       }
-
-      matchedPost.user.password = "";
-      matchedPost.user.salt = "";
-      posts.push(matchedPost);
+      posts.sort((a, b) => b.id - a.id);
     }
 
     res.status(200).json(posts);

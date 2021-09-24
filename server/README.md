@@ -162,6 +162,34 @@
 
   `GET`
 
+### interest Coin
+
+- URL
+
+  /coins/:coinId/interest
+
+- Method
+
+  `PUT`
+
+- Headers
+
+  `Authorization: Bearer ${Token}`
+
+### UnInterest Coin
+
+- URL
+
+  /coins/:coinId/uninterest
+
+- Method
+
+  `PUT`
+
+- Headers
+
+  `Authorization: Bearer ${Token}`
+
 ## Posts
 
 ### Get Posts

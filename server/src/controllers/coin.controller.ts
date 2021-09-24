@@ -3,6 +3,7 @@ import { NextFunction, Request, Response } from "express";
 import { getRepository } from "typeorm";
 import { Coin } from "../entities/coin.entity";
 import { getUpbitCoinPrice, getUpbitCoinsPrice } from "../utils/upbit.util";
+import { User } from "../entities/user.entity";
 
 const coinById = async (
   req: Request,
@@ -174,4 +175,59 @@ const getCoin = async (
   }
 };
 
-export { coinById, getCoins, getCoin };
+const addInterestCoin = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<Response<any, Record<string, any>> | undefined> => {
+  try {
+    const { interest } = req.body;
+    const checkInterestCoin = req.user.interests.some(
+      (coin) => coin.id === req.coin.id
+    );
+
+    if (interest && !checkInterestCoin) {
+      req.user.interests.push(req.coin);
+      await getRepository(User).save(req.user);
+
+      return res.status(200).json({
+        message: "succeed.",
+      });
+    }
+
+    next(createHttpError(400, "interest coin already exists."));
+  } catch (error) {
+    next(createHttpError(400, "could not add interest coin."));
+  }
+};
+
+const deleteInterestCoin = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<Response<any, Record<string, any>> | undefined> => {
+  try {
+    const { interest } = req.body;
+    const checkInterestCoin = req.user.interests.some(
+      (coin) => coin.id === req.coin.id
+    );
+
+    if (!interest && checkInterestCoin) {
+      req.user.interests.splice(
+        req.user.interests.findIndex((coin) => coin.id === req.coin.id),
+        1
+      );
+      await getRepository(User).save(req.user);
+
+      return res.status(200).json({
+        message: "succeed.",
+      });
+    }
+
+    next(createHttpError(400, "could not find interest coin"));
+  } catch (error) {
+    next(createHttpError(400, "could not delete interest coin."));
+  }
+};
+
+export { coinById, getCoins, getCoin, addInterestCoin, deleteInterestCoin };

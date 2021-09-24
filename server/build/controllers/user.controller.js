@@ -32,7 +32,7 @@ const getUsers = async (req, res, next) => {
         const users = await (0, typeorm_1.getRepository)(user_entity_1.User).find({
             userId: (0, typeorm_1.Not)("admin"),
         });
-        if (!users) {
+        if (users.length === 0) {
             return next((0, http_errors_1.default)(404, "users not found."));
         }
         users.forEach((user) => {
@@ -48,19 +48,22 @@ const getUsers = async (req, res, next) => {
 exports.getUsers = getUsers;
 const getUserByUserId = async (req, res, next) => {
     try {
-        const posts = [];
-        for (const post of req.userByUserId.posts) {
-            const matchedPost = await (0, typeorm_1.getRepository)(post_entity_1.Post).findOne(post.id, {
-                relations: ["coin"],
-            });
-            if (!matchedPost) {
-                return next((0, http_errors_1.default)(404, "post not found."));
+        if (req.userByUserId.posts.length > 0) {
+            const posts = [];
+            for (const post of req.userByUserId.posts) {
+                const matchedPost = await (0, typeorm_1.getRepository)(post_entity_1.Post).findOne(post.id, {
+                    relations: ["coin"],
+                });
+                if (!matchedPost) {
+                    return next((0, http_errors_1.default)(404, "post not found."));
+                }
+                posts.push(matchedPost);
             }
-            posts.push(matchedPost);
+            posts.sort((a, b) => b.id - a.id);
+            req.userByUserId.posts = posts;
         }
         req.userByUserId.password = "";
         req.userByUserId.salt = "";
-        req.userByUserId.posts = posts;
         if (req.userByUserId.followers.length > 0) {
             req.userByUserId.followers.forEach((user) => {
                 user.password = "";
@@ -82,19 +85,22 @@ const getUserByUserId = async (req, res, next) => {
 exports.getUserByUserId = getUserByUserId;
 const getUser = async (req, res, next) => {
     try {
-        const posts = [];
-        for (const post of req.user.posts) {
-            const matchedPost = await (0, typeorm_1.getRepository)(post_entity_1.Post).findOne(post.id, {
-                relations: ["coin"],
-            });
-            if (!matchedPost) {
-                return next((0, http_errors_1.default)(404, "post not found."));
+        if (req.user.posts.length > 0) {
+            const posts = [];
+            for (const post of req.user.posts) {
+                const matchedPost = await (0, typeorm_1.getRepository)(post_entity_1.Post).findOne(post.id, {
+                    relations: ["coin"],
+                });
+                if (!matchedPost) {
+                    return next((0, http_errors_1.default)(404, "post not found."));
+                }
+                posts.push(matchedPost);
             }
-            posts.push(matchedPost);
+            posts.sort((a, b) => b.id - a.id);
+            req.user.posts = posts;
         }
         req.user.password = "";
         req.user.salt = "";
-        req.user.posts = posts;
         if (req.user.followers.length > 0) {
             req.user.followers.forEach((user) => {
                 user.password = "";
@@ -162,7 +168,7 @@ const updateUserImage = async (req, res, next) => {
         res.status(200).json(location);
     }
     catch (error) {
-        next((0, http_errors_1.default)(400, "could not upload image."));
+        next((0, http_errors_1.default)(400, "could not update image."));
     }
 };
 exports.updateUserImage = updateUserImage;
@@ -190,10 +196,11 @@ const addFollow = async (req, res, next) => {
             await userRepository.save(currentUser);
             followingUser.followers.push(currentUser);
             await userRepository.save(followingUser);
+            return res.status(200).json({
+                message: "succeed.",
+            });
         }
-        res.status(200).json({
-            message: "succeed.",
-        });
+        next((0, http_errors_1.default)(400, "already following."));
     }
     catch (error) {
         next((0, http_errors_1.default)(400, "could not follow user."));
@@ -224,10 +231,11 @@ const deleteFollow = async (req, res, next) => {
             await userRepository.save(currentUser);
             followingUser.followers.splice(followingUser.followers.findIndex((user) => user.id === id), 1);
             await userRepository.save(followingUser);
+            return res.status(200).json({
+                message: "succeed.",
+            });
         }
-        res.status(200).json({
-            message: "succeed.",
-        });
+        next((0, http_errors_1.default)(400, "not following."));
     }
     catch (error) {
         next((0, http_errors_1.default)(400, "could not unfollow user."));

@@ -47,7 +47,7 @@ const getUsers = async (
       userId: Not("admin"),
     });
 
-    if (!users) {
+    if (users.length === 0) {
       return next(createHttpError(404, "users not found."));
     }
 
@@ -68,23 +68,27 @@ const getUserByUserId = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const posts = [];
+    if (req.userByUserId.posts.length > 0) {
+      const posts = [];
 
-    for (const post of req.userByUserId.posts) {
-      const matchedPost = await getRepository(Post).findOne(post.id, {
-        relations: ["coin"],
-      });
+      for (const post of req.userByUserId.posts) {
+        const matchedPost = await getRepository(Post).findOne(post.id, {
+          relations: ["coin"],
+        });
 
-      if (!matchedPost) {
-        return next(createHttpError(404, "post not found."));
+        if (!matchedPost) {
+          return next(createHttpError(404, "post not found."));
+        }
+
+        posts.push(matchedPost);
       }
 
-      posts.push(matchedPost);
+      posts.sort((a, b) => b.id - a.id);
+      req.userByUserId.posts = posts;
     }
 
     req.userByUserId.password = "";
     req.userByUserId.salt = "";
-    req.userByUserId.posts = posts;
 
     if (req.userByUserId.followers.length > 0) {
       req.userByUserId.followers.forEach((user: IUser) => {
@@ -99,6 +103,7 @@ const getUserByUserId = async (
         user.salt = "";
       });
     }
+
     res.status(200).json(req.userByUserId);
   } catch (error) {
     next(createHttpError(400, "could not get user."));
@@ -111,23 +116,27 @@ const getUser = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const posts = [];
+    if (req.user.posts.length > 0) {
+      const posts = [];
 
-    for (const post of req.user.posts) {
-      const matchedPost = await getRepository(Post).findOne(post.id, {
-        relations: ["coin"],
-      });
+      for (const post of req.user.posts) {
+        const matchedPost = await getRepository(Post).findOne(post.id, {
+          relations: ["coin"],
+        });
 
-      if (!matchedPost) {
-        return next(createHttpError(404, "post not found."));
+        if (!matchedPost) {
+          return next(createHttpError(404, "post not found."));
+        }
+
+        posts.push(matchedPost);
       }
 
-      posts.push(matchedPost);
+      posts.sort((a, b) => b.id - a.id);
+      req.user.posts = posts;
     }
 
     req.user.password = "";
     req.user.salt = "";
-    req.user.posts = posts;
 
     if (req.user.followers.length > 0) {
       req.user.followers.forEach((user: IUser) => {
@@ -142,6 +151,7 @@ const getUser = async (
         user.salt = "";
       });
     }
+
     res.status(200).json(req.user);
   } catch (error) {
     next(createHttpError(400, "could not get user."));
@@ -214,7 +224,7 @@ const updateUserImage = async (
 
     res.status(200).json(location);
   } catch (error) {
-    next(createHttpError(400, "could not upload image."));
+    next(createHttpError(400, "could not update image."));
   }
 };
 
@@ -222,7 +232,7 @@ const addFollow = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<void> => {
+): Promise<void | Response<any, Record<string, any>>> => {
   try {
     const { id } = req.user;
     const { followingId } = req.body;
@@ -254,11 +264,13 @@ const addFollow = async (
 
       followingUser.followers.push(currentUser);
       await userRepository.save(followingUser);
+
+      return res.status(200).json({
+        message: "succeed.",
+      });
     }
 
-    res.status(200).json({
-      message: "succeed.",
-    });
+    next(createHttpError(400, "already following."));
   } catch (error) {
     next(createHttpError(400, "could not follow user."));
   }
@@ -268,7 +280,7 @@ const deleteFollow = async (
   req: Request,
   res: Response,
   next: NextFunction
-): Promise<void> => {
+): Promise<void | Response<any, Record<string, any>>> => {
   try {
     const { id } = req.user;
     const { followingId } = req.body;
@@ -306,11 +318,13 @@ const deleteFollow = async (
         1
       );
       await userRepository.save(followingUser);
+
+      return res.status(200).json({
+        message: "succeed.",
+      });
     }
 
-    res.status(200).json({
-      message: "succeed.",
-    });
+    next(createHttpError(400, "not following."));
   } catch (error) {
     next(createHttpError(400, "could not unfollow user."));
   }

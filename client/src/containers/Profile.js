@@ -306,34 +306,32 @@ function Profile() {
           </div>
         </div>
         <div className="profilePostsContainer">
-          {publicUser.posts
-            ?.sort((a, b) => b.id - a.id)
-            .map((post) => (
-              <Card
-                key={post.id}
-                className="profilePostsCard"
-                onClick={() => navigatePost(post.coin.id, post.id)}
-              >
-                <Card.Header className="profilePostsCardHeader">
-                  {post.title}
-                  {post.rise === true ? (
-                    <AiOutlineRise color="red" className="riseFallIcon" />
-                  ) : (
-                    <AiOutlineFall color="blue" className="riseFallIcon" />
-                  )}
-                </Card.Header>
-                <Card.Body>
-                  <Card.Text>{post.content}</Card.Text>
-                  <Card.Text className="profilePostsCardInfo">
-                    <img src={post.coin.image} className="postCoinImg" />
-                    {post.coin.name}
-                    <span className="profilePostsCardCreatedAt">
-                      {new Date(post.createdAt).toLocaleString("ko-kr")}
-                    </span>
-                  </Card.Text>
-                </Card.Body>
-              </Card>
-            ))}
+          {publicUser.posts?.map((post) => (
+            <Card
+              key={post.id}
+              className="profilePostsCard"
+              onClick={() => navigatePost(post.coin.id, post.id)}
+            >
+              <Card.Header className="profilePostsCardHeader">
+                {post.title}
+                {post.rise === true ? (
+                  <AiOutlineRise color="red" className="riseFallIcon" />
+                ) : (
+                  <AiOutlineFall color="blue" className="riseFallIcon" />
+                )}
+              </Card.Header>
+              <Card.Body>
+                <Card.Text>{post.content}</Card.Text>
+                <Card.Text className="profilePostsCardInfo">
+                  <img src={post.coin.image} className="postCoinImg" />
+                  {post.coin.name}
+                  <span className="profilePostsCardCreatedAt">
+                    {new Date(post.createdAt).toLocaleString("ko-kr")}
+                  </span>
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          ))}
         </div>
       </section>
     ) : (
@@ -492,36 +490,34 @@ function Profile() {
         </div>
       </div>
       <div className="profilePostsContainer">
-        {user?.posts
-          ?.sort((a, b) => b.id - a.id)
-          .map((post) => (
-            <Card
-              key={post.id}
-              className="profilePostsCard"
-              onClick={() => navigatePost(post.coin.id, post.id)}
-            >
-              <Card.Header className="profilePostsCardHeader">
-                {post.title}
-                {post.rise === true ? (
-                  <AiOutlineRise color="red" className="riseFallIcon" />
-                ) : (
-                  <AiOutlineFall color="blue" className="riseFallIcon" />
-                )}
-              </Card.Header>
-              <Card.Body>
-                <Card.Text>{post.content}</Card.Text>
-                <Card.Text className="profilePostsCardInfo">
-                  <img src={post?.coin.image} className="postCoinImg" />
-                  {post.coin.name}
-                  <span className="profilePostsCardCreatedAt">
-                    {`${new Date(post.createdAt).getFullYear()}년 ${
-                      new Date(post.createdAt).getMonth() + 1
-                    }월 ${new Date(post.createdAt).getDate()}일`}
-                  </span>
-                </Card.Text>
-              </Card.Body>
-            </Card>
-          ))}
+        {user?.posts?.map((post) => (
+          <Card
+            key={post.id}
+            className="profilePostsCard"
+            onClick={() => navigatePost(post.coin.id, post.id)}
+          >
+            <Card.Header className="profilePostsCardHeader">
+              {post.title}
+              {post.rise === true ? (
+                <AiOutlineRise color="red" className="riseFallIcon" />
+              ) : (
+                <AiOutlineFall color="blue" className="riseFallIcon" />
+              )}
+            </Card.Header>
+            <Card.Body>
+              <Card.Text>{post.content}</Card.Text>
+              <Card.Text className="profilePostsCardInfo">
+                <img src={post?.coin.image} className="postCoinImg" />
+                {post.coin.name}
+                <span className="profilePostsCardCreatedAt">
+                  {`${new Date(post.createdAt).getFullYear()}년 ${
+                    new Date(post.createdAt).getMonth() + 1
+                  }월 ${new Date(post.createdAt).getDate()}일`}
+                </span>
+              </Card.Text>
+            </Card.Body>
+          </Card>
+        ))}
       </div>
     </section>
   ) : (

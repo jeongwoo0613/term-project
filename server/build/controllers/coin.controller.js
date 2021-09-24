@@ -3,11 +3,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getCoin = exports.getCoins = exports.coinById = void 0;
+exports.deleteInterestCoin = exports.addInterestCoin = exports.getCoin = exports.getCoins = exports.coinById = void 0;
 const http_errors_1 = __importDefault(require("http-errors"));
 const typeorm_1 = require("typeorm");
 const coin_entity_1 = require("../entities/coin.entity");
 const upbit_util_1 = require("../utils/upbit.util");
+const user_entity_1 = require("../entities/user.entity");
 const coinById = async (req, res, next, id) => {
     try {
         const coin = await (0, typeorm_1.getRepository)(coin_entity_1.Coin).findOne(id, {
@@ -123,3 +124,39 @@ const getCoin = async (req, res, next) => {
     }
 };
 exports.getCoin = getCoin;
+const addInterestCoin = async (req, res, next) => {
+    try {
+        const { interest } = req.body;
+        const checkInterestCoin = req.user.interests.some((coin) => coin.id === req.coin.id);
+        if (interest && !checkInterestCoin) {
+            req.user.interests.push(req.coin);
+            await (0, typeorm_1.getRepository)(user_entity_1.User).save(req.user);
+            return res.status(200).json({
+                message: "succeed.",
+            });
+        }
+        next((0, http_errors_1.default)(400, "interest coin already exists."));
+    }
+    catch (error) {
+        next((0, http_errors_1.default)(400, "could not add interest coin."));
+    }
+};
+exports.addInterestCoin = addInterestCoin;
+const deleteInterestCoin = async (req, res, next) => {
+    try {
+        const { interest } = req.body;
+        const checkInterestCoin = req.user.interests.some((coin) => coin.id === req.coin.id);
+        if (!interest && checkInterestCoin) {
+            req.user.interests.splice(req.user.interests.findIndex((coin) => coin.id === req.coin.id), 1);
+            await (0, typeorm_1.getRepository)(user_entity_1.User).save(req.user);
+            return res.status(200).json({
+                message: "succeed.",
+            });
+        }
+        next((0, http_errors_1.default)(400, "could not find interest coin"));
+    }
+    catch (error) {
+        next((0, http_errors_1.default)(400, "could not delete interest coin."));
+    }
+};
+exports.deleteInterestCoin = deleteInterestCoin;
