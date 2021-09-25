@@ -17,6 +17,11 @@
   width: 150px;
 }
 
+.thumbnailImg {
+  width: 100px;
+  height: 150px;
+}
+
 .newsTitle {
   font-size: 20px;
   font-weight: bold;
