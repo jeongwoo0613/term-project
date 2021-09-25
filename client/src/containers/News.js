@@ -10,7 +10,7 @@ function News() {
     const loadNews = async () => {
       try {
         const result = await axios.get(
-          "https://newsapi.org/v2/everything?q=코인&sortBy=publishedAt&apiKey=1dc00b247e534d808d5544eb92faef3e"
+          "https://newsapi.org/v2/everything?q=(도지 OR 비트코인 OR 이더리움 OR 카르다노)&sortBy=publishedAt&apiKey=1dc00b247e534d808d5544eb92faef3e&language=ko"
         );
         setArticles(result.data.articles);
       } catch (error) {
@@ -26,7 +26,7 @@ function News() {
         <div className="newsItemContainer" key={url}>
           <div className="newsThumbnail">
             <a href={url} target="_blank" rel="noopener noreferrer">
-              <img src={urlToImage} alt="thumbnail" />
+              <img src={urlToImage} alt="thumbnail" className="thumbnailImg" />
             </a>
             <p className="newsTitle">
               <a
