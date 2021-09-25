@@ -18,6 +18,16 @@
   font-weight: bold;
 }
 
+.emptyStarIcon {
+  font-size: 25px;
+  margin-left: auto;
+}
+.fillStarIcon {
+  font-size: 25px;
+  margin-left: auto;
+  color: rgb(226, 226, 6);
+}
+
 .coinTradePrice {
   display: flex;
   border-bottom: 1px solid var(--main-light-gray);

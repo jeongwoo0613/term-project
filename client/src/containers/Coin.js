@@ -2,14 +2,20 @@ import "./Coin.css";
 import Loading from "../components/Loading";
 import Posts from "../components/Posts";
 import { useState, useEffect } from "react";
-import { getCoin } from "../api/coins.api";
+import { getCoin, addInterestCoin, deleteInterestCoin } from "../api/coins.api";
 import { useParams } from "react-router-dom";
 import { getPosts } from "../api/posts.api";
+import { AiOutlineStar, AiFillStar } from "react-icons/ai";
+import { getLocalToken } from "../utils/storage.util";
+import { getUser } from "../api/users.api";
+import { useHistory } from "react-router-dom";
 
 function Coin() {
   const [coin, setCoin] = useState();
   const [posts, setPosts] = useState();
   const { coinId } = useParams();
+  const [interest, setInterest] = useState(false);
+  const history = useHistory();
 
   useEffect(() => {
     const loadCoin = async () => {
@@ -31,7 +37,66 @@ function Coin() {
       }
     };
     loadPosts();
+
+    if (getLocalToken()) {
+      const loadUser = async () => {
+        try {
+          const user = await getUser(getLocalToken());
+          const interest = user.interests.some((coin) => coin.id === coinId);
+          setInterest(interest);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      loadUser();
+    }
   }, [coinId]);
+
+  const handleInterestCoin = async () => {
+    if (!getLocalToken()) {
+      return history.push("/login");
+    }
+
+    setInterest(true);
+
+    try {
+      const result = await addInterestCoin(getLocalToken(), coinId, {
+        interest: true,
+      });
+
+      if (!result) {
+        throw new Error("could not add interest coin");
+      }
+    } catch (error) {
+      if (error.message === "could not add interest coin") {
+        setInterest(false);
+        alert("관심코인을 추가할 수 없습니다.");
+      }
+    }
+  };
+
+  const handleUnInterestCoin = async () => {
+    if (!getLocalToken()) {
+      return history.push("/login");
+    }
+
+    setInterest(false);
+
+    try {
+      const result = await deleteInterestCoin(getLocalToken(), coinId, {
+        interest: false,
+      });
+
+      if (!result) {
+        throw new Error("could not delete interest coin");
+      }
+    } catch (error) {
+      if (error.message === "could not delete interest coin") {
+        setInterest(true);
+        alert("관심코인을 삭제할 수 없습니다.");
+      }
+    }
+  };
 
   return coin ? (
     <section className="coinContainer">
@@ -39,6 +104,14 @@ function Coin() {
         <img src={coin.image} />
         <h5 className="coinName">{coin.name}</h5>
         <h5>{coin.symbol}</h5>
+        {interest ? (
+          <AiFillStar className="fillStarIcon" onClick={handleUnInterestCoin} />
+        ) : (
+          <AiOutlineStar
+            className="emptyStarIcon"
+            onClick={handleInterestCoin}
+          />
+        )}
       </div>
       <div className="coinTradePrice">
         <p>현재가</p>
@@ -126,4 +199,5 @@ function Coin() {
     <Loading />
   );
 }
+
 export default Coin;
