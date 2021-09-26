@@ -20,6 +20,9 @@ import { getLocalToken } from "../utils/storage.util";
 import { useRef } from "react";
 import { useAppContext } from "../utils/context.util";
 import { AiOutlineRise, AiOutlineFall } from "react-icons/ai";
+import Tabs from "react-bootstrap/Tabs";
+import Tab from "react-bootstrap/Tab";
+import Table from "react-bootstrap/Table";
 
 function Profile() {
   const [fieldsUserId, setFieldsUserId] = useState("");
@@ -305,34 +308,41 @@ function Profile() {
             </div>
           </div>
         </div>
-        <div className="profilePostsContainer">
-          {publicUser.posts?.map((post) => (
-            <Card
-              key={post.id}
-              className="profilePostsCard"
-              onClick={() => navigatePost(post.coin.id, post.id)}
-            >
-              <Card.Header className="profilePostsCardHeader">
-                {post.title}
-                {post.rise === true ? (
-                  <AiOutlineRise color="red" className="riseFallIcon" />
-                ) : (
-                  <AiOutlineFall color="blue" className="riseFallIcon" />
-                )}
-              </Card.Header>
-              <Card.Body>
-                <Card.Text>{post.content}</Card.Text>
-                <Card.Text className="profilePostsCardInfo">
-                  <img src={post.coin.image} className="postCoinImg" />
-                  {post.coin.name}
-                  <span className="profilePostsCardCreatedAt">
-                    {new Date(post.createdAt).toLocaleString("ko-kr")}
-                  </span>
-                </Card.Text>
-              </Card.Body>
-            </Card>
-          ))}
-        </div>
+        <Tabs defaultActiveKey="post" className="profileTab">
+          <Tab eventKey="post" title="게시물">
+            <div className="profilePostsContainer">
+              {publicUser?.posts?.map((post) => (
+                <Card
+                  key={post?.id}
+                  className="profilePostsCard"
+                  onClick={() => navigatePost(post?.coin?.id, post?.id)}
+                >
+                  <Card.Header className="profilePostsCardHeader">
+                    {post?.title}
+                    {post?.rise === true ? (
+                      <AiOutlineRise color="red" className="riseFallIcon" />
+                    ) : (
+                      <AiOutlineFall color="blue" className="riseFallIcon" />
+                    )}
+                  </Card.Header>
+                  <Card.Body>
+                    <Card.Text>{post?.content}</Card.Text>
+                    <Card.Text className="profilePostsCardInfo">
+                      <img src={post?.coin?.image} className="postCoinImg" />
+                      {post?.coin?.name}
+                      <span className="profilePostsCardCreatedAt">
+                        {`${new Date(post?.createdAt).getFullYear()}년 ${
+                          new Date(post?.createdAt).getMonth() + 1
+                        }월 ${new Date(post?.createdAt).getDate()}일`}
+                      </span>
+                    </Card.Text>
+                  </Card.Body>
+                </Card>
+              ))}
+            </div>
+          </Tab>
+          <Tab eventKey="interestCoin" title="관심 코인" disabled></Tab>
+        </Tabs>
       </section>
     ) : (
       <Loading />
@@ -489,36 +499,103 @@ function Profile() {
           </div>
         </div>
       </div>
-      <div className="profilePostsContainer">
-        {user?.posts?.map((post) => (
-          <Card
-            key={post.id}
-            className="profilePostsCard"
-            onClick={() => navigatePost(post.coin.id, post.id)}
-          >
-            <Card.Header className="profilePostsCardHeader">
-              {post.title}
-              {post.rise === true ? (
-                <AiOutlineRise color="red" className="riseFallIcon" />
-              ) : (
-                <AiOutlineFall color="blue" className="riseFallIcon" />
-              )}
-            </Card.Header>
-            <Card.Body>
-              <Card.Text>{post.content}</Card.Text>
-              <Card.Text className="profilePostsCardInfo">
-                <img src={post?.coin.image} className="postCoinImg" />
-                {post.coin.name}
-                <span className="profilePostsCardCreatedAt">
-                  {`${new Date(post.createdAt).getFullYear()}년 ${
-                    new Date(post.createdAt).getMonth() + 1
-                  }월 ${new Date(post.createdAt).getDate()}일`}
-                </span>
-              </Card.Text>
-            </Card.Body>
-          </Card>
-        ))}
-      </div>
+      <Tabs defaultActiveKey="post" className="profileTab">
+        <Tab eventKey="post" title="게시물">
+          <div className="profilePostsContainer">
+            {user?.posts?.map((post) => (
+              <Card
+                key={post?.id}
+                className="profilePostsCard"
+                onClick={() => navigatePost(post?.coin?.id, post?.id)}
+              >
+                <Card.Header className="profilePostsCardHeader">
+                  {post?.title}
+                  {post?.rise === true ? (
+                    <AiOutlineRise color="red" className="riseFallIcon" />
+                  ) : (
+                    <AiOutlineFall color="blue" className="riseFallIcon" />
+                  )}
+                </Card.Header>
+                <Card.Body>
+                  <Card.Text>{post?.content}</Card.Text>
+                  <Card.Text className="profilePostsCardInfo">
+                    <img src={post?.coin?.image} className="postCoinImg" />
+                    {post?.coin?.name}
+                    <span className="profilePostsCardCreatedAt">
+                      {`${new Date(post?.createdAt).getFullYear()}년 ${
+                        new Date(post?.createdAt).getMonth() + 1
+                      }월 ${new Date(post?.createdAt).getDate()}일`}
+                    </span>
+                  </Card.Text>
+                </Card.Body>
+              </Card>
+            ))}
+          </div>
+        </Tab>
+        <Tab eventKey="interestCoin" title="관심 코인">
+          <Table borderless className="profileCoinsTable">
+            <thead>
+              <tr>
+                <th></th>
+                <th>심볼</th>
+                <th>코인명</th>
+                <th>현재가</th>
+                <th>전일대비</th>
+                <th>거래대금</th>
+              </tr>
+            </thead>
+            <tbody>
+              {user?.interests?.map((coin) => (
+                <tr key={coin?.id} className="coinsTableRow">
+                  <td>
+                    <img src={coin?.image} alt="" width="25" height="25" />
+                  </td>
+                  <td>{coin?.symbol}</td>
+                  <td>
+                    <strong>{coin?.name}</strong>
+                  </td>
+                  <td
+                    style={
+                      coin?.change === "RISE"
+                        ? { color: "#ff3b30" }
+                        : coin?.change === "FALL"
+                        ? { color: "#007aff" }
+                        : { color: "" }
+                    }
+                  >
+                    {Number(Number(coin?.tradePrice).toFixed(2)).toLocaleString(
+                      "en-US"
+                    )}
+                  </td>
+                  <td
+                    style={
+                      coin?.change === "RISE"
+                        ? { color: "#ff3b30" }
+                        : coin?.change === "FALL"
+                        ? { color: "#007aff" }
+                        : { color: "" }
+                    }
+                  >
+                    {coin?.change === "RISE" ? "+" : ""}
+                    {Number(
+                      Number(
+                        ((coin?.tradePrice - coin?.prevClosingPrice) /
+                          coin?.prevClosingPrice) *
+                          100
+                      ).toFixed(2)
+                    ).toLocaleString("en-US") + "%"}
+                  </td>
+                  <td>
+                    {Number(
+                      Math.floor(coin?.accTradePrice24h / 1000000).toFixed(2)
+                    ).toLocaleString("en-US") + "백만"}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </Tab>
+      </Tabs>
     </section>
   ) : (
     <Loading />

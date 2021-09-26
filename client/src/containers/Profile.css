@@ -82,7 +82,7 @@
 }
 
 .profilePostsContainer {
-  margin-top: 100px;
+  margin-top: 20px;
 }
 
 .profilePostsCard {
@@ -119,6 +119,17 @@
   cursor: pointer;
 }
 
+.profileTab {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profileCoinsTable {
+  text-align: center;
+  margin-top: 20px;
+}
+
 @media (max-width: 625px) {
   .profileImg {
     margin: 0px 80px;
@@ -151,5 +162,17 @@
   }
   .profileInfoDiv {
     margin: 0 auto;
+  }
+}
+
+@media (max-width: 500px) {
+  .profileCoinsTable {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .profileCoinsTable {
+    font-size: 0.7rem;
   }
 }
