@@ -81,6 +81,9 @@ export class Coin {
   @Column()
   github!: string;
 
+  @Column({ nullable: true })
+  twitter!: string;
+
   @Column()
   whitepaper!: string;
 

@@ -108,6 +108,10 @@ __decorate([
     __metadata("design:type", String)
 ], Coin.prototype, "github", void 0);
 __decorate([
+    (0, typeorm_1.Column)({ nullable: true }),
+    __metadata("design:type", String)
+], Coin.prototype, "twitter", void 0);
+__decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], Coin.prototype, "whitepaper", void 0);

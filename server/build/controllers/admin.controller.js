@@ -14,7 +14,7 @@ const createCoin = async (req, res, next) => {
             return next((0, http_errors_1.default)(400, "could not upload file."));
         }
         const { location, key } = req.file;
-        const { name, symbol, description, supplyLimit, homepage, author, github, whitepaper, initialRelease, market, } = req.body;
+        const { name, symbol, description, supplyLimit, homepage, author, github, whitepaper, initialRelease, market, twitter, } = req.body;
         const upbitCoinPrice = await (0, upbit_util_1.getUpbitCoinPrice)(market);
         if (!upbitCoinPrice) {
             return next((0, http_errors_1.default)(400, "could not get upbit coin price"));
@@ -47,6 +47,7 @@ const createCoin = async (req, res, next) => {
         coin.initialRelease = initialRelease;
         coin.image = location;
         coin.imageKey = key;
+        coin.twitter = twitter;
         await (0, typeorm_1.getRepository)(coin_entity_1.Coin).insert(coin);
         res.status(201).json({
             message: "succeed.",

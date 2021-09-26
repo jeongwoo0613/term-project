@@ -26,6 +26,7 @@ const createCoin = async (
       whitepaper,
       initialRelease,
       market,
+      twitter,
     } = req.body;
 
     const upbitCoinPrice = await getUpbitCoinPrice(market);
@@ -78,6 +79,7 @@ const createCoin = async (
     coin.initialRelease = initialRelease;
     coin.image = location;
     coin.imageKey = key;
+    coin.twitter = twitter;
 
     await getRepository(Coin).insert(coin);
 
