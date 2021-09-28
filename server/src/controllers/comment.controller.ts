@@ -32,6 +32,7 @@ const createComment = async (
 ): Promise<void> => {
   try {
     const { content } = req.body;
+
     const commentRepository = getRepository(Comment);
     const postRepository = getRepository(Post);
     const userRepository = getRepository(User);
@@ -77,10 +78,10 @@ const updateComment = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const { content } = req.body;
+    const { id } = req.comment;
 
-    await getRepository(Comment).update(req.comment.id, {
-      content,
+    await getRepository(Comment).update(id, {
+      ...req.body,
     });
 
     res.status(200).json({
@@ -97,7 +98,9 @@ const deleteComment = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    await getRepository(Comment).delete(req.comment.id);
+    const { id } = req.comment;
+
+    await getRepository(Comment).delete(id);
 
     res.status(200).json({
       message: "succeed.",

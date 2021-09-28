@@ -33,6 +33,7 @@ const createPost = async (
 ): Promise<void> => {
   try {
     const { title, content, rise, fall } = req.body;
+
     const postRepository = getRepository(Post);
     const userRepository = getRepository(User);
     const coinRepository = getRepository(Coin);
@@ -158,13 +159,10 @@ const updatePost = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const { title, content, rise, fall } = req.body;
+    const { id } = req.post;
 
-    await getRepository(Post).update(req.post.id, {
-      title,
-      content,
-      rise,
-      fall,
+    await getRepository(Post).update(id, {
+      ...req.body,
     });
 
     res.status(200).json({
@@ -181,7 +179,9 @@ const deletePost = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    await getRepository(Post).delete(req.post.id);
+    const { id } = req.post;
+
+    await getRepository(Post).delete(id);
 
     res.status(200).json({
       message: "succeed.",

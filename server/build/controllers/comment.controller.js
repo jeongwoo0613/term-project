@@ -59,9 +59,9 @@ const createComment = async (req, res, next) => {
 exports.createComment = createComment;
 const updateComment = async (req, res, next) => {
     try {
-        const { content } = req.body;
-        await (0, typeorm_1.getRepository)(comment_entity_1.Comment).update(req.comment.id, {
-            content,
+        const { id } = req.comment;
+        await (0, typeorm_1.getRepository)(comment_entity_1.Comment).update(id, {
+            ...req.body,
         });
         res.status(200).json({
             message: "succeed.",
@@ -74,7 +74,8 @@ const updateComment = async (req, res, next) => {
 exports.updateComment = updateComment;
 const deleteComment = async (req, res, next) => {
     try {
-        await (0, typeorm_1.getRepository)(comment_entity_1.Comment).delete(req.comment.id);
+        const { id } = req.comment;
+        await (0, typeorm_1.getRepository)(comment_entity_1.Comment).delete(id);
         res.status(200).json({
             message: "succeed.",
         });

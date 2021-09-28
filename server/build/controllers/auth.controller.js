@@ -48,9 +48,9 @@ const succeedAuthGoogle = (req, res) => {
 };
 exports.succeedAuthGoogle = succeedAuthGoogle;
 const verifyAdminAuthorization = (req, res, next) => {
-    const authorized = req.user && req.user.userId === "admin";
+    const authorized = req.user.userId === "admin";
     if (!authorized) {
-        return next((0, http_errors_1.default)(401, "admin is not authorized."));
+        return next((0, http_errors_1.default)(401, "not authorized."));
     }
     next();
 };

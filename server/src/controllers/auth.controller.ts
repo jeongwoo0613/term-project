@@ -65,10 +65,10 @@ const verifyAdminAuthorization = (
   res: Response,
   next: NextFunction
 ): void => {
-  const authorized = req.user && req.user.userId === "admin";
+  const authorized = req.user.userId === "admin";
 
   if (!authorized) {
-    return next(createHttpError(401, "admin is not authorized."));
+    return next(createHttpError(401, "not authorized."));
   }
 
   next();
@@ -81,6 +81,7 @@ const signup = async (
 ): Promise<void> => {
   try {
     const { userId, password, nickname } = req.body;
+
     const userRepository = getRepository(User);
 
     const user = await userRepository.findOne({ userId });

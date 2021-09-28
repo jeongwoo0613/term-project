@@ -121,12 +121,9 @@ const getPost = async (req, res, next) => {
 exports.getPost = getPost;
 const updatePost = async (req, res, next) => {
     try {
-        const { title, content, rise, fall } = req.body;
-        await (0, typeorm_1.getRepository)(post_entity_1.Post).update(req.post.id, {
-            title,
-            content,
-            rise,
-            fall,
+        const { id } = req.post;
+        await (0, typeorm_1.getRepository)(post_entity_1.Post).update(id, {
+            ...req.body,
         });
         res.status(200).json({
             message: "succeed.",
@@ -139,7 +136,8 @@ const updatePost = async (req, res, next) => {
 exports.updatePost = updatePost;
 const deletePost = async (req, res, next) => {
     try {
-        await (0, typeorm_1.getRepository)(post_entity_1.Post).delete(req.post.id);
+        const { id } = req.post;
+        await (0, typeorm_1.getRepository)(post_entity_1.Post).delete(id);
         res.status(200).json({
             message: "succeed.",
         });

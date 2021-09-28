@@ -184,13 +184,13 @@ const deleteUser = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const { imageKey } = req.user;
+    const { id, imageKey } = req.user;
 
     if (imageKey && imageKey !== "userdefault.png") {
       await deleteUserImage(imageKey);
     }
 
-    await getRepository(User).delete(req.user.id);
+    await getRepository(User).delete(id);
 
     res.status(200).json({
       message: "succeed.",
@@ -236,6 +236,7 @@ const addFollow = async (
   try {
     const { id } = req.user;
     const { followingId } = req.body;
+
     const userRepository = getRepository(User);
 
     const currentUser = await userRepository.findOne(id, {
@@ -284,6 +285,7 @@ const deleteFollow = async (
   try {
     const { id } = req.user;
     const { followingId } = req.body;
+
     const userRepository = getRepository(User);
 
     const currentUser = await userRepository.findOne(id, {

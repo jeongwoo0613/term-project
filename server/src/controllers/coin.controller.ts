@@ -184,6 +184,7 @@ const addInterestCoin = async (
 ): Promise<void> => {
   try {
     const { interest } = req.body;
+
     const coin = await getRepository(Coin).findOne(req.coin.id, {
       relations: ["users"],
     });
@@ -221,6 +222,7 @@ const deleteInterestCoin = async (
 ): Promise<void> => {
   try {
     const { interest } = req.body;
+
     const coin = await getRepository(Coin).findOne(req.coin.id, {
       relations: ["users"],
     });

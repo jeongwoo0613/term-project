@@ -19,8 +19,7 @@ const searchCoin = async (req, res, next) => {
         if (searchResult.length === 0) {
             return next((0, http_errors_1.default)(400, "could not search coin"));
         }
-        const searchCoinResult = searchResult[0].item;
-        res.status(200).json(searchCoinResult);
+        res.status(200).json(searchResult[0].item);
     }
     catch (error) {
         next((0, http_errors_1.default)(400, "could not search coin"));

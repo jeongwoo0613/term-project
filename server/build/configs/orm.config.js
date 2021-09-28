@@ -10,10 +10,15 @@ exports.default = {
     password: process.env.TYPEORM_PASSWORD,
     database: process.env.TYPEORM_DATABASE,
     namingStrategy: new typeorm_naming_strategies_1.SnakeNamingStrategy(),
-    synchronize: true,
+    synchronize: false,
     logging: false,
     dropSchema: false,
     entities: [root + "/entities/**/*.{js,ts}"],
     migrations: [root + "/migration/**/*.{js,ts}"],
     subscribers: [root + "/subscriber/**/*.{js,ts}"],
+    cli: {
+        entitiesDir: root + "/entities",
+        migrationsDir: root + "/migration",
+        subscribersDir: root + "/subscriber",
+    },
 };

@@ -32,7 +32,7 @@ const createCoin = async (
     const upbitCoinPrice = await getUpbitCoinPrice(market);
 
     if (!upbitCoinPrice) {
-      return next(createHttpError(400, "could not get upbit coin price"));
+      return next(createHttpError(400, "could not get upbit coin price."));
     }
 
     const {

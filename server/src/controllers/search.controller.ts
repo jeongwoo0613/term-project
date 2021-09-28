@@ -24,9 +24,7 @@ const searchCoin = async (
       return next(createHttpError(400, "could not search coin"));
     }
 
-    const searchCoinResult = searchResult[0].item;
-
-    res.status(200).json(searchCoinResult);
+    res.status(200).json(searchResult[0].item);
   } catch (error) {
     next(createHttpError(400, "could not search coin"));
   }
