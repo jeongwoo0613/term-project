@@ -1,22 +1,19 @@
 import { Router } from "express";
-import { verifyToken } from "../controllers/auth.controller";
-import { coinById } from "../controllers/coin.controller";
 import {
   commentById,
   createComment,
   deleteComment,
   updateComment,
-} from "../controllers/comment.controller";
-import {
   createPost,
   deletePost,
   getPosts,
   getPost,
   postById,
   updatePost,
-} from "../controllers/post.controller";
-import { validatePost } from "../validations/post.validation";
-import { validateComment } from "../validations/comment.validation";
+  verifyToken,
+  coinById,
+} from "../controllers";
+import { validatePost, validateComment } from "../validations";
 
 const router = Router();
 

@@ -1,9 +1,8 @@
 import createHttpError from "http-errors";
 import { NextFunction, Request, Response } from "express";
 import { getRepository } from "typeorm";
-import { Coin } from "../entities/coin.entity";
-import { getUpbitCoinPrice, getUpbitCoinsPrice } from "../utils/upbit.util";
-import { User } from "../entities/user.entity";
+import { Coin, User } from "../entities";
+import { getUpbitCoinPrice, getUpbitCoinsPrice } from "../utils";
 
 const coinById = async (
   req: Request,

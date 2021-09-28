@@ -1,7 +1,7 @@
 import passportJwtStrategy from "passport-jwt";
 import passportGoogleStrategy from "passport-google-oauth20";
 import { getRepository } from "typeorm";
-import { User } from "../entities/user.entity";
+import { User } from "../entities";
 import { v4 as uuidv4 } from "uuid";
 
 const opts = {

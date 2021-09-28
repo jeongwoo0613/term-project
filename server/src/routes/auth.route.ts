@@ -5,8 +5,8 @@ import {
   verifyGoogle,
   authGoogle,
   succeedAuthGoogle,
-} from "../controllers/auth.controller";
-import { validateSignup } from "../validations/auth.validation";
+} from "../controllers";
+import { validateSignup } from "../validations";
 
 const router = Router();
 

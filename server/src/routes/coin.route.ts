@@ -1,13 +1,13 @@
 import { Router } from "express";
-import { verifyToken } from "../controllers/auth.controller";
 import {
   addInterestCoin,
   coinById,
   deleteInterestCoin,
   getCoin,
   getCoins,
-} from "../controllers/coin.controller";
-import { validateInterestCoin } from "../validations/interest.validation";
+  verifyToken,
+} from "../controllers";
+import { validateInterestCoin } from "../validations";
 
 const router = Router();
 

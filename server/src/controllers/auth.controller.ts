@@ -1,7 +1,7 @@
 import passport from "passport";
 import createHttpError from "http-errors";
 import { getRepository } from "typeorm";
-import { User } from "../entities/user.entity";
+import { User } from "../entities";
 import { NextFunction, Request, Response } from "express";
 import { randomBytes, pbkdf2 } from "crypto";
 import { sign } from "jsonwebtoken";

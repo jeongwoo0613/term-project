@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { verifyToken } from "../controllers/auth.controller";
 import {
   userByUserId,
   getUsers,
@@ -10,8 +9,9 @@ import {
   updateUserImage,
   addFollow,
   deleteFollow,
-} from "../controllers/user.controller";
-import { uploadUserImage } from "../utils/s3.util";
+  verifyToken,
+} from "../controllers";
+import { uploadUserImage } from "../utils";
 
 const router = Router();
 

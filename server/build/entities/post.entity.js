@@ -11,9 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Post = void 0;
 const typeorm_1 = require("typeorm");
-const user_entity_1 = require("./user.entity");
-const comment_entity_1 = require("./comment.entity");
-const coin_entity_1 = require("./coin.entity");
+const _1 = require(".");
 let Post = class Post {
 };
 __decorate([
@@ -37,15 +35,15 @@ __decorate([
     __metadata("design:type", Boolean)
 ], Post.prototype, "fall", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)((type) => coin_entity_1.Coin, (coin) => coin.posts),
-    __metadata("design:type", coin_entity_1.Coin)
+    (0, typeorm_1.ManyToOne)((type) => _1.Coin, (coin) => coin.posts),
+    __metadata("design:type", _1.Coin)
 ], Post.prototype, "coin", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)((type) => user_entity_1.User, (user) => user.posts),
-    __metadata("design:type", user_entity_1.User)
+    (0, typeorm_1.ManyToOne)((type) => _1.User, (user) => user.posts),
+    __metadata("design:type", _1.User)
 ], Post.prototype, "user", void 0);
 __decorate([
-    (0, typeorm_1.OneToMany)((type) => comment_entity_1.Comment, (comment) => comment.post),
+    (0, typeorm_1.OneToMany)((type) => _1.Comment, (comment) => comment.post),
     __metadata("design:type", Array)
 ], Post.prototype, "comments", void 0);
 __decorate([

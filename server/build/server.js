@@ -5,10 +5,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 require("dotenv/config");
 require("reflect-metadata");
-const typeorm_1 = require("typeorm");
-const orm_config_1 = __importDefault(require("./configs/orm.config"));
 const app_1 = __importDefault(require("./app"));
 const aws_sdk_1 = __importDefault(require("aws-sdk"));
+const typeorm_1 = require("typeorm");
+const configs_1 = require("./configs");
 aws_sdk_1.default.config.update({
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
@@ -16,7 +16,7 @@ aws_sdk_1.default.config.update({
 });
 (async () => {
     try {
-        await (0, typeorm_1.createConnection)(orm_config_1.default);
+        await (0, typeorm_1.createConnection)(configs_1.ormconfig);
         const PORT = process.env.NODE_ENV === "production" ? process.env.PORT : 8080;
         app_1.default.listen(PORT, () => {
             console.log(`Server listening on port ${PORT}`);

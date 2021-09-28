@@ -6,12 +6,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteInterestCoin = exports.addInterestCoin = exports.getCoin = exports.getCoins = exports.coinById = void 0;
 const http_errors_1 = __importDefault(require("http-errors"));
 const typeorm_1 = require("typeorm");
-const coin_entity_1 = require("../entities/coin.entity");
-const upbit_util_1 = require("../utils/upbit.util");
-const user_entity_1 = require("../entities/user.entity");
+const entities_1 = require("../entities");
+const utils_1 = require("../utils");
 const coinById = async (req, res, next, id) => {
     try {
-        const coin = await (0, typeorm_1.getRepository)(coin_entity_1.Coin).findOne(id, {
+        const coin = await (0, typeorm_1.getRepository)(entities_1.Coin).findOne(id, {
             relations: ["posts"],
         });
         if (!coin) {
@@ -27,14 +26,14 @@ const coinById = async (req, res, next, id) => {
 exports.coinById = coinById;
 const getCoins = async (req, res, next) => {
     try {
-        const coinRepository = (0, typeorm_1.getRepository)(coin_entity_1.Coin);
+        const coinRepository = (0, typeorm_1.getRepository)(entities_1.Coin);
         const coins = await coinRepository.find({
             order: {
                 accTradePrice24h: "DESC",
             },
             take: 10,
         });
-        const upbitCoinsPrice = await (0, upbit_util_1.getUpbitCoinsPrice)(coins);
+        const upbitCoinsPrice = await (0, utils_1.getUpbitCoinsPrice)(coins);
         if (!upbitCoinsPrice) {
             return res.status(200).json(coins);
         }
@@ -83,12 +82,12 @@ exports.getCoins = getCoins;
 const getCoin = async (req, res, next) => {
     try {
         const { id, market } = req.coin;
-        const upbitCoinPrice = await (0, upbit_util_1.getUpbitCoinPrice)(market);
+        const upbitCoinPrice = await (0, utils_1.getUpbitCoinPrice)(market);
         if (!upbitCoinPrice) {
             return res.status(200).json(req.coin);
         }
         const { opening_price, high_price, low_price, trade_price, prev_closing_price, change, acc_trade_price, acc_trade_price_24h, acc_trade_volume, acc_trade_volume_24h, highest_52_week_price, highest_52_week_date, lowest_52_week_price, lowest_52_week_date, } = upbitCoinPrice;
-        await (0, typeorm_1.getRepository)(coin_entity_1.Coin).update(id, {
+        await (0, typeorm_1.getRepository)(entities_1.Coin).update(id, {
             openingPrice: opening_price,
             highPrice: high_price,
             lowPrice: low_price,
@@ -128,7 +127,7 @@ exports.getCoin = getCoin;
 const addInterestCoin = async (req, res, next) => {
     try {
         const { interest } = req.body;
-        const coin = await (0, typeorm_1.getRepository)(coin_entity_1.Coin).findOne(req.coin.id, {
+        const coin = await (0, typeorm_1.getRepository)(entities_1.Coin).findOne(req.coin.id, {
             relations: ["users"],
         });
         if (!coin) {
@@ -140,9 +139,9 @@ const addInterestCoin = async (req, res, next) => {
             next((0, http_errors_1.default)(400, "interest coin already exists."));
         }
         req.user.interests.push(req.coin);
-        await (0, typeorm_1.getRepository)(user_entity_1.User).save(req.user);
+        await (0, typeorm_1.getRepository)(entities_1.User).save(req.user);
         coin.users.push(req.user);
-        await (0, typeorm_1.getRepository)(coin_entity_1.Coin).save(coin);
+        await (0, typeorm_1.getRepository)(entities_1.Coin).save(coin);
         res.status(200).json({
             message: "succeed.",
         });
@@ -155,7 +154,7 @@ exports.addInterestCoin = addInterestCoin;
 const deleteInterestCoin = async (req, res, next) => {
     try {
         const { interest } = req.body;
-        const coin = await (0, typeorm_1.getRepository)(coin_entity_1.Coin).findOne(req.coin.id, {
+        const coin = await (0, typeorm_1.getRepository)(entities_1.Coin).findOne(req.coin.id, {
             relations: ["users"],
         });
         if (!coin) {
@@ -167,9 +166,9 @@ const deleteInterestCoin = async (req, res, next) => {
             next((0, http_errors_1.default)(400, "could not find interest coin"));
         }
         req.user.interests.splice(req.user.interests.findIndex((coin) => coin.id === req.coin.id), 1);
-        await (0, typeorm_1.getRepository)(user_entity_1.User).save(req.user);
+        await (0, typeorm_1.getRepository)(entities_1.User).save(req.user);
         coin.users.splice(coin.users.findIndex((user) => user.id === req.user.id), 1);
-        await (0, typeorm_1.getRepository)(coin_entity_1.Coin).save(req.coin);
+        await (0, typeorm_1.getRepository)(entities_1.Coin).save(req.coin);
         res.status(200).json({
             message: "succeed.",
         });

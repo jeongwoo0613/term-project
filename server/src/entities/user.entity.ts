@@ -8,9 +8,7 @@ import {
   UpdateDateColumn,
   OneToMany,
 } from "typeorm";
-import { Coin } from "./coin.entity";
-import { Comment } from "./comment.entity";
-import { Post } from "./post.entity";
+import { Coin, Comment, Post } from ".";
 
 @Entity()
 export class User {

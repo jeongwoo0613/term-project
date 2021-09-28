@@ -7,7 +7,7 @@ exports.verifyAdminAuthorization = exports.succeedAuthGoogle = exports.authGoogl
 const passport_1 = __importDefault(require("passport"));
 const http_errors_1 = __importDefault(require("http-errors"));
 const typeorm_1 = require("typeorm");
-const user_entity_1 = require("../entities/user.entity");
+const entities_1 = require("../entities");
 const crypto_1 = require("crypto");
 const jsonwebtoken_1 = require("jsonwebtoken");
 const util_1 = require("util");
@@ -58,12 +58,12 @@ exports.verifyAdminAuthorization = verifyAdminAuthorization;
 const signup = async (req, res, next) => {
     try {
         const { userId, password, nickname } = req.body;
-        const userRepository = (0, typeorm_1.getRepository)(user_entity_1.User);
+        const userRepository = (0, typeorm_1.getRepository)(entities_1.User);
         const user = await userRepository.findOne({ userId });
         if (user) {
             return next((0, http_errors_1.default)(400, "user already exist."));
         }
-        const newUser = new user_entity_1.User();
+        const newUser = new entities_1.User();
         const salt = await makeSalt();
         const hashedPassword = await hashPassword(password, salt);
         newUser.userId = userId;
@@ -86,7 +86,7 @@ exports.signup = signup;
 const login = async (req, res, next) => {
     try {
         const { userId, password } = req.body;
-        const user = await (0, typeorm_1.getRepository)(user_entity_1.User).findOne({ userId });
+        const user = await (0, typeorm_1.getRepository)(entities_1.User).findOne({ userId });
         if (!user) {
             return next((0, http_errors_1.default)(404, "user not found."));
         }

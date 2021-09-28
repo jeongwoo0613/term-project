@@ -4,14 +4,13 @@ import helmet from "helmet";
 import compression from "compression";
 import morgan from "morgan";
 import passport from "passport";
-import auth from "./routes/auth.route";
-import user from "./routes/user.route";
-import coin from "./routes/coin.route";
-import post from "./routes/post.route";
-import admin from "./routes/admin.route";
-import search from "./routes/search.route";
-import { googleStrategy, jwtStrategy } from "./configs/passport.config";
-import { errorHandler, errorLogger } from "./configs/error.config";
+import { auth, user, coin, post, admin, search } from "./routes";
+import {
+  googleStrategy,
+  jwtStrategy,
+  errorHandler,
+  errorLogger,
+} from "./configs";
 
 const app = express();
 

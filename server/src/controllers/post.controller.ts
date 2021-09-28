@@ -1,10 +1,7 @@
 import createHttpError from "http-errors";
 import { NextFunction, Request, Response } from "express";
 import { getRepository } from "typeorm";
-import { Coin } from "../entities/coin.entity";
-import { Post } from "../entities/post.entity";
-import { User } from "../entities/user.entity";
-import { Comment } from "../entities/comment.entity";
+import { Coin, Post, User, Comment } from "../entities";
 
 const postById = async (
   req: Request,

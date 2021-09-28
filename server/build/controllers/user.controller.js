@@ -6,12 +6,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteFollow = exports.addFollow = exports.updateUserImage = exports.deleteUser = exports.updateUser = exports.getUser = exports.getUserByUserId = exports.getUsers = exports.userByUserId = void 0;
 const http_errors_1 = __importDefault(require("http-errors"));
 const typeorm_1 = require("typeorm");
-const post_entity_1 = require("../entities/post.entity");
-const user_entity_1 = require("../entities/user.entity");
-const s3_util_1 = require("../utils/s3.util");
+const entities_1 = require("../entities");
+const utils_1 = require("../utils");
 const userByUserId = async (req, res, next, id) => {
     try {
-        const user = await (0, typeorm_1.getRepository)(user_entity_1.User).findOne({
+        const user = await (0, typeorm_1.getRepository)(entities_1.User).findOne({
             userId: id,
         }, {
             relations: ["following", "followers", "posts", "interests"],
@@ -29,7 +28,7 @@ const userByUserId = async (req, res, next, id) => {
 exports.userByUserId = userByUserId;
 const getUsers = async (req, res, next) => {
     try {
-        const users = await (0, typeorm_1.getRepository)(user_entity_1.User).find({
+        const users = await (0, typeorm_1.getRepository)(entities_1.User).find({
             userId: (0, typeorm_1.Not)("admin"),
         });
         if (users.length === 0) {
@@ -51,7 +50,7 @@ const getUserByUserId = async (req, res, next) => {
         if (req.userByUserId.posts.length > 0) {
             const posts = [];
             for (const post of req.userByUserId.posts) {
-                const matchedPost = await (0, typeorm_1.getRepository)(post_entity_1.Post).findOne(post.id, {
+                const matchedPost = await (0, typeorm_1.getRepository)(entities_1.Post).findOne(post.id, {
                     relations: ["coin"],
                 });
                 if (!matchedPost) {
@@ -88,7 +87,7 @@ const getUser = async (req, res, next) => {
         if (req.user.posts.length > 0) {
             const posts = [];
             for (const post of req.user.posts) {
-                const matchedPost = await (0, typeorm_1.getRepository)(post_entity_1.Post).findOne(post.id, {
+                const matchedPost = await (0, typeorm_1.getRepository)(entities_1.Post).findOne(post.id, {
                     relations: ["coin"],
                 });
                 if (!matchedPost) {
@@ -123,7 +122,7 @@ exports.getUser = getUser;
 const updateUser = async (req, res, next) => {
     try {
         const { id } = req.user;
-        await (0, typeorm_1.getRepository)(user_entity_1.User).update(id, {
+        await (0, typeorm_1.getRepository)(entities_1.User).update(id, {
             ...req.body,
         });
         res.status(200).json({
@@ -139,9 +138,9 @@ const deleteUser = async (req, res, next) => {
     try {
         const { id, imageKey } = req.user;
         if (imageKey && imageKey !== "userdefault.png") {
-            await (0, s3_util_1.deleteUserImage)(imageKey);
+            await (0, utils_1.deleteUserImage)(imageKey);
         }
-        await (0, typeorm_1.getRepository)(user_entity_1.User).delete(id);
+        await (0, typeorm_1.getRepository)(entities_1.User).delete(id);
         res.status(200).json({
             message: "succeed.",
         });
@@ -159,9 +158,9 @@ const updateUserImage = async (req, res, next) => {
         const { location, key } = req.file;
         const { id, imageKey } = req.user;
         if (imageKey !== "userdefault.png") {
-            (0, s3_util_1.deleteUserImage)(imageKey);
+            (0, utils_1.deleteUserImage)(imageKey);
         }
-        await (0, typeorm_1.getRepository)(user_entity_1.User).update(id, {
+        await (0, typeorm_1.getRepository)(entities_1.User).update(id, {
             image: location,
             imageKey: key,
         });
@@ -176,7 +175,7 @@ const addFollow = async (req, res, next) => {
     try {
         const { id } = req.user;
         const { followingId } = req.body;
-        const userRepository = (0, typeorm_1.getRepository)(user_entity_1.User);
+        const userRepository = (0, typeorm_1.getRepository)(entities_1.User);
         const currentUser = await userRepository.findOne(id, {
             relations: ["following"],
         });
@@ -211,7 +210,7 @@ const deleteFollow = async (req, res, next) => {
     try {
         const { id } = req.user;
         const { followingId } = req.body;
-        const userRepository = (0, typeorm_1.getRepository)(user_entity_1.User);
+        const userRepository = (0, typeorm_1.getRepository)(entities_1.User);
         const currentUser = await userRepository.findOne(id, {
             relations: ["following"],
         });

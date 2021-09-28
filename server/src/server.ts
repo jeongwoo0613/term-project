@@ -1,9 +1,9 @@
 import "dotenv/config";
 import "reflect-metadata";
-import { createConnection } from "typeorm";
-import ormconfig from "./configs/orm.config";
 import app from "./app";
 import aws from "aws-sdk";
+import { createConnection } from "typeorm";
+import { ormconfig } from "./configs";
 
 aws.config.update({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,

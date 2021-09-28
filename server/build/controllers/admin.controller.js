@@ -6,8 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateCoin = exports.createCoin = void 0;
 const http_errors_1 = __importDefault(require("http-errors"));
 const typeorm_1 = require("typeorm");
-const coin_entity_1 = require("../entities/coin.entity");
-const upbit_util_1 = require("../utils/upbit.util");
+const entities_1 = require("../entities");
+const utils_1 = require("../utils");
 const createCoin = async (req, res, next) => {
     try {
         if (!req.file) {
@@ -15,12 +15,12 @@ const createCoin = async (req, res, next) => {
         }
         const { location, key } = req.file;
         const { name, symbol, description, supplyLimit, homepage, author, github, whitepaper, initialRelease, market, twitter, } = req.body;
-        const upbitCoinPrice = await (0, upbit_util_1.getUpbitCoinPrice)(market);
+        const upbitCoinPrice = await (0, utils_1.getUpbitCoinPrice)(market);
         if (!upbitCoinPrice) {
             return next((0, http_errors_1.default)(400, "could not get upbit coin price."));
         }
         const { opening_price, high_price, low_price, trade_price, prev_closing_price, change, acc_trade_price, acc_trade_price_24h, acc_trade_volume, acc_trade_volume_24h, highest_52_week_price, highest_52_week_date, lowest_52_week_price, lowest_52_week_date, } = upbitCoinPrice;
-        const coin = new coin_entity_1.Coin();
+        const coin = new entities_1.Coin();
         coin.name = name;
         coin.symbol = symbol;
         coin.description = description;
@@ -48,7 +48,7 @@ const createCoin = async (req, res, next) => {
         coin.image = location;
         coin.imageKey = key;
         coin.twitter = twitter;
-        await (0, typeorm_1.getRepository)(coin_entity_1.Coin).insert(coin);
+        await (0, typeorm_1.getRepository)(entities_1.Coin).insert(coin);
         res.status(201).json({
             message: "succeed.",
         });
@@ -61,7 +61,7 @@ exports.createCoin = createCoin;
 const updateCoin = async (req, res, next) => {
     try {
         const { id } = req.coin;
-        await (0, typeorm_1.getRepository)(coin_entity_1.Coin).update(id, {
+        await (0, typeorm_1.getRepository)(entities_1.Coin).update(id, {
             ...req.body,
         });
         res.status(200).json({

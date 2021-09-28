@@ -6,13 +6,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deletePost = exports.updatePost = exports.getPost = exports.getPosts = exports.createPost = exports.postById = void 0;
 const http_errors_1 = __importDefault(require("http-errors"));
 const typeorm_1 = require("typeorm");
-const coin_entity_1 = require("../entities/coin.entity");
-const post_entity_1 = require("../entities/post.entity");
-const user_entity_1 = require("../entities/user.entity");
-const comment_entity_1 = require("../entities/comment.entity");
+const entities_1 = require("../entities");
 const postById = async (req, res, next, id) => {
     try {
-        const post = await (0, typeorm_1.getRepository)(post_entity_1.Post).findOne(id);
+        const post = await (0, typeorm_1.getRepository)(entities_1.Post).findOne(id);
         if (!post) {
             return next((0, http_errors_1.default)(404, "post not found."));
         }
@@ -27,10 +24,10 @@ exports.postById = postById;
 const createPost = async (req, res, next) => {
     try {
         const { title, content, rise, fall } = req.body;
-        const postRepository = (0, typeorm_1.getRepository)(post_entity_1.Post);
-        const userRepository = (0, typeorm_1.getRepository)(user_entity_1.User);
-        const coinRepository = (0, typeorm_1.getRepository)(coin_entity_1.Coin);
-        const post = new post_entity_1.Post();
+        const postRepository = (0, typeorm_1.getRepository)(entities_1.Post);
+        const userRepository = (0, typeorm_1.getRepository)(entities_1.User);
+        const coinRepository = (0, typeorm_1.getRepository)(entities_1.Coin);
+        const post = new entities_1.Post();
         post.title = title;
         post.content = content;
         post.rise = rise;
@@ -66,7 +63,7 @@ const getPosts = async (req, res, next) => {
         const posts = [];
         if (req.coin.posts.length > 0) {
             for (const post of req.coin.posts) {
-                const matchedPost = await (0, typeorm_1.getRepository)(post_entity_1.Post).findOne(post.id, {
+                const matchedPost = await (0, typeorm_1.getRepository)(entities_1.Post).findOne(post.id, {
                     relations: ["user", "coin"],
                 });
                 if (!matchedPost) {
@@ -91,7 +88,7 @@ const getPost = async (req, res, next) => {
         if (!matchedPost) {
             return next((0, http_errors_1.default)(404, "post not found."));
         }
-        const post = await (0, typeorm_1.getRepository)(post_entity_1.Post).findOne(matchedPost.id, {
+        const post = await (0, typeorm_1.getRepository)(entities_1.Post).findOne(matchedPost.id, {
             relations: ["user", "coin", "comments"],
         });
         if (!post) {
@@ -101,7 +98,7 @@ const getPost = async (req, res, next) => {
         post.user.salt = "";
         const comments = [];
         for (const comment of post.comments) {
-            const matchedComment = await (0, typeorm_1.getRepository)(comment_entity_1.Comment).findOne(comment.id, {
+            const matchedComment = await (0, typeorm_1.getRepository)(entities_1.Comment).findOne(comment.id, {
                 relations: ["user"],
             });
             if (!matchedComment) {
@@ -122,7 +119,7 @@ exports.getPost = getPost;
 const updatePost = async (req, res, next) => {
     try {
         const { id } = req.post;
-        await (0, typeorm_1.getRepository)(post_entity_1.Post).update(id, {
+        await (0, typeorm_1.getRepository)(entities_1.Post).update(id, {
             ...req.body,
         });
         res.status(200).json({
@@ -137,7 +134,7 @@ exports.updatePost = updatePost;
 const deletePost = async (req, res, next) => {
     try {
         const { id } = req.post;
-        await (0, typeorm_1.getRepository)(post_entity_1.Post).delete(id);
+        await (0, typeorm_1.getRepository)(entities_1.Post).delete(id);
         res.status(200).json({
             message: "succeed.",
         });

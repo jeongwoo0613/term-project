@@ -2,7 +2,7 @@ import Fuse from "fuse.js";
 import createHttpError from "http-errors";
 import { NextFunction, Request, Response } from "express";
 import { getRepository } from "typeorm";
-import { Coin } from "../entities/coin.entity";
+import { Coin } from "../entities";
 
 const searchCoin = async (
   req: Request,

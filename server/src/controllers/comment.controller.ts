@@ -1,9 +1,7 @@
 import createHttpError from "http-errors";
 import { NextFunction, Request, Response } from "express";
 import { getRepository } from "typeorm";
-import { Post } from "../entities/post.entity";
-import { User } from "../entities/user.entity";
-import { Comment } from "../entities/comment.entity";
+import { Post, User, Comment } from "../entities";
 
 const commentById = async (
   req: Request,

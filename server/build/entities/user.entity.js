@@ -12,9 +12,7 @@ var User_1;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
 const typeorm_1 = require("typeorm");
-const coin_entity_1 = require("./coin.entity");
-const comment_entity_1 = require("./comment.entity");
-const post_entity_1 = require("./post.entity");
+const _1 = require(".");
 let User = User_1 = class User {
 };
 __decorate([
@@ -67,15 +65,15 @@ __decorate([
     __metadata("design:type", Array)
 ], User.prototype, "followers", void 0);
 __decorate([
-    (0, typeorm_1.OneToMany)((type) => post_entity_1.Post, (post) => post.user),
+    (0, typeorm_1.OneToMany)((type) => _1.Post, (post) => post.user),
     __metadata("design:type", Array)
 ], User.prototype, "posts", void 0);
 __decorate([
-    (0, typeorm_1.OneToMany)((type) => comment_entity_1.Comment, (comment) => comment.user),
+    (0, typeorm_1.OneToMany)((type) => _1.Comment, (comment) => comment.user),
     __metadata("design:type", Array)
 ], User.prototype, "comments", void 0);
 __decorate([
-    (0, typeorm_1.ManyToMany)((type) => coin_entity_1.Coin, (coin) => coin.users),
+    (0, typeorm_1.ManyToMany)((type) => _1.Coin, (coin) => coin.users),
     (0, typeorm_1.JoinTable)(),
     __metadata("design:type", Array)
 ], User.prototype, "interests", void 0);

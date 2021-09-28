@@ -11,8 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Coin = void 0;
 const typeorm_1 = require("typeorm");
-const post_entity_1 = require("./post.entity");
-const user_entity_1 = require("./user.entity");
+const _1 = require(".");
 let Coin = class Coin {
 };
 __decorate([
@@ -128,11 +127,11 @@ __decorate([
     __metadata("design:type", String)
 ], Coin.prototype, "initialRelease", void 0);
 __decorate([
-    (0, typeorm_1.OneToMany)((type) => post_entity_1.Post, (post) => post.coin),
+    (0, typeorm_1.OneToMany)((type) => _1.Post, (post) => post.coin),
     __metadata("design:type", Array)
 ], Coin.prototype, "posts", void 0);
 __decorate([
-    (0, typeorm_1.ManyToMany)((type) => user_entity_1.User, (user) => user.interests),
+    (0, typeorm_1.ManyToMany)((type) => _1.User, (user) => user.interests),
     __metadata("design:type", Array)
 ], Coin.prototype, "users", void 0);
 __decorate([

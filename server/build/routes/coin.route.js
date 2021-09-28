@@ -1,17 +1,16 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const auth_controller_1 = require("../controllers/auth.controller");
-const coin_controller_1 = require("../controllers/coin.controller");
-const interest_validation_1 = require("../validations/interest.validation");
+const controllers_1 = require("../controllers");
+const validations_1 = require("../validations");
 const router = (0, express_1.Router)();
-router.param("coinId", coin_controller_1.coinById);
-router.route("/coins").get(coin_controller_1.getCoins);
-router.route("/coins/:coinId").get(coin_controller_1.getCoin);
+router.param("coinId", controllers_1.coinById);
+router.route("/coins").get(controllers_1.getCoins);
+router.route("/coins/:coinId").get(controllers_1.getCoin);
 router
     .route("/coins/:coinId/interest")
-    .put(auth_controller_1.verifyToken, interest_validation_1.validateInterestCoin, coin_controller_1.addInterestCoin);
+    .put(controllers_1.verifyToken, validations_1.validateInterestCoin, controllers_1.addInterestCoin);
 router
     .route("/coins/:coinId/uninterest")
-    .put(auth_controller_1.verifyToken, interest_validation_1.validateInterestCoin, coin_controller_1.deleteInterestCoin);
+    .put(controllers_1.verifyToken, validations_1.validateInterestCoin, controllers_1.deleteInterestCoin);
 exports.default = router;

@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Post = exports.Comment = exports.User = exports.Coin = void 0;
+var coin_entity_1 = require("./coin.entity");
+Object.defineProperty(exports, "Coin", { enumerable: true, get: function () { return coin_entity_1.Coin; } });
+var user_entity_1 = require("./user.entity");
+Object.defineProperty(exports, "User", { enumerable: true, get: function () { return user_entity_1.User; } });
+var comment_entity_1 = require("./comment.entity");
+Object.defineProperty(exports, "Comment", { enumerable: true, get: function () { return comment_entity_1.Comment; } });
+var post_entity_1 = require("./post.entity");
+Object.defineProperty(exports, "Post", { enumerable: true, get: function () { return post_entity_1.Post; } });

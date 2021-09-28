@@ -7,9 +7,7 @@ import {
   ManyToOne,
   OneToMany,
 } from "typeorm";
-import { User } from "./user.entity";
-import { Comment } from "./comment.entity";
-import { Coin } from "./coin.entity";
+import { User, Coin, Comment } from ".";
 
 @Entity()
 export class Post {

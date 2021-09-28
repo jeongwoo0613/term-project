@@ -1,9 +1,8 @@
 import createHttpError from "http-errors";
 import { NextFunction, Request, Response } from "express";
 import { getRepository, Not } from "typeorm";
-import { Post } from "../entities/post.entity";
-import { User } from "../entities/user.entity";
-import { deleteUserImage } from "../utils/s3.util";
+import { Post, User } from "../entities";
+import { deleteUserImage } from "../utils";
 
 interface IUser {
   password: string;

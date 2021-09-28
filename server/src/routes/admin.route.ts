@@ -2,10 +2,11 @@ import { Router } from "express";
 import {
   verifyAdminAuthorization,
   verifyToken,
-} from "../controllers/auth.controller";
-import { createCoin, updateCoin } from "../controllers/admin.controller";
-import { uploadCoinImage } from "../utils/s3.util";
-import { coinById } from "../controllers/coin.controller";
+  createCoin,
+  updateCoin,
+  coinById,
+} from "../controllers";
+import { uploadCoinImage } from "../utils";
 
 const router = Router();
 

@@ -7,11 +7,11 @@ exports.searchCoin = void 0;
 const fuse_js_1 = __importDefault(require("fuse.js"));
 const http_errors_1 = __importDefault(require("http-errors"));
 const typeorm_1 = require("typeorm");
-const coin_entity_1 = require("../entities/coin.entity");
+const entities_1 = require("../entities");
 const searchCoin = async (req, res, next) => {
     try {
         const { name } = req.query;
-        const coins = await (0, typeorm_1.getRepository)(coin_entity_1.Coin).find();
+        const coins = await (0, typeorm_1.getRepository)(entities_1.Coin).find();
         const fuse = new fuse_js_1.default(coins, {
             keys: ["name", "symbol"],
         });
