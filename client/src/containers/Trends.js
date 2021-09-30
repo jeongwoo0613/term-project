@@ -2,9 +2,8 @@ import "./Trends.css";
 import Loading from "../components/Loading";
 import { Timeline } from "react-twitter-widgets";
 import { useState, useEffect } from "react";
-import { getLocalToken } from "../utils/storage.util";
-import { getCoins } from "../api/coins.api";
-import { getUser } from "../api/users.api";
+import { getLocalToken } from "../utils";
+import { getCoins, getUser } from "../api";
 
 function Trends() {
   const [coins, setCoins] = useState();

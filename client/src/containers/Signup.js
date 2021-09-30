@@ -3,12 +3,10 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Alert from "react-bootstrap/Alert";
 import Spinner from "react-bootstrap/Spinner";
-import { useFormFields } from "../utils/hooks.util";
-import { authLogin, authSignup } from "../api/auth.api";
+import { useFormFields, useAppContext, setLocalToken } from "../utils";
+import { authLogin, authSignup } from "../api";
 import { Link, useHistory, useLocation } from "react-router-dom";
-import { setLocalToken } from "../utils/storage.util";
 import { useState, useRef } from "react";
-import { useAppContext } from "../utils/context.util";
 
 function Signup() {
   const [fields, setFields] = useFormFields({
@@ -22,8 +20,8 @@ function Signup() {
   const location = useLocation();
   const refUserId = useRef();
   const refPassword = useRef();
-  const { from } = location.state || { from: { pathname: "/" } };
   const { setUser } = useAppContext();
+  const { from } = location.state || { from: { pathname: "/" } };
 
   const handleSubmit = async (event) => {
     event.preventDefault();

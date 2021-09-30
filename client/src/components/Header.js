@@ -7,9 +7,8 @@ import Form from "react-bootstrap/Form";
 import Image from "react-bootstrap/Image";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
-import { getLocalToken, removeLocalToken } from "../utils/storage.util";
-import { useAppContext } from "../utils/context.util";
-import { searchCoin } from "../api/search.api";
+import { getLocalToken, removeLocalToken, useAppContext } from "../utils";
+import { searchCoin } from "../api";
 import { useState } from "react";
 
 function Header() {

@@ -1,5 +1,5 @@
 import { Route, Redirect } from "react-router-dom";
-import { getLocalToken } from "../utils/storage.util";
+import { getLocalToken } from "../utils";
 
 function AuthenticatedRoute({ children, ...rest }) {
   return (

@@ -1,10 +1,8 @@
 import "./News.css";
 import Loading from "../components/Loading";
 import { useState, useEffect } from "react";
-import { getLocalToken } from "../utils/storage.util";
-import { getCoins } from "../api/coins.api";
-import { getUser } from "../api/users.api";
-import { loadNews } from "../api/news.api";
+import { getLocalToken } from "../utils";
+import { getCoins, getUser, getNews } from "../api";
 
 function News() {
   const [articles, setArticles] = useState();
@@ -42,18 +40,18 @@ function News() {
           if (coinsName.length === 0) {
             const loadPublicNews = async () => {
               const coinsName = await loadCoinsName();
-              const news = await loadNews(coinsName);
+              const news = await getNews(coinsName);
               setArticles(news.articles);
             };
 
             loadPublicNews();
           } else {
-            const news = await loadNews(coinsName);
+            const news = await getNews(coinsName);
 
             if (news.articles.length === 0) {
               const loadPublicNews = async () => {
                 const coinsName = await loadCoinsName();
-                const news = await loadNews(coinsName);
+                const news = await getNews(coinsName);
                 setArticles(news.articles);
               };
 
@@ -71,7 +69,7 @@ function News() {
     } else {
       const loadPublicNews = async () => {
         const coinsName = await loadCoinsName();
-        const news = await loadNews(coinsName);
+        const news = await getNews(coinsName);
         setArticles(news.articles);
       };
 

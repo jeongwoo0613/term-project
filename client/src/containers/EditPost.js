@@ -5,8 +5,8 @@ import Spinner from "react-bootstrap/Spinner";
 import Loading from "../components/Loading";
 import { useState, useEffect, useRef } from "react";
 import { useHistory, useParams } from "react-router-dom";
-import { getPost, updatePost } from "../api/posts.api";
-import { getLocalToken } from "../utils/storage.util";
+import { getPost, updatePost } from "../api";
+import { getLocalToken } from "../utils";
 
 function EditPost() {
   const [title, setTitle] = useState("");

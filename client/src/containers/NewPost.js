@@ -4,9 +4,8 @@ import Button from "react-bootstrap/Button";
 import Spinner from "react-bootstrap/Spinner";
 import { useState, useRef } from "react";
 import { useHistory, useParams } from "react-router-dom";
-import { useFormFields } from "../utils/hooks.util";
-import { createPost } from "../api/posts.api";
-import { getLocalToken } from "../utils/storage.util";
+import { useFormFields, getLocalToken } from "../utils";
+import { createPost } from "../api";
 
 function NewPost() {
   const [fields, setFields] = useFormFields({

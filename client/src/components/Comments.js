@@ -1,7 +1,7 @@
 import "./Comments.css";
 import { useHistory } from "react-router-dom";
-import { getLocalToken } from "../utils/storage.util";
-import { getPost, deleteComment } from "../api/posts.api";
+import { getLocalToken } from "../utils";
+import { getPost, deleteComment } from "../api";
 
 function Comments({ coinId, postId, setPost, comments }) {
   const history = useHistory();

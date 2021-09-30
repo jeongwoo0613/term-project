@@ -29,27 +29,27 @@ function Routes() {
         <Route path="/news">
           <News />
         </Route>
+        <Route exact path="/:userId">
+          <Profile />
+        </Route>
+        <Route exact path="/coins/:coinId">
+          <Coin />
+        </Route>
+        <Route exact path="/coins/:coinId/posts/:postId">
+          <Post />
+        </Route>
         <UnauthenticatedRoute path="/signup">
           <Signup />
         </UnauthenticatedRoute>
         <UnauthenticatedRoute path="/login">
           <Login />
         </UnauthenticatedRoute>
-        <Route exact path="/:userId">
-          <Profile />
-        </Route>
         <AuthenticatedRoute path="/coins/:coinId/post/new">
           <NewPost />
         </AuthenticatedRoute>
         <AuthenticatedRoute path="/coins/:coinId/posts/:postId/edit">
           <EditPost />
         </AuthenticatedRoute>
-        <Route path="/coins/:coinId/posts/:postId">
-          <Post />
-        </Route>
-        <Route path="/coins/:coinId">
-          <Coin />
-        </Route>
         <Route path="*">
           <NotFound />
         </Route>

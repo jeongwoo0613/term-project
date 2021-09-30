@@ -3,7 +3,7 @@ import Table from "react-bootstrap/Table";
 import Loading from "./Loading";
 import { useHistory } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { getCoins } from "../api/coins.api";
+import { getCoins } from "../api";
 
 function Coins() {
   const [coins, setCoins] = useState();

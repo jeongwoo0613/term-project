@@ -1,9 +1,7 @@
 import "./Comment.css";
 import Form from "react-bootstrap/Form";
-import { useAppContext } from "../utils/context.util";
-import { createComment } from "../api/posts.api";
-import { getLocalToken } from "../utils/storage.util";
-import { getPost } from "../api/posts.api";
+import { useAppContext, getLocalToken } from "../utils";
+import { getPost, createComment } from "../api";
 import { useState } from "react";
 
 function Comment({ coinId, postId, setPost, post }) {

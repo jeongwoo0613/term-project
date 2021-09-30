@@ -6,7 +6,10 @@ import Image from "react-bootstrap/Image";
 import Loading from "../components/Loading";
 import Spinner from "react-bootstrap/Spinner";
 import Card from "react-bootstrap/Card";
-import { useState, useEffect } from "react";
+import Tabs from "react-bootstrap/Tabs";
+import Tab from "react-bootstrap/Tab";
+import Table from "react-bootstrap/Table";
+import { useState, useEffect, useRef } from "react";
 import {
   follow,
   getUser,
@@ -14,15 +17,10 @@ import {
   unfollow,
   updateUser,
   updateUserImage,
-} from "../api/users.api";
+} from "../api";
 import { useHistory, useParams } from "react-router-dom";
-import { getLocalToken } from "../utils/storage.util";
-import { useRef } from "react";
-import { useAppContext } from "../utils/context.util";
+import { getLocalToken, useAppContext } from "../utils";
 import { AiOutlineRise, AiOutlineFall } from "react-icons/ai";
-import Tabs from "react-bootstrap/Tabs";
-import Tab from "react-bootstrap/Tab";
-import Table from "react-bootstrap/Table";
 
 function Profile() {
   const [fieldsUserId, setFieldsUserId] = useState("");

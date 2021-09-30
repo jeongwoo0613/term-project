@@ -4,12 +4,10 @@ import Button from "react-bootstrap/Button";
 import Alert from "react-bootstrap/Alert";
 import Spinner from "react-bootstrap/Spinner";
 import { FcGoogle } from "react-icons/fc";
-import { useFormFields } from "../utils/hooks.util";
-import { authLogin } from "../api/auth.api";
+import { useFormFields, setLocalToken, useAppContext } from "../utils";
+import { authLogin } from "../api";
 import { Link, useHistory, useLocation } from "react-router-dom";
-import { setLocalToken } from "../utils/storage.util";
 import { useState, useRef, useEffect } from "react";
-import { useAppContext } from "../utils/context.util";
 
 function Login() {
   const [fields, setFields] = useFormFields({
@@ -22,8 +20,8 @@ function Login() {
   const location = useLocation();
   const refUserId = useRef();
   const refPassword = useRef();
-  const { from } = location.state || { from: { pathname: "/" } };
   const { setUser } = useAppContext();
+  const { from } = location.state || { from: { pathname: "/" } };
 
   useEffect(() => {
     const parsed = Object.fromEntries(new URLSearchParams(location.search));

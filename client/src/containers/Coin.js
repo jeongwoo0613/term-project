@@ -2,13 +2,16 @@ import "./Coin.css";
 import Loading from "../components/Loading";
 import Posts from "../components/Posts";
 import { useState, useEffect } from "react";
-import { getCoin, addInterestCoin, deleteInterestCoin } from "../api/coins.api";
-import { useParams } from "react-router-dom";
-import { getPosts } from "../api/posts.api";
+import {
+  getCoin,
+  addInterestCoin,
+  deleteInterestCoin,
+  getPosts,
+  getUser,
+} from "../api";
+import { useParams, useHistory } from "react-router-dom";
 import { AiOutlineStar, AiFillStar } from "react-icons/ai";
-import { getLocalToken } from "../utils/storage.util";
-import { getUser } from "../api/users.api";
-import { useHistory } from "react-router-dom";
+import { getLocalToken } from "../utils";
 
 function Coin() {
   const [coin, setCoin] = useState();

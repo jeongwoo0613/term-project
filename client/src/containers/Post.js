@@ -5,8 +5,8 @@ import Comment from "../components/Comment";
 import Comments from "../components/Comments";
 import { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
-import { deletePost, getPost } from "../api/posts.api";
-import { getLocalToken } from "../utils/storage.util";
+import { deletePost, getPost } from "../api";
+import { getLocalToken } from "../utils";
 import { AiOutlineRise, AiOutlineFall, AiOutlineRight } from "react-icons/ai";
 
 function Post() {
