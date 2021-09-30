@@ -213,6 +213,10 @@ function Profile() {
     setFollowerShow(false);
   };
 
+  const navigateCoin = (coinId) => {
+    history.push(`/coins/${coinId}`);
+  };
+
   if (!getLocalToken() || user?.userId !== userId) {
     return publicUser ? (
       <section className="profileContainer">
@@ -544,7 +548,11 @@ function Profile() {
             </thead>
             <tbody>
               {user?.interests?.map((coin) => (
-                <tr key={coin?.id} className="coinsTableRow">
+                <tr
+                  key={coin?.id}
+                  className="coinsTableRow"
+                  onClick={() => navigateCoin(coin.id)}
+                >
                   <td>
                     <img src={coin?.image} alt="" width="25" height="25" />
                   </td>
