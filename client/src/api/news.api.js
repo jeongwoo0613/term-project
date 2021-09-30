@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const loadNews = async (name) => {
+const getNews = async (name) => {
   try {
     const result = await axios.get(
       `https://newsapi.org/v2/everything?q=${name}&sortBy=publishedAt&apiKey=1dc00b247e534d808d5544eb92faef3e`
@@ -12,4 +12,4 @@ const loadNews = async (name) => {
   }
 };
 
-export { loadNews };
+export { getNews };
