@@ -75,6 +75,9 @@ const getUserByUserId = async (req, res, next) => {
                 user.salt = "";
             });
         }
+        if (req.userByUserId.interests.length > 0) {
+            req.userByUserId.interests.sort((a, b) => b.accTradePrice24h - a.accTradePrice24h);
+        }
         res.status(200).json(req.userByUserId);
     }
     catch (error) {
@@ -111,6 +114,9 @@ const getUser = async (req, res, next) => {
                 user.password = "";
                 user.salt = "";
             });
+        }
+        if (req.user.interests.length > 0) {
+            req.user.interests.sort((a, b) => b.accTradePrice24h - a.accTradePrice24h);
         }
         res.status(200).json(req.user);
     }

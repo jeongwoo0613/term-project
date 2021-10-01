@@ -4,11 +4,6 @@ import { getRepository, Not } from "typeorm";
 import { Post, User } from "../entities";
 import { deleteUserImage } from "../utils";
 
-interface IUser {
-  password: string;
-  salt: string;
-}
-
 const userByUserId = async (
   req: Request,
   res: Response,
@@ -90,17 +85,23 @@ const getUserByUserId = async (
     req.userByUserId.salt = "";
 
     if (req.userByUserId.followers.length > 0) {
-      req.userByUserId.followers.forEach((user: IUser) => {
+      req.userByUserId.followers.forEach((user) => {
         user.password = "";
         user.salt = "";
       });
     }
 
     if (req.userByUserId.following.length > 0) {
-      req.userByUserId.following.forEach((user: IUser) => {
+      req.userByUserId.following.forEach((user) => {
         user.password = "";
         user.salt = "";
       });
+    }
+
+    if (req.userByUserId.interests.length > 0) {
+      req.userByUserId.interests.sort(
+        (a, b) => b.accTradePrice24h - a.accTradePrice24h
+      );
     }
 
     res.status(200).json(req.userByUserId);
@@ -138,17 +139,23 @@ const getUser = async (
     req.user.salt = "";
 
     if (req.user.followers.length > 0) {
-      req.user.followers.forEach((user: IUser) => {
+      req.user.followers.forEach((user) => {
         user.password = "";
         user.salt = "";
       });
     }
 
     if (req.user.following.length > 0) {
-      req.user.following.forEach((user: IUser) => {
+      req.user.following.forEach((user) => {
         user.password = "";
         user.salt = "";
       });
+    }
+
+    if (req.user.interests.length > 0) {
+      req.user.interests.sort(
+        (a, b) => b.accTradePrice24h - a.accTradePrice24h
+      );
     }
 
     res.status(200).json(req.user);

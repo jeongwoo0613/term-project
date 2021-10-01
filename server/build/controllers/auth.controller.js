@@ -33,6 +33,7 @@ const verifyGoogle = passport_1.default.authenticate("google", {
 exports.verifyGoogle = verifyGoogle;
 const authGoogle = passport_1.default.authenticate("google", {
     session: false,
+    // TODO: seperate production and development environment
     failureRedirect: "http://localhost:3000/login",
 });
 exports.authGoogle = authGoogle;
@@ -44,6 +45,7 @@ const succeedAuthGoogle = (req, res) => {
         algorithm: "HS256",
         expiresIn: "30d",
     });
+    // TODO: seperate production and development environment
     res.redirect(`http://localhost:3000/login?token=${token}&user=${user}`);
 };
 exports.succeedAuthGoogle = succeedAuthGoogle;

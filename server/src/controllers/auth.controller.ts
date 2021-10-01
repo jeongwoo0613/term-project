@@ -41,6 +41,7 @@ const verifyGoogle = passport.authenticate("google", {
 
 const authGoogle = passport.authenticate("google", {
   session: false,
+  // TODO: seperate production and development environment
   failureRedirect: "http://localhost:3000/login",
 });
 
@@ -56,7 +57,7 @@ const succeedAuthGoogle = (req: Request, res: Response): void => {
       expiresIn: "30d",
     }
   );
-
+  // TODO: seperate production and development environment
   res.redirect(`http://localhost:3000/login?token=${token}&user=${user}`);
 };
 
