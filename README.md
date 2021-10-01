@@ -8,11 +8,13 @@ This project is developing on the topic of Cryptocurrency Forum. Cryptocurrency 
 
 ### Prerequisites
 
-- npm v7.24.0
+- npm https://www.npmjs.com/
 
-- node.js v16.10.0
+- node.js https://nodejs.org/en/
 
-- mysql v8.0.26
+- mysql https://www.mysql.com/
+
+- git https://git-scm.com/
 
 ### Installation
 
@@ -63,6 +65,23 @@ npm run dev - running port on 8080
 ## Flow
 
 ![flow](https://user-images.githubusercontent.com/46841257/132828091-4e2531d5-d733-4f1b-b386-c7eda964a785.png)
+
+## Preview
+Home             |  Login
+:-------------------------:|:-------------------------:
+![home](https://user-images.githubusercontent.com/46841257/135561164-486176d0-efc8-4dc7-acce-c3c7e151f60a.png)  |  ![login](https://user-images.githubusercontent.com/46841257/135561175-1e88ea7b-f700-412c-806f-48d39d8fa03b.png)
+
+Google             |  Coin
+:-------------------------:|:-------------------------:
+![google](https://user-images.githubusercontent.com/46841257/135561184-f169b332-6d85-48f3-b5d7-83a8f4a193ed.png)  |  ![coin](https://user-images.githubusercontent.com/46841257/135561210-8bf715f1-7c36-4742-8440-5c0ac049adf0.png)
+
+Search             |  Profile
+:-------------------------:|:-------------------------:
+![search](https://user-images.githubusercontent.com/46841257/135562493-da7baebd-bd30-42d9-ac67-f4202d2e6d87.png)  |  ![profile](https://user-images.githubusercontent.com/46841257/135562951-863e4df6-6707-45e9-9bd5-d7f7bdf90a33.png)  
+
+Trends             |  News
+:-------------------------:|:-------------------------:
+![trends](https://user-images.githubusercontent.com/46841257/135562509-db93afb4-403c-4a49-afb9-ad2e42e44883.png)  |  ![news](https://user-images.githubusercontent.com/46841257/135562519-6fd25072-0498-41f8-acf9-8396efe43cdf.png)
 
 ## Project Main Stack
 
