@@ -35,6 +35,8 @@ npm i - install dependency
 
 make .env file and set .env file
 
+move project data folder and make coins using images, coins.json(yaml)
+
 npm run dev - running port on 8080
 ```
 
