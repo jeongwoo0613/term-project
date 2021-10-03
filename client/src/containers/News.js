@@ -12,10 +12,10 @@ function News() {
       const coins = await getCoins();
       const coinsName = coins.reduce((acc, coin, i) => {
         if (i === coins.length - 1) {
-          return (acc += coin.name);
+          return acc + coin.name;
         }
 
-        return (acc += `${coin.name} OR `);
+        return acc + `${coin.name} OR `;
       }, "");
 
       return coinsName;
@@ -31,10 +31,10 @@ function News() {
           const user = await getUser(getLocalToken());
           const coinsName = user.interests.reduce((acc, coin, i) => {
             if (i === user.interests.length - 1) {
-              return (acc += coin.name);
+              return acc + coin.name;
             }
 
-            return (acc += `${coin.name} OR `);
+            return acc + `${coin.name} OR `;
           }, "");
 
           if (coinsName.length === 0) {
