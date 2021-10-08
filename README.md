@@ -8,8 +8,6 @@ This project is developing on the topic of Cryptocurrency Forum. Cryptocurrency 
 
 ### Prerequisites
 
-- npm https://www.npmjs.com/
-
 - node.js https://nodejs.org/en/
 
 - mysql https://www.mysql.com/
