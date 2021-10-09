@@ -8,11 +8,11 @@ This project is developing on the topic of Cryptocurrency Forum. Cryptocurrency 
 
 ### Prerequisites
 
-- node.js https://nodejs.org/en/
+- [node](https://nodejs.org/en/)
 
-- mysql https://www.mysql.com/
+- [mysql](https://www.mysql.com/)
 
-- git https://git-scm.com/
+- [git](https://git-scm.com/)
 
 ### Installation
 
@@ -87,16 +87,17 @@ Trends             |  News
 
 - Client
 
-  - React(Hooks 100%)
-  - React Router
+  - [React](https://reactjs.org/)
+  - [React Router](https://reactrouter.com/)
+  - 100% [Hooks](https://reactjs.org/docs/hooks-reference.html)
 
 - Server
-  - TypeScript
-  - Node
-  - Express
-  - MySQL
-  - TypeORM
-  - AWS
+  - [TypeScript](https://www.typescriptlang.org/)
+  - [Node](https://nodejs.org/en/)
+  - [Express](https://expressjs.com/)
+  - [MySQL](https://www.mysql.com/)
+  - [TypeORM](https://typeorm.io/#/)
+  - [AWS](https://aws.amazon.com/)
     - EC2
     - RDS
     - S3
