@@ -87,7 +87,7 @@ Trends             |  News
 
 - Client
 
-  - React
+  - React(Hooks 100%)
   - React Router
 
 - Server
