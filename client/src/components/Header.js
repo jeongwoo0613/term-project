@@ -40,12 +40,14 @@ function Header() {
       if (!result) {
         throw new Error("Coin not found");
       }
+
       setSearch("");
       history.push(`/coins/${result.id}`);
     } catch (error) {
       if (error.message === "Coin not found") {
         alert("해당 코인이 존재하지 않습니다.");
       }
+
       setSearch("");
     }
   };

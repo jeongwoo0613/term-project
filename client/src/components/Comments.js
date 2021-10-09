@@ -14,12 +14,13 @@ function Comments({ coinId, postId, setPost, comments }) {
     event.preventDefault();
 
     try {
-      const result = await deleteComment(
-        getLocalToken(),
-        coinId,
-        postId,
-        commentId
-      );
+      const token = getLocalToken();
+
+      if (!token) {
+        return history.push("/login");
+      }
+
+      const result = await deleteComment(token, coinId, postId, commentId);
 
       if (!result) {
         throw new Error("comment delete failed");

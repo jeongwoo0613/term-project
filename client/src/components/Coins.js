@@ -18,6 +18,7 @@ function Coins() {
         console.log(error);
       }
     };
+
     loadCoins();
   }, []);
 

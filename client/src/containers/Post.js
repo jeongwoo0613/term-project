@@ -30,7 +30,13 @@ function Post() {
     event.preventDefault();
 
     try {
-      const result = await deletePost(getLocalToken(), coinId, postId);
+      const token = getLocalToken();
+
+      if (!token) {
+        return history.push("/login");
+      }
+
+      const result = await deletePost(token, coinId, postId);
 
       if (!result) {
         throw new Error("post delete failed");
@@ -51,6 +57,7 @@ function Post() {
   const navigateCoin = (coinId) => {
     history.push(`/coins/${coinId}`);
   };
+
   const navigateCoins = () => {
     history.push(`/`);
   };

@@ -29,6 +29,7 @@ function Coin() {
         console.log(error);
       }
     };
+
     loadCoin();
 
     const loadPosts = async () => {
@@ -39,31 +40,37 @@ function Coin() {
         console.log(error);
       }
     };
+
     loadPosts();
 
-    if (getLocalToken()) {
+    const token = getLocalToken();
+
+    if (token) {
       const loadUser = async () => {
         try {
-          const user = await getUser(getLocalToken());
+          const user = await getUser(token);
           const interest = user.interests.some((coin) => coin.id === coinId);
           setInterest(interest);
         } catch (error) {
           console.log(error);
         }
       };
+
       loadUser();
     }
   }, [coinId]);
 
   const handleInterestCoin = async () => {
-    if (!getLocalToken()) {
+    const token = getLocalToken();
+
+    if (!token) {
       return history.push("/login");
     }
 
     setInterest(true);
 
     try {
-      const result = await addInterestCoin(getLocalToken(), coinId, {
+      const result = await addInterestCoin(token, coinId, {
         interest: true,
       });
 
@@ -79,14 +86,16 @@ function Coin() {
   };
 
   const handleUnInterestCoin = async () => {
-    if (!getLocalToken()) {
+    const token = getLocalToken();
+
+    if (!token) {
       return history.push("/login");
     }
 
     setInterest(false);
 
     try {
-      const result = await deleteInterestCoin(getLocalToken(), coinId, {
+      const result = await deleteInterestCoin(token, coinId, {
         interest: false,
       });
 

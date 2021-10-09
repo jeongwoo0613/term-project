@@ -1,11 +1,7 @@
 import Coins from "../components/Coins";
 
 function Home() {
-  return (
-    <>
-      <Coins />
-    </>
-  );
+  return <Coins />;
 }
 
 export default Home;

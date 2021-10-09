@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext, createContext } from "react";
 
 const useFormFields = (initialState) => {
   const [fields, setFields] = useState(initialState);
@@ -15,4 +15,10 @@ const useFormFields = (initialState) => {
   ];
 };
 
-export { useFormFields };
+const AppContext = createContext();
+
+const useAppContext = () => {
+  return useContext(AppContext);
+};
+
+export { useFormFields, AppContext, useAppContext };

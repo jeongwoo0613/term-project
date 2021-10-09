@@ -9,15 +9,18 @@ function App() {
   const [user, setUser] = useState();
 
   useEffect(() => {
-    if (getLocalToken()) {
+    const token = getLocalToken();
+
+    if (token) {
       const loadUser = async () => {
         try {
-          const user = await getUser(getLocalToken());
+          const user = await getUser(token);
           setUser(user);
         } catch (error) {
           console.log(error);
         }
       };
+
       loadUser();
     }
   }, []);

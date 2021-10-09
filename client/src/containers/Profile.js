@@ -47,12 +47,15 @@ function Profile() {
         console.log(error);
       }
     };
+
     loadPublicUser();
 
-    if (getLocalToken()) {
+    const token = getLocalToken();
+
+    if (token) {
       const loadUser = async () => {
         try {
-          const user = await getUser(getLocalToken());
+          const user = await getUser(token);
           setUser(user);
           setFieldsUserId(user.userId);
           setNickname(user.nickname);
@@ -60,6 +63,7 @@ function Profile() {
           console.log(error);
         }
       };
+
       loadUser();
     }
 
@@ -72,12 +76,18 @@ function Profile() {
     setIsEditLoading(true);
 
     try {
+      const token = getLocalToken();
+
+      if (!token) {
+        return history.push("/login");
+      }
+
       const modifiedUser = {
         userId: fieldsUserId,
         nickname,
       };
 
-      const updateResult = await updateUser(getLocalToken(), modifiedUser);
+      const updateResult = await updateUser(token, modifiedUser);
 
       if (!updateResult) {
         throw new Error("Update failed");
@@ -134,10 +144,13 @@ function Profile() {
     formData.append("userImage", file);
 
     try {
-      const updateImageResult = await updateUserImage(
-        getLocalToken(),
-        formData
-      );
+      const token = getLocalToken();
+
+      if (!token) {
+        return history.push("/login");
+      }
+
+      const updateImageResult = await updateUserImage(token, formData);
 
       if (!updateImageResult) {
         throw new Error("Update Image failed");
@@ -158,7 +171,13 @@ function Profile() {
     event.preventDefault();
 
     try {
-      const followResult = await follow(getLocalToken(), {
+      const token = getLocalToken();
+
+      if (!token) {
+        return history.push("/login");
+      }
+
+      const followResult = await follow(token, {
         followingId: publicUser.id,
       });
 
@@ -176,7 +195,13 @@ function Profile() {
     event.preventDefault();
 
     try {
-      const followResult = await unfollow(getLocalToken(), {
+      const token = getLocalToken();
+
+      if (!token) {
+        return history.push("/login");
+      }
+
+      const followResult = await unfollow(token, {
         followingId: publicUser.id,
       });
 
@@ -208,16 +233,18 @@ function Profile() {
   };
 
   const navigateUser = (userId) => {
-    history.push(`/${userId}`);
     setFollowShow(false);
     setFollowerShow(false);
+    history.push(`/${userId}`);
   };
 
   const navigateCoin = (coinId) => {
     history.push(`/coins/${coinId}`);
   };
 
-  if (!getLocalToken() || user?.userId !== userId) {
+  const token = getLocalToken();
+
+  if (!token || user?.userId !== userId) {
     return publicUser ? (
       <section className="profileContainer">
         <div className="profileBox">
@@ -232,7 +259,7 @@ function Profile() {
           <div className="profileInfoDiv">
             <div className="profileHeader">
               <h3>{publicUser.nickname}</h3>
-              {user?.following.some((user) => user.id === publicUser.id) ? (
+              {user?.following?.some((user) => user.id === publicUser.id) ? (
                 <Button
                   className="profileUnFollowBtn"
                   onClick={handleUnFollow}
@@ -253,13 +280,13 @@ function Profile() {
             </div>
             <div className="profileBody">
               <div className="profileBodyColPost">
-                게시물 <strong>{publicUser.posts.length}</strong>
+                게시물 <strong>{publicUser.posts?.length}</strong>
               </div>
               <div
                 className="profileBodyCol"
                 onClick={() => setFollowerShow(true)}
               >
-                팔로워 <strong>{publicUser.followers.length}</strong>
+                팔로워 <strong>{publicUser.followers?.length}</strong>
               </div>
               <Modal
                 size="sm"
@@ -285,7 +312,7 @@ function Profile() {
                 className="profileBodyCol"
                 onClick={() => setFollowShow(true)}
               >
-                팔로우 <strong>{publicUser.following.length}</strong>
+                팔로우 <strong>{publicUser.following?.length}</strong>
               </div>
               <Modal
                 size="sm"
@@ -313,29 +340,29 @@ function Profile() {
         <Tabs defaultActiveKey="post" className="profileTab">
           <Tab eventKey="post" title="게시물">
             <div className="profilePostsContainer">
-              {publicUser?.posts?.map((post) => (
+              {publicUser.posts?.map((post) => (
                 <Card
-                  key={post?.id}
+                  key={post.id}
                   className="profilePostsCard"
-                  onClick={() => navigatePost(post?.coin?.id, post?.id)}
+                  onClick={() => navigatePost(post.coin.id, post.id)}
                 >
                   <Card.Header className="profilePostsCardHeader">
-                    {post?.title}
-                    {post?.rise === true ? (
+                    {post.title}
+                    {post.rise ? (
                       <AiOutlineRise color="red" className="riseFallIcon" />
                     ) : (
                       <AiOutlineFall color="blue" className="riseFallIcon" />
                     )}
                   </Card.Header>
                   <Card.Body>
-                    <Card.Text>{post?.content}</Card.Text>
+                    <Card.Text>{post.content}</Card.Text>
                     <Card.Text className="profilePostsCardInfo">
-                      <img src={post?.coin?.image} className="postCoinImg" />
-                      {post?.coin?.name}
+                      <img src={post.coin.image} className="postCoinImg" />
+                      {post.coin.name}
                       <span className="profilePostsCardCreatedAt">
-                        {`${new Date(post?.createdAt).getFullYear()}년 ${
-                          new Date(post?.createdAt).getMonth() + 1
-                        }월 ${new Date(post?.createdAt).getDate()}일`}
+                        {`${new Date(post.createdAt).getFullYear()}년 ${
+                          new Date(post.createdAt).getMonth() + 1
+                        }월 ${new Date(post.createdAt).getDate()}일`}
                       </span>
                     </Card.Text>
                   </Card.Body>
@@ -447,13 +474,13 @@ function Profile() {
           </div>
           <div className="profileBody">
             <div className="profileBodyColPost">
-              게시물 <strong>{user?.posts?.length}</strong>
+              게시물 <strong>{user.posts?.length}</strong>
             </div>
             <div
               className="profileBodyCol"
               onClick={() => setFollowerShow(true)}
             >
-              팔로워 <strong>{user?.followers?.length}</strong>
+              팔로워 <strong>{user.followers?.length}</strong>
             </div>
             <Modal
               size="sm"
@@ -476,7 +503,7 @@ function Profile() {
               ))}
             </Modal>
             <div className="profileBodyCol" onClick={() => setFollowShow(true)}>
-              팔로우 <strong>{user?.following?.length}</strong>
+              팔로우 <strong>{user.following?.length}</strong>
             </div>
             <Modal
               size="sm"
@@ -504,29 +531,29 @@ function Profile() {
       <Tabs defaultActiveKey="post" className="profileTab">
         <Tab eventKey="post" title="게시물">
           <div className="profilePostsContainer">
-            {user?.posts?.map((post) => (
+            {user.posts?.map((post) => (
               <Card
-                key={post?.id}
+                key={post.id}
                 className="profilePostsCard"
-                onClick={() => navigatePost(post?.coin?.id, post?.id)}
+                onClick={() => navigatePost(post.coin.id, post.id)}
               >
                 <Card.Header className="profilePostsCardHeader">
-                  {post?.title}
-                  {post?.rise === true ? (
+                  {post.title}
+                  {post.rise ? (
                     <AiOutlineRise color="red" className="riseFallIcon" />
                   ) : (
                     <AiOutlineFall color="blue" className="riseFallIcon" />
                   )}
                 </Card.Header>
                 <Card.Body>
-                  <Card.Text>{post?.content}</Card.Text>
+                  <Card.Text>{post.content}</Card.Text>
                   <Card.Text className="profilePostsCardInfo">
-                    <img src={post?.coin?.image} className="postCoinImg" />
-                    {post?.coin?.name}
+                    <img src={post.coin.image} className="postCoinImg" />
+                    {post.coin.name}
                     <span className="profilePostsCardCreatedAt">
-                      {`${new Date(post?.createdAt).getFullYear()}년 ${
-                        new Date(post?.createdAt).getMonth() + 1
-                      }월 ${new Date(post?.createdAt).getDate()}일`}
+                      {`${new Date(post.createdAt).getFullYear()}년 ${
+                        new Date(post.createdAt).getMonth() + 1
+                      }월 ${new Date(post.createdAt).getDate()}일`}
                     </span>
                   </Card.Text>
                 </Card.Body>
@@ -547,53 +574,53 @@ function Profile() {
               </tr>
             </thead>
             <tbody>
-              {user?.interests?.map((coin) => (
+              {user.interests?.map((coin) => (
                 <tr
-                  key={coin?.id}
+                  key={coin.id}
                   className="coinsTableRow"
                   onClick={() => navigateCoin(coin.id)}
                 >
                   <td>
-                    <img src={coin?.image} alt="" width="25" height="25" />
+                    <img src={coin.image} alt="" width="25" height="25" />
                   </td>
-                  <td>{coin?.symbol}</td>
+                  <td>{coin.symbol}</td>
                   <td>
-                    <strong>{coin?.name}</strong>
+                    <strong>{coin.name}</strong>
                   </td>
                   <td
                     style={
-                      coin?.change === "RISE"
+                      coin.change === "RISE"
                         ? { color: "#ff3b30" }
-                        : coin?.change === "FALL"
+                        : coin.change === "FALL"
                         ? { color: "#007aff" }
                         : { color: "" }
                     }
                   >
-                    {Number(Number(coin?.tradePrice).toFixed(2)).toLocaleString(
+                    {Number(Number(coin.tradePrice).toFixed(2)).toLocaleString(
                       "en-US"
                     )}
                   </td>
                   <td
                     style={
-                      coin?.change === "RISE"
+                      coin.change === "RISE"
                         ? { color: "#ff3b30" }
-                        : coin?.change === "FALL"
+                        : coin.change === "FALL"
                         ? { color: "#007aff" }
                         : { color: "" }
                     }
                   >
-                    {coin?.change === "RISE" ? "+" : ""}
+                    {coin.change === "RISE" ? "+" : ""}
                     {Number(
                       Number(
-                        ((coin?.tradePrice - coin?.prevClosingPrice) /
-                          coin?.prevClosingPrice) *
+                        ((coin.tradePrice - coin.prevClosingPrice) /
+                          coin.prevClosingPrice) *
                           100
                       ).toFixed(2)
                     ).toLocaleString("en-US") + "%"}
                   </td>
                   <td>
                     {Number(
-                      Math.floor(coin?.accTradePrice24h / 1000000).toFixed(2)
+                      Math.floor(coin.accTradePrice24h / 1000000).toFixed(2)
                     ).toLocaleString("en-US") + "백만"}
                   </td>
                 </tr>

@@ -8,55 +8,51 @@ import { getCoins, getUser } from "../api";
 function Trends() {
   const [coins, setCoins] = useState();
 
+  const loadCoinsTwitter = async () => {
+    const coins = await getCoins();
+    const coinsTwitter = coins
+      .filter((coin) => coin.twitter !== null)
+      .map((coin) => coin.twitter);
+
+    setCoins(coinsTwitter);
+  };
+
   useEffect(() => {
-    if (getLocalToken()) {
-      const loadCoinsForUser = async () => {
+    const token = getLocalToken();
+
+    if (token) {
+      const loadInterestCoinsTwitterForUser = async () => {
         try {
-          const user = await getUser(getLocalToken());
-          const coinsName = user.interests.map((coin) => coin.twitter);
+          const user = await getUser(token);
+          const interestCoinsTwitter = user.interests.map((coin) => {
+            return coin.twitter;
+          });
 
-          if (coinsName.length === 0) {
-            const loadCoinsName = async () => {
-              const coins = await getCoins();
-              const filteredCoins = coins.filter(
-                (coin) => coin.twitter !== null
-              );
-              const coinsName = filteredCoins.map((coin) => coin.twitter);
-              setCoins(coinsName);
-            };
-
-            loadCoinsName();
+          if (interestCoinsTwitter.length === 0) {
+            loadCoinsTwitter();
           } else {
-            setCoins(coinsName);
+            setCoins(interestCoinsTwitter);
           }
         } catch (error) {
           console.log(error);
         }
       };
 
-      loadCoinsForUser();
+      loadInterestCoinsTwitterForUser();
     } else {
-      const loadCoinsName = async () => {
-        const coins = await getCoins();
-        const filteredCoins = coins.filter((coin) => coin.twitter !== null);
-        const coinsName = filteredCoins.map((coin) => coin.twitter);
-        setCoins(coinsName);
-      };
-
-      loadCoinsName();
+      loadCoinsTwitter();
     }
   }, []);
 
   return (
     <div className="trendsContainer">
       {coins ? (
-        coins.map((trend, index) => (
-          <div key={index}>
-            <Timeline
-              dataSource={{ sourceType: "profile", screenName: trend }}
-              options={{ lang: "ko" }}
-            />
-          </div>
+        coins.map((coin, index) => (
+          <Timeline
+            dataSource={{ sourceType: "profile", screenName: coin }}
+            options={{ lang: "ko" }}
+            key={index}
+          />
         ))
       ) : (
         <Loading />

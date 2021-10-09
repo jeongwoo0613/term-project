@@ -24,12 +24,20 @@ function News() {
     }
   };
 
+  const loadNews = async () => {
+    const coinsName = await loadCoinsName();
+    const news = await getNews(coinsName);
+    setArticles(news.articles);
+  };
+
   useEffect(() => {
-    if (getLocalToken()) {
+    const token = getLocalToken();
+
+    if (token) {
       const loadNewsForUser = async () => {
         try {
-          const user = await getUser(getLocalToken());
-          const coinsName = user.interests.reduce((acc, coin, i) => {
+          const user = await getUser(token);
+          const interestCoinsName = user.interests.reduce((acc, coin, i) => {
             if (i === user.interests.length - 1) {
               return acc + coin.name;
             }
@@ -37,25 +45,13 @@ function News() {
             return acc + `${coin.name} OR `;
           }, "");
 
-          if (coinsName.length === 0) {
-            const loadPublicNews = async () => {
-              const coinsName = await loadCoinsName();
-              const news = await getNews(coinsName);
-              setArticles(news.articles);
-            };
-
-            loadPublicNews();
+          if (interestCoinsName.length === 0) {
+            loadNews();
           } else {
-            const news = await getNews(coinsName);
+            const news = await getNews(interestCoinsName);
 
             if (news.articles.length === 0) {
-              const loadPublicNews = async () => {
-                const coinsName = await loadCoinsName();
-                const news = await getNews(coinsName);
-                setArticles(news.articles);
-              };
-
-              loadPublicNews();
+              loadNews();
             } else {
               setArticles(news.articles);
             }
@@ -67,13 +63,7 @@ function News() {
 
       loadNewsForUser();
     } else {
-      const loadPublicNews = async () => {
-        const coinsName = await loadCoinsName();
-        const news = await getNews(coinsName);
-        setArticles(news.articles);
-      };
-
-      loadPublicNews();
+      loadNews();
     }
   }, []);
 

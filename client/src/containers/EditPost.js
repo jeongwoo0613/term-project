@@ -41,7 +41,13 @@ function EditPost() {
     setIsPostUpdateLoading(true);
 
     try {
-      const result = await updatePost(getLocalToken(), coinId, postId, {
+      const token = getLocalToken();
+
+      if (!token) {
+        return history.push("/login");
+      }
+
+      const result = await updatePost(token, coinId, postId, {
         title,
         content,
         rise,

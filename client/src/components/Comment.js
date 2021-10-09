@@ -13,7 +13,13 @@ function Comment({ coinId, postId, setPost, post }) {
       event.preventDefault();
 
       try {
-        const result = await createComment(getLocalToken(), coinId, postId, {
+        const token = getLocalToken();
+
+        if (!token) {
+          return history.push("/login");
+        }
+
+        const result = await createComment(token, coinId, postId, {
           content,
         });
 

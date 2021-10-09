@@ -25,6 +25,7 @@ function Login() {
 
   useEffect(() => {
     const parsed = Object.fromEntries(new URLSearchParams(location.search));
+
     if (parsed.token && parsed.user) {
       setLocalToken(parsed.token);
       setUser(JSON.parse(parsed.user));

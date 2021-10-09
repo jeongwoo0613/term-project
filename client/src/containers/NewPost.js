@@ -26,7 +26,13 @@ function NewPost() {
     setIsPostLoading(true);
 
     try {
-      const result = await createPost(getLocalToken(), coinId, {
+      const token = getLocalToken();
+
+      if (!token) {
+        return history.push("/login");
+      }
+
+      const result = await createPost(token, coinId, {
         title: fields.title,
         content: fields.content,
         rise,
