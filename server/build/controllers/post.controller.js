@@ -70,7 +70,6 @@ const getPosts = async (req, res, next) => {
                     return next((0, http_errors_1.default)(404, "post not found."));
                 }
                 matchedPost.user.password = "";
-                matchedPost.user.salt = "";
                 posts.push(matchedPost);
             }
             posts.sort((a, b) => b.id - a.id);
@@ -95,7 +94,6 @@ const getPost = async (req, res, next) => {
             return next((0, http_errors_1.default)(404, "post not found."));
         }
         post.user.password = "";
-        post.user.salt = "";
         const comments = [];
         for (const comment of post.comments) {
             const matchedComment = await (0, typeorm_1.getRepository)(entities_1.Comment).findOne(comment.id, {
@@ -105,7 +103,6 @@ const getPost = async (req, res, next) => {
                 return next((0, http_errors_1.default)(404, "comment not found."));
             }
             matchedComment.user.password = "";
-            matchedComment.user.salt = "";
             comments.push(matchedComment);
         }
         post.comments = comments;

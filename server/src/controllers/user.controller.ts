@@ -47,7 +47,6 @@ const getUsers = async (
 
     users.forEach((user) => {
       user.password = "";
-      user.salt = "";
     });
 
     res.status(200).json(users);
@@ -82,19 +81,16 @@ const getUserByUserId = async (
     }
 
     req.userByUserId.password = "";
-    req.userByUserId.salt = "";
 
     if (req.userByUserId.followers.length > 0) {
       req.userByUserId.followers.forEach((user) => {
         user.password = "";
-        user.salt = "";
       });
     }
 
     if (req.userByUserId.following.length > 0) {
       req.userByUserId.following.forEach((user) => {
         user.password = "";
-        user.salt = "";
       });
     }
 
@@ -136,19 +132,16 @@ const getUser = async (
     }
 
     req.user.password = "";
-    req.user.salt = "";
 
     if (req.user.followers.length > 0) {
       req.user.followers.forEach((user) => {
         user.password = "";
-        user.salt = "";
       });
     }
 
     if (req.user.following.length > 0) {
       req.user.following.forEach((user) => {
         user.password = "";
-        user.salt = "";
       });
     }
 

@@ -1,36 +1,10 @@
 import passport from "passport";
 import createHttpError from "http-errors";
+import bcrypt from "bcrypt";
 import { getRepository } from "typeorm";
 import { User } from "../entities";
 import { NextFunction, Request, Response } from "express";
-import { randomBytes, pbkdf2 } from "crypto";
 import { sign } from "jsonwebtoken";
-import { promisify } from "util";
-
-const makeSalt = async (): Promise<string> => {
-  const randomBytesPromise = promisify(randomBytes);
-  const buf = await randomBytesPromise(64);
-
-  return buf.toString("hex");
-};
-
-const hashPassword = async (
-  password: string,
-  salt: string
-): Promise<string> => {
-  const pbkdf2Promise = promisify(pbkdf2);
-  const hash = await pbkdf2Promise(password, salt, 100000, 64, "sha512");
-
-  return hash.toString("hex");
-};
-
-const verifyPassword = async (
-  password: string,
-  hashedPassword: string,
-  salt: string
-): Promise<boolean> => {
-  return (await hashPassword(password, salt)) === hashedPassword;
-};
 
 const verifyToken = passport.authenticate("jwt", { session: false });
 
@@ -92,12 +66,10 @@ const signup = async (
     }
 
     const newUser = new User();
-    const salt = await makeSalt();
-    const hashedPassword = await hashPassword(password, salt);
+    const saltRounds = 10;
     newUser.userId = userId;
-    newUser.password = hashedPassword;
+    newUser.password = await bcrypt.hash(password, saltRounds);
     newUser.nickname = nickname;
-    newUser.salt = salt;
     newUser.image =
       "https://term-project-default.s3.ap-northeast-2.amazonaws.com/userdefault.png";
     newUser.imageKey = "userdefault.png";
@@ -126,7 +98,7 @@ const login = async (
       return next(createHttpError(404, "user not found."));
     }
 
-    const match = await verifyPassword(password, user.password, user.salt);
+    const match = await bcrypt.compare(password, user.password);
 
     if (!match) {
       return next(createHttpError(400, "password don't match."));
@@ -144,7 +116,6 @@ const login = async (
     );
 
     user.password = "";
-    user.salt = "";
 
     res.status(200).json({
       token,

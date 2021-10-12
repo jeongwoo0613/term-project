@@ -92,7 +92,6 @@ const getPosts = async (
         }
 
         matchedPost.user.password = "";
-        matchedPost.user.salt = "";
         posts.push(matchedPost);
       }
       posts.sort((a, b) => b.id - a.id);
@@ -125,7 +124,6 @@ const getPost = async (
     }
 
     post.user.password = "";
-    post.user.salt = "";
 
     const comments = [];
 
@@ -139,7 +137,6 @@ const getPost = async (
       }
 
       matchedComment.user.password = "";
-      matchedComment.user.salt = "";
       comments.push(matchedComment);
     }
 

@@ -61,7 +61,7 @@ const googleStrategy = new passport_google_oauth20_1.default.Strategy({
         }
         newUser.userId = (0, uuid_1.v4)()
             .replace(/[^0-9a-z]/g, "")
-            .substring(0, 17);
+            .slice(0, 16);
         await userRepository.insert(newUser);
         return done(null, newUser);
     }

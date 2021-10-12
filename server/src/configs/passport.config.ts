@@ -77,7 +77,7 @@ const googleStrategy = new passportGoogleStrategy.Strategy(
 
       newUser.userId = uuidv4()
         .replace(/[^0-9a-z]/g, "")
-        .substring(0, 17);
+        .slice(0, 16);
 
       await userRepository.insert(newUser);
 

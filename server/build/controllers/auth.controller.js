@@ -6,24 +6,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.verifyAdminAuthorization = exports.succeedAuthGoogle = exports.authGoogle = exports.verifyGoogle = exports.verifyToken = exports.login = exports.signup = void 0;
 const passport_1 = __importDefault(require("passport"));
 const http_errors_1 = __importDefault(require("http-errors"));
+const bcrypt_1 = __importDefault(require("bcrypt"));
 const typeorm_1 = require("typeorm");
 const entities_1 = require("../entities");
-const crypto_1 = require("crypto");
 const jsonwebtoken_1 = require("jsonwebtoken");
-const util_1 = require("util");
-const makeSalt = async () => {
-    const randomBytesPromise = (0, util_1.promisify)(crypto_1.randomBytes);
-    const buf = await randomBytesPromise(64);
-    return buf.toString("hex");
-};
-const hashPassword = async (password, salt) => {
-    const pbkdf2Promise = (0, util_1.promisify)(crypto_1.pbkdf2);
-    const hash = await pbkdf2Promise(password, salt, 100000, 64, "sha512");
-    return hash.toString("hex");
-};
-const verifyPassword = async (password, hashedPassword, salt) => {
-    return (await hashPassword(password, salt)) === hashedPassword;
-};
 const verifyToken = passport_1.default.authenticate("jwt", { session: false });
 exports.verifyToken = verifyToken;
 const verifyGoogle = passport_1.default.authenticate("google", {
@@ -66,12 +52,10 @@ const signup = async (req, res, next) => {
             return next((0, http_errors_1.default)(400, "user already exist."));
         }
         const newUser = new entities_1.User();
-        const salt = await makeSalt();
-        const hashedPassword = await hashPassword(password, salt);
+        const saltRounds = 10;
         newUser.userId = userId;
-        newUser.password = hashedPassword;
+        newUser.password = await bcrypt_1.default.hash(password, saltRounds);
         newUser.nickname = nickname;
-        newUser.salt = salt;
         newUser.image =
             "https://term-project-default.s3.ap-northeast-2.amazonaws.com/userdefault.png";
         newUser.imageKey = "userdefault.png";
@@ -92,7 +76,7 @@ const login = async (req, res, next) => {
         if (!user) {
             return next((0, http_errors_1.default)(404, "user not found."));
         }
-        const match = await verifyPassword(password, user.password, user.salt);
+        const match = await bcrypt_1.default.compare(password, user.password);
         if (!match) {
             return next((0, http_errors_1.default)(400, "password don't match."));
         }
@@ -103,7 +87,6 @@ const login = async (req, res, next) => {
             expiresIn: "30d",
         });
         user.password = "";
-        user.salt = "";
         res.status(200).json({
             token,
             user,
