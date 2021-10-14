@@ -16,7 +16,7 @@ aws_sdk_1.default.config.update({
 });
 (async () => {
     try {
-        await (0, typeorm_1.createConnection)(configs_1.ormconfig);
+        await (0, typeorm_1.createConnection)(configs_1.ormConfig);
         const PORT = process.env.NODE_ENV === "production" ? process.env.PORT : 8080;
         app_1.default.listen(PORT, () => {
             console.log(`Server listening on port ${PORT}`);

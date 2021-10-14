@@ -11,7 +11,9 @@ const instance = axios_1.default.create({
 const getUpbitCoinsPrice = async (coins) => {
     try {
         const upbitCoinsPrice = await Promise.all(coins.reduce((acc, coin) => {
-            acc.push(instance.get("/ticker", { params: { markets: coin.market } }));
+            acc.push(instance.get("/ticker", {
+                params: { markets: coin.market },
+            }));
             return acc;
         }, []));
         return upbitCoinsPrice.reduce((acc, coin, i) => {

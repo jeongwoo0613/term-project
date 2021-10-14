@@ -3,7 +3,7 @@ import "reflect-metadata";
 import app from "./app";
 import aws from "aws-sdk";
 import { createConnection } from "typeorm";
-import { ormconfig } from "./configs";
+import { ormConfig } from "./configs";
 
 aws.config.update({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -13,7 +13,7 @@ aws.config.update({
 
 (async () => {
   try {
-    await createConnection(ormconfig);
+    await createConnection(ormConfig);
 
     const PORT =
       process.env.NODE_ENV === "production" ? process.env.PORT : 8080;
