@@ -1,7 +1,7 @@
 {
   "name": "term-project-api",
   "version": "0.0.1",
-  "description": "TypeScript Express MySQL TypeORM REST API",
+  "description": "term project api",
   "main": "build/server.js",
   "scripts": {
     "dev": "nodemon --transpile-only src/server.ts",
@@ -20,8 +20,7 @@
     "TypeScript",
     "Express",
     "MySQL",
-    "TypeORM",
-    "REST API"
+    "TypeORM"
   ],
   "author": "jeongwoo",
   "license": "ISC",
