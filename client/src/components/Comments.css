@@ -4,13 +4,13 @@
 .commentsImgContent {
   display: flex;
   align-items: center;
+  cursor: pointer;
 }
 .commentsAuthor {
   margin-left: 10px;
   color: #424242;
   font-weight: bold;
   font-size: 15px;
-  cursor: pointer;
 }
 .commentsProfileImg {
   border-radius: 9999px;

@@ -50,8 +50,7 @@
 }
 
 .modalProfile,
-.modalNickname,
-.modalUserId {
+.modalNickname {
   width: 140px;
   text-align: right;
   padding-right: 32px;
@@ -68,7 +67,6 @@
   display: none;
 }
 
-.modalInputUserId,
 .modalInputNickname {
   border-top: none;
   border-left: none;

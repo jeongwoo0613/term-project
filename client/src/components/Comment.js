@@ -3,10 +3,12 @@ import Form from "react-bootstrap/Form";
 import { useAppContext, getLocalToken } from "../utils";
 import { getPost, createComment } from "../api";
 import { useState } from "react";
+import { useHistory } from "react-router-dom";
 
 function Comment({ coinId, postId, setPost, post }) {
   const { user } = useAppContext();
   const [content, setContent] = useState("");
+  const history = useHistory();
 
   const handleEnter = async (event) => {
     if (event.keyCode === 13) {
@@ -43,7 +45,7 @@ function Comment({ coinId, postId, setPost, post }) {
     <div className="commentContainer">
       <h5 className="commentHeader">댓글 {post.comments.length}</h5>
       <div className="commentImgContent">
-        <img src={user.image} className="commentProfileImg" />
+        <img alt="" src={user.image} className="commentProfileImg" />
         <Form className="commentFormContainer">
           <Form.Group controlId="content">
             <Form.Control

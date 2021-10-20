@@ -113,7 +113,7 @@ function Coin() {
   return coin ? (
     <section className="coinContainer">
       <div className="coinHeader">
-        <img src={coin.image} />
+        <img alt="" src={coin.image} />
         <h5 className="coinName">{coin.name}</h5>
         <h5>{coin.symbol}</h5>
         {interest ? (

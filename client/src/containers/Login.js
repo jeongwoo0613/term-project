@@ -31,7 +31,7 @@ function Login() {
       setUser(JSON.parse(parsed.user));
       history.replace(from);
     }
-  }, []);
+  }, [from, history, location.search, setUser]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();

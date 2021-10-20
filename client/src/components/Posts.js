@@ -29,7 +29,7 @@ function Posts({ coinId, posts }) {
           >
             <Card.Header className="postsCardHeader">
               {post.title}
-              {post.rise === true ? (
+              {post.rise ? (
                 <AiOutlineRise color="red" className="riseFallIcon" />
               ) : (
                 <AiOutlineFall color="blue" className="riseFallIcon" />
@@ -38,7 +38,7 @@ function Posts({ coinId, posts }) {
             <Card.Body>
               <Card.Text>{post.content}</Card.Text>
               <Card.Text className="postsCardInfo">
-                <img src={post.user.image} className="postsAuthorImg" />
+                <img alt="" src={post.user.image} className="postsAuthorImg" />
                 {post.user.nickname}
                 <span className="postsCardCreatedAt">
                   {`${new Date(post.createdAt).getFullYear()}년 ${

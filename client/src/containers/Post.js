@@ -6,13 +6,14 @@ import Comments from "../components/Comments";
 import { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { deletePost, getPost } from "../api";
-import { getLocalToken } from "../utils";
+import { getLocalToken, useAppContext } from "../utils";
 import { AiOutlineRise, AiOutlineFall, AiOutlineRight } from "react-icons/ai";
 
 function Post() {
   const [post, setPost] = useState();
   const { coinId, postId } = useParams();
   const history = useHistory();
+  const { user } = useAppContext();
 
   useEffect(() => {
     const loadPost = async () => {
@@ -24,7 +25,7 @@ function Post() {
       }
     };
     loadPost();
-  }, []);
+  }, [coinId, postId]);
 
   const handleDelete = async (event) => {
     event.preventDefault();
@@ -34,6 +35,10 @@ function Post() {
 
       if (!token) {
         return history.push("/login");
+      }
+
+      if (user.userId !== post.userId) {
+        return alert("게시물 삭제 권한이 없습니다.");
       }
 
       const result = await deletePost(token, coinId, postId);
@@ -51,15 +56,29 @@ function Post() {
   };
 
   const handleUpdate = () => {
+    const token = getLocalToken();
+
+    if (!token) {
+      return history.push("/login");
+    }
+
+    if (user.userId !== post.userId) {
+      return alert("게시물 수정 권한이 없습니다.");
+    }
+
     history.push(`/coins/${coinId}/posts/${postId}/edit`);
   };
 
-  const navigateCoin = (coinId) => {
+  const navigateCoin = () => {
     history.push(`/coins/${coinId}`);
   };
 
   const navigateCoins = () => {
     history.push(`/`);
+  };
+
+  const navigateUser = () => {
+    history.push(`/${post.user.userId}`);
   };
 
   return post ? (
@@ -70,11 +89,8 @@ function Post() {
             암호화폐
           </span>
           <AiOutlineRight className="postInfoIcon" />
-          <span
-            className="navigateCoin"
-            onClick={() => navigateCoin(post.coin.id)}
-          >
-            <img src={post.coin.image} className="postInfoCoinImg" />
+          <span className="navigateCoin" onClick={navigateCoin}>
+            <img alt="" src={post.coin.image} className="postInfoCoinImg" />
             {post.coin.name}
           </span>
         </div>
@@ -82,15 +98,15 @@ function Post() {
       <div className="postTitleContainer">
         <h5 className="postTitle">{post.title}</h5>
         <span className="postTitleRiseFall">
-          {post.rise === true ? (
+          {post.rise ? (
             <AiOutlineRise color="red" className="postTitleRiseFallIcon" />
           ) : (
             <AiOutlineFall color="blue" className="postTitleRiseFallIcon" />
           )}
         </span>
       </div>
-      <div className="postAuthorContainer">
-        <img className="postAuthorImg" src={post.user.image} />
+      <div className="postAuthorContainer" onClick={navigateUser}>
+        <img alt="" className="postAuthorImg" src={post.user.image} />
         {post.user.nickname}
       </div>
       <div className="postContentContainer">

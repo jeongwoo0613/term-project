@@ -1,16 +1,17 @@
 import "./Comments.css";
 import { useHistory } from "react-router-dom";
-import { getLocalToken } from "../utils";
+import { getLocalToken, useAppContext } from "../utils";
 import { getPost, deleteComment } from "../api";
 
 function Comments({ coinId, postId, setPost, comments }) {
   const history = useHistory();
+  const { user } = useAppContext();
 
   const navigateUser = (userId) => {
     history.push(`/${userId}`);
   };
 
-  const handleDelete = async (event, commentId) => {
+  const handleDelete = async (event, commentId, commentUserId) => {
     event.preventDefault();
 
     try {
@@ -18,6 +19,10 @@ function Comments({ coinId, postId, setPost, comments }) {
 
       if (!token) {
         return history.push("/login");
+      }
+
+      if (user.userId !== commentUserId) {
+        return alert("댓글 삭제 권한이 없습니다.");
       }
 
       const result = await deleteComment(token, coinId, postId, commentId);
@@ -40,20 +45,24 @@ function Comments({ coinId, postId, setPost, comments }) {
     <>
       {comments?.map((comment) => (
         <div className="commentsContainer" key={comment.id}>
-          <div className="commentsImgContent">
-            <img src={comment.user.image} className="commentsProfileImg" />
-            <span
-              className="commentsAuthor"
-              onClick={() => navigateUser(comment.user.userId)}
-            >
-              {comment.user.nickname}
-            </span>
+          <div
+            className="commentsImgContent"
+            onClick={() => navigateUser(comment.user.userId)}
+          >
+            <img
+              alt=""
+              src={comment.user.image}
+              className="commentsProfileImg"
+            />
+            <span className="commentsAuthor">{comment.user.nickname}</span>
           </div>
           <span className="commentsContent">{comment.content}</span>
           <div className="commentsEditDelete">
             <button className="commentsEdit">수정</button>
             <button
-              onClick={(event) => handleDelete(event, comment.id)}
+              onClick={(event) =>
+                handleDelete(event, comment.id, comment.user.userId)
+              }
               className="commentsDelete"
             >
               삭제

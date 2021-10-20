@@ -24,13 +24,13 @@ function News() {
     }
   };
 
-  const loadNews = async () => {
-    const coinsName = await loadCoinsName();
-    const news = await getNews(coinsName);
-    setArticles(news.articles);
-  };
-
   useEffect(() => {
+    const loadNews = async () => {
+      const coinsName = await loadCoinsName();
+      const news = await getNews(coinsName);
+      setArticles(news.articles);
+    };
+
     const token = getLocalToken();
 
     if (token) {

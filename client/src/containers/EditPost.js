@@ -34,7 +34,7 @@ function EditPost() {
       }
     };
     loadPost();
-  }, []);
+  }, [coinId, postId]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();

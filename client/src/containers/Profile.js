@@ -23,7 +23,6 @@ import { getLocalToken, useAppContext } from "../utils";
 import { AiOutlineRise, AiOutlineFall } from "react-icons/ai";
 
 function Profile() {
-  const [fieldsUserId, setFieldsUserId] = useState("");
   const [nickname, setNickname] = useState("");
   const [publicUser, setPublicUser] = useState();
   const [show, setShow] = useState(false);
@@ -31,12 +30,12 @@ function Profile() {
   const [isUploadLoading, setIsUploadLoading] = useState(false);
   const [isFollowLoading, setIsFollowLoading] = useState(false);
   const [isUnFollowLoading, setIsUnFollowLoading] = useState(false);
+  const [followerShow, setFollowerShow] = useState(false);
+  const [followShow, setFollowShow] = useState(false);
   const { user, setUser } = useAppContext();
   const { userId } = useParams();
   const history = useHistory();
   const fileRef = useRef();
-  const [followerShow, setFollowerShow] = useState(false);
-  const [followShow, setFollowShow] = useState(false);
 
   useEffect(() => {
     const loadPublicUser = async () => {
@@ -57,7 +56,6 @@ function Profile() {
         try {
           const user = await getUser(token);
           setUser(user);
-          setFieldsUserId(user.userId);
           setNickname(user.nickname);
         } catch (error) {
           console.log(error);
@@ -69,7 +67,7 @@ function Profile() {
 
     setIsFollowLoading(false);
     setIsUnFollowLoading(false);
-  }, [isFollowLoading, isUnFollowLoading, userId]);
+  }, [isFollowLoading, isUnFollowLoading, userId, setUser]);
 
   const handleUpdateUser = async (event) => {
     event.preventDefault();
@@ -83,7 +81,6 @@ function Profile() {
       }
 
       const modifiedUser = {
-        userId: fieldsUserId,
         nickname,
       };
 
@@ -95,22 +92,7 @@ function Profile() {
 
       setIsEditLoading(false);
 
-      if (
-        modifiedUser.userId !== user.userId &&
-        modifiedUser.nickname !== user.nickname
-      ) {
-        setUser({
-          ...user,
-          userId: modifiedUser.userId,
-          nickname: modifiedUser.nickname,
-        });
-        history.replace(`/${modifiedUser.userId}`);
-        setShow(false);
-      } else if (modifiedUser.userId !== user.userId) {
-        setUser({ ...user, userId: modifiedUser.userId });
-        history.replace(`/${modifiedUser.userId}`);
-        setShow(false);
-      } else if (modifiedUser.nickname !== user.nickname) {
+      if (modifiedUser.nickname !== user.nickname) {
         setUser({ ...user, nickname: modifiedUser.nickname });
         setShow(false);
       } else {
@@ -216,12 +198,7 @@ function Profile() {
   };
 
   const validateForm = () => {
-    return (
-      (fieldsUserId.length > 0 &&
-        nickname.length > 0 &&
-        fieldsUserId !== user.userId) ||
-      nickname !== user.nickname
-    );
+    return nickname.length > 0 && nickname !== user.nickname;
   };
 
   const validateEdit = () => {
@@ -357,7 +334,11 @@ function Profile() {
                   <Card.Body>
                     <Card.Text>{post.content}</Card.Text>
                     <Card.Text className="profilePostsCardInfo">
-                      <img src={post.coin.image} className="postCoinImg" />
+                      <img
+                        alt=""
+                        src={post.coin.image}
+                        className="postCoinImg"
+                      />
                       {post.coin.name}
                       <span className="profilePostsCardCreatedAt">
                         {`${new Date(post.createdAt).getFullYear()}년 ${
@@ -429,16 +410,6 @@ function Profile() {
                         "사진 업로드"
                       )}
                     </Button>
-                  </div>
-                  <div className="modalRow">
-                    <div className="modalUserId">아이디</div>
-                    <Form.Group controlId="userId">
-                      <Form.Control
-                        className="modalInputUserId"
-                        value={fieldsUserId}
-                        onChange={(e) => setFieldsUserId(e.target.value)}
-                      />
-                    </Form.Group>
                   </div>
                   <div className="modalRow">
                     <div className="modalNickname">닉네임</div>
@@ -548,7 +519,7 @@ function Profile() {
                 <Card.Body>
                   <Card.Text>{post.content}</Card.Text>
                   <Card.Text className="profilePostsCardInfo">
-                    <img src={post.coin.image} className="postCoinImg" />
+                    <img alt="" src={post.coin.image} className="postCoinImg" />
                     {post.coin.name}
                     <span className="profilePostsCardCreatedAt">
                       {`${new Date(post.createdAt).getFullYear()}년 ${
