@@ -236,15 +236,25 @@ function Profile() {
           <div className="profileInfoDiv">
             <div className="profileHeader">
               <h3>{publicUser.nickname}</h3>
-              {user?.following?.some((user) => user.id === publicUser.id) ? (
-                <Button
-                  className="profileUnFollowBtn"
-                  onClick={handleUnFollow}
-                  size="sm"
-                  variant="danger"
-                >
-                  언팔로우
-                </Button>
+              {token ? (
+                user?.following?.some((user) => user.id === publicUser.id) ? (
+                  <Button
+                    className="profileUnFollowBtn"
+                    onClick={handleUnFollow}
+                    size="sm"
+                    variant="danger"
+                  >
+                    언팔로우
+                  </Button>
+                ) : (
+                  <Button
+                    className="profileFollowBtn"
+                    onClick={handleFollow}
+                    size="sm"
+                  >
+                    팔로우
+                  </Button>
+                )
               ) : (
                 <Button
                   className="profileFollowBtn"
