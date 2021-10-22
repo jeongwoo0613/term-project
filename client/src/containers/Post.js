@@ -37,7 +37,7 @@ function Post() {
         return history.push("/login");
       }
 
-      if (user.userId !== post.userId) {
+      if (user.id !== post.user.id) {
         return alert("게시물 삭제 권한이 없습니다.");
       }
 

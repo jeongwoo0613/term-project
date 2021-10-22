@@ -21,7 +21,7 @@ function Comments({ coinId, postId, setPost, comments }) {
         return history.push("/login");
       }
 
-      if (user.userId !== commentUserId) {
+      if (user.id !== commentUserId) {
         return alert("댓글 삭제 권한이 없습니다.");
       }
 
@@ -61,7 +61,7 @@ function Comments({ coinId, postId, setPost, comments }) {
             <button className="commentsEdit">수정</button>
             <button
               onClick={(event) =>
-                handleDelete(event, comment.id, comment.user.userId)
+                handleDelete(event, comment.id, comment.user.id)
               }
               className="commentsDelete"
             >
