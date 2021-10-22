@@ -519,8 +519,12 @@ function Profile() {
                 <Card.Body>
                   <Card.Text>{post.content}</Card.Text>
                   <Card.Text className="profilePostsCardInfo">
-                    <img alt="" src={post.coin.image} className="postCoinImg" />
-                    {post.coin.name}
+                    <img
+                      alt=""
+                      src={post.coin?.image}
+                      className="postCoinImg"
+                    />
+                    {post.coin?.name}
                     <span className="profilePostsCardCreatedAt">
                       {`${new Date(post.createdAt).getFullYear()}년 ${
                         new Date(post.createdAt).getMonth() + 1
