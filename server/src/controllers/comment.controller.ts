@@ -98,6 +98,15 @@ const deleteComment = async (
   try {
     const { id } = req.comment;
 
+    if (req.comment.user.id !== req.user.id) {
+      return next(
+        createHttpError(
+          400,
+          "comment's user id and request user id don't match."
+        )
+      );
+    }
+
     await getRepository(Comment).delete(id);
 
     res.status(200).json({

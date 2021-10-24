@@ -165,9 +165,13 @@ const deleteInterestCoin = async (req, res, next) => {
         if (interest || !checkInterestCoin) {
             next((0, http_errors_1.default)(400, "could not find interest coin"));
         }
-        req.user.interests.splice(req.user.interests.findIndex((coin) => coin.id === req.coin.id), 1);
+        req.user.interests = req.user.interests.filter((coin) => {
+            return coin.id !== req.coin.id;
+        });
         await (0, typeorm_1.getRepository)(entities_1.User).save(req.user);
-        coin.users.splice(coin.users.findIndex((user) => user.id === req.user.id), 1);
+        coin.users = coin.users.filter((user) => {
+            return user.id !== req.user.id;
+        });
         await (0, typeorm_1.getRepository)(entities_1.Coin).save(req.coin);
         res.status(200).json({
             message: "succeed.",

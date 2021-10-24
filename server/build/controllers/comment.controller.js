@@ -73,6 +73,9 @@ exports.updateComment = updateComment;
 const deleteComment = async (req, res, next) => {
     try {
         const { id } = req.comment;
+        if (req.comment.user.id !== req.user.id) {
+            return next((0, http_errors_1.default)(400, "comment's user id and request user id don't match."));
+        }
         await (0, typeorm_1.getRepository)(entities_1.Comment).delete(id);
         res.status(200).json({
             message: "succeed.",

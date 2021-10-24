@@ -227,9 +227,13 @@ const deleteFollow = async (req, res, next) => {
         if (!checkFollowingAndFollowers) {
             next((0, http_errors_1.default)(400, "not following."));
         }
-        currentUser.following.splice(currentUser.following.findIndex((user) => user.id === followingId), 1);
+        currentUser.following = currentUser.following.filter((user) => {
+            return user.id !== followingId;
+        });
         await userRepository.save(currentUser);
-        followingUser.followers.splice(followingUser.followers.findIndex((user) => user.id === id), 1);
+        followingUser.followers = followingUser.followers.filter((user) => {
+            return user.id !== id;
+        });
         await userRepository.save(followingUser);
         res.status(200).json({
             message: "succeed.",

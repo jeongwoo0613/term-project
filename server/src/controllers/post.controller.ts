@@ -175,6 +175,12 @@ const deletePost = async (
   try {
     const { id } = req.post;
 
+    if (req.post.user.id !== req.user.id) {
+      return next(
+        createHttpError(400, "post's user id and request user id don't match.")
+      );
+    }
+
     await getRepository(Post).delete(id);
 
     res.status(200).json({

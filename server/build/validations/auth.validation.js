@@ -14,7 +14,7 @@ const validateSignup = async (req, res, next) => {
                 .max(16)
                 .required(),
             password: joi_1.default.string()
-                .pattern(/(?=.*[0-9])(?=.*[a-z])(?=.*[^0-9a-zA-Z])/)
+                .pattern(/(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[^0-9a-zA-Z])/)
                 .required(),
             nickname: joi_1.default.string().min(1).max(30).required(),
         });
