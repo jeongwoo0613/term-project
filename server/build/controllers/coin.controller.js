@@ -136,7 +136,7 @@ const addInterestCoin = async (req, res, next) => {
         const checkInterestCoin = req.user.interests.some((coin) => coin.id === req.coin.id) &&
             coin.users.some((user) => user.id === req.user.id);
         if (!interest || checkInterestCoin) {
-            next((0, http_errors_1.default)(400, "interest coin already exists."));
+            return next((0, http_errors_1.default)(400, "interest coin already exists."));
         }
         req.user.interests.push(req.coin);
         await (0, typeorm_1.getRepository)(entities_1.User).save(req.user);
@@ -163,7 +163,7 @@ const deleteInterestCoin = async (req, res, next) => {
         const checkInterestCoin = req.user.interests.some((coin) => coin.id === req.coin.id) &&
             coin.users.some((user) => user.id === req.user.id);
         if (interest || !checkInterestCoin) {
-            next((0, http_errors_1.default)(400, "could not find interest coin"));
+            return next((0, http_errors_1.default)(400, "could not find interest coin"));
         }
         req.user.interests = req.user.interests.filter((coin) => {
             return coin.id !== req.coin.id;

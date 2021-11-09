@@ -259,7 +259,7 @@ const addFollow = async (
       followingUser.followers.some((user) => user.id === id);
 
     if (checkFollowingAndFollowers) {
-      next(createHttpError(400, "already following."));
+      return next(createHttpError(400, "already following."));
     }
 
     currentUser.following.push(followingUser);
@@ -308,7 +308,7 @@ const deleteFollow = async (
       followingUser.followers.some((user) => user.id === id);
 
     if (!checkFollowingAndFollowers) {
-      next(createHttpError(400, "not following."));
+      return next(createHttpError(400, "not following."));
     }
 
     currentUser.following = currentUser.following.filter((user) => {

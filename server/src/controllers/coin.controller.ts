@@ -197,7 +197,7 @@ const addInterestCoin = async (
       coin.users.some((user) => user.id === req.user.id);
 
     if (!interest || checkInterestCoin) {
-      next(createHttpError(400, "interest coin already exists."));
+      return next(createHttpError(400, "interest coin already exists."));
     }
 
     req.user.interests.push(req.coin);
@@ -235,7 +235,7 @@ const deleteInterestCoin = async (
       coin.users.some((user) => user.id === req.user.id);
 
     if (interest || !checkInterestCoin) {
-      next(createHttpError(400, "could not find interest coin"));
+      return next(createHttpError(400, "could not find interest coin"));
     }
 
     req.user.interests = req.user.interests.filter((coin) => {

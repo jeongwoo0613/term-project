@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { Coin } from "../entities/coin.entity";
+import { Coin } from "../entities";
 
 interface IUpbitCoinPrice {
   market: string;

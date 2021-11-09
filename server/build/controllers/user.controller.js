@@ -190,7 +190,7 @@ const addFollow = async (req, res, next) => {
         const checkFollowingAndFollowers = currentUser.following.some((user) => user.id === followingId) &&
             followingUser.followers.some((user) => user.id === id);
         if (checkFollowingAndFollowers) {
-            next((0, http_errors_1.default)(400, "already following."));
+            return next((0, http_errors_1.default)(400, "already following."));
         }
         currentUser.following.push(followingUser);
         await userRepository.save(currentUser);
@@ -225,7 +225,7 @@ const deleteFollow = async (req, res, next) => {
         const checkFollowingAndFollowers = currentUser.following.some((user) => user.id === followingId) &&
             followingUser.followers.some((user) => user.id === id);
         if (!checkFollowingAndFollowers) {
-            next((0, http_errors_1.default)(400, "not following."));
+            return next((0, http_errors_1.default)(400, "not following."));
         }
         currentUser.following = currentUser.following.filter((user) => {
             return user.id !== followingId;
